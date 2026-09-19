@@ -8,8 +8,7 @@ import {
   Sparkles,
   Layers,
   Pause,
-  Play,
-  MousePointer
+  Play
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -39,8 +38,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     bgY: 0,
     fgX: 0,
     fgY: 0,
-    rotX: 0,
-    rotY: 0,
     rawMouseX: 0,
     rawMouseY: 0
   });
@@ -94,12 +91,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     const my = currentMouse.current.y;
 
     setParallax({
-      bgX: mx * -12,
-      bgY: my * -8,
-      fgX: mx * 5,
-      fgY: my * 4,
-      rotX: my * -1.5,
-      rotY: mx * 1.5,
+      bgX: mx * -10,
+      bgY: my * -6,
+      fgX: mx * 4,
+      fgY: my * 3,
       rawMouseX: mx,
       rawMouseY: my
     });
@@ -150,16 +145,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
       className="hero-golden-horizon-section"
       style={{
         position: 'relative',
-        minHeight: 'clamp(640px, 88vh, 920px)',
+        minHeight: 'clamp(660px, 90vh, 940px)',
         display: 'flex',
         alignItems: 'center',
         overflow: 'hidden',
-        backgroundColor: '#F8F3E9',
-        color: '#2A1E17'
+        backgroundColor: '#F7F1E5',
+        color: '#261911'
       }}
       aria-label="Vedic Gurukul Hero Banner"
     >
-      {/* 1. Background Cinematic Image Layer with Ken Burns & Smooth Crossfade */}
+      {/* 1. Full-bleed Background Scene with Ken Burns & Smooth Crossfade */}
       <div
         style={{
           position: 'absolute',
@@ -206,7 +201,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         </AnimatePresence>
       </div>
 
-      {/* 2. Soft Parchment-to-Landscape Gradient Overlay on Left for Flawless Text Readability */}
+      {/* 2. Delicate, Transparent Ambient Warmth Overlay (NO heavy white wash) */}
       <div
         style={{
           position: 'absolute',
@@ -216,11 +211,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           bottom: 0,
           background: `
             linear-gradient(90deg, 
-              rgba(250, 246, 238, 0.94) 0%, 
-              rgba(250, 246, 238, 0.88) 36%, 
-              rgba(250, 246, 238, 0.52) 58%, 
-              rgba(250, 246, 238, 0.12) 80%,
-              rgba(250, 246, 238, 0.02) 100%
+              rgba(255, 250, 240, 0.42) 0%, 
+              rgba(255, 250, 240, 0.28) 32%, 
+              rgba(255, 250, 240, 0.10) 55%, 
+              transparent 75%
             )
           `,
           zIndex: 2,
@@ -228,54 +222,80 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         }}
       />
 
-      {/* 3. Subtle Dark/Warm Top and Bottom Vignette */}
+      {/* 3. Subtle Warm Ambient Radial Soft Light for Text Readability without Obscuring Background */}
       <div
         style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '120px',
-          background: 'linear-gradient(180deg, rgba(250, 246, 238, 0.7) 0%, transparent 100%)',
-          zIndex: 3,
+          top: '25%',
+          left: '8%',
+          width: '650px',
+          height: '650px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle at center, rgba(255, 248, 230, 0.45) 0%, rgba(255, 248, 230, 0.15) 50%, transparent 80%)',
+          filter: 'blur(30px)',
+          zIndex: 2,
           pointerEvents: 'none'
         }}
       />
+
+      {/* 4. Bottom Soft Fade into 4-Pillar Ribbon */}
       <div
         style={{
           position: 'absolute',
           bottom: 0,
           left: 0,
           right: 0,
-          height: '80px',
-          background: 'linear-gradient(0deg, rgba(248, 243, 233, 1) 0%, transparent 100%)',
+          height: '90px',
+          background: 'linear-gradient(0deg, #F8F3E9 0%, rgba(248, 243, 233, 0.6) 40%, transparent 100%)',
           zIndex: 3,
           pointerEvents: 'none'
         }}
       />
 
-      {/* 4. Soft Light Sweep Sheen */}
-      <div className="light-sweep-overlay" style={{ zIndex: 3 }} />
-
-      {/* 5. Atmospheric Golden Dust Particles Engine */}
-      <HeroCanvasParticles mouseX={parallax.rawMouseX} mouseY={parallax.rawMouseY} />
-
-      {/* 6. Subtle Watermark Mandala on Left Backdrop */}
+      {/* 5. Delicate Golden Lace Mandala Filigree in Top-Left Corner */}
       <div
         style={{
           position: 'absolute',
-          top: '-10%',
-          left: '-5%',
-          width: '580px',
-          height: '580px',
+          top: '-15%',
+          left: '-10%',
+          width: '640px',
+          height: '640px',
           borderRadius: '50%',
-          border: '1.5px dashed rgba(197, 154, 78, 0.25)',
-          boxShadow: 'inset 0 0 40px rgba(197, 154, 78, 0.05)',
+          border: '1px solid rgba(197, 154, 78, 0.3)',
+          boxShadow: 'inset 0 0 60px rgba(197, 154, 78, 0.08)',
           pointerEvents: 'none',
-          zIndex: 3
+          zIndex: 3,
+          opacity: 0.35
         }}
         className="animate-mandala-rotate"
-      />
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: '12%',
+            left: '12%',
+            right: '12%',
+            bottom: '12%',
+            borderRadius: '50%',
+            border: '1px dashed rgba(197, 154, 78, 0.25)'
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '25%',
+            left: '25%',
+            right: '25%',
+            bottom: '25%',
+            borderRadius: '50%',
+            border: '1px solid rgba(166, 95, 43, 0.2)'
+          }}
+        />
+      </div>
+
+      {/* 6. Soft Light Sweep & Golden Particle Canvas */}
+      <div className="light-sweep-overlay" style={{ zIndex: 3 }} />
+      <HeroCanvasParticles mouseX={parallax.rawMouseX} mouseY={parallax.rawMouseY} />
 
       {/* 7. Foreground Content Container */}
       <div
@@ -292,113 +312,123 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           style={{
             maxWidth: '680px',
             textAlign: 'left',
-            padding: 'var(--spacing-8) 0'
+            padding: 'var(--spacing-10) 0'
           }}
         >
           {/* Main Sanskrit Gurukul Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+            initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontSize: 'clamp(2.5rem, 5.5vw, 4.4rem)',
+              fontSize: 'clamp(2.6rem, 5.8vw, 4.4rem)',
               fontFamily: 'var(--font-heading-devanagari)',
-              color: '#2A1E17',
-              lineHeight: 1.15,
-              marginBottom: '0.4rem',
-              letterSpacing: '-0.02em'
+              color: '#261911',
+              lineHeight: 1.14,
+              marginBottom: '0.65rem',
+              letterSpacing: '-0.015em',
+              fontWeight: 700,
+              textShadow: '0 2px 16px rgba(255, 248, 235, 0.9), 0 1px 3px rgba(255, 255, 255, 0.8)'
             }}
           >
-            {language === 'hi' ? 'संस्कृत वैदिक गुरुकुल' : 'Sanskrit Vedic Gurukul'}
+            {language === 'hi' ? 'संस्कृत वैदिक गुरुकुल' : 'संस्कृत वैदिक गुरुकुल'}
           </motion.h1>
 
-          {/* Subtitle Tagline */}
+          {/* Uppercase Elegant Subtitle Tagline */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             style={{
               fontFamily: 'var(--font-heading-latin)',
-              fontSize: 'clamp(0.85rem, 1.4vw, 1rem)',
+              fontSize: 'clamp(0.85rem, 1.4vw, 0.98rem)',
               fontWeight: 700,
-              color: 'var(--color-primary-dark)',
-              letterSpacing: '0.08em',
+              color: '#5C3D28',
+              letterSpacing: '0.14em',
               textTransform: 'uppercase',
-              marginBottom: 'var(--spacing-6)'
+              lineHeight: 1.5,
+              marginBottom: 'var(--spacing-6)',
+              textShadow: '0 1px 10px rgba(255, 248, 235, 0.9)'
             }}
           >
             {language === 'hi'
-              ? 'ज्ञान, संस्कार एवं श्रेष्ठ समाज निर्माण की साधना'
+              ? 'A JOURNEY TOWARDS KNOWLEDGE, CHARACTER AND A BETTER SOCIETY'
               : 'A JOURNEY TOWARDS KNOWLEDGE, CHARACTER AND A BETTER SOCIETY'}
           </motion.div>
 
-          {/* Traditional Sanskrit Shloka Box */}
+          {/* Traditional Ornate Flourish Divider */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.75, delay: 0.25, ease: 'easeOut' }}
             style={{
-              marginBottom: 'var(--spacing-8)',
-              position: 'relative'
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.6rem',
+              color: '#B88A45',
+              marginBottom: 'var(--spacing-5)'
             }}
           >
-            {/* Ornamental Divider */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: 'var(--color-gold)',
-                marginBottom: '0.75rem'
-              }}
-            >
-              <div style={{ height: '1px', width: '40px', background: 'linear-gradient(90deg, transparent, var(--color-gold))' }} />
-              <Sparkles size={14} />
-              <div style={{ height: '1px', width: '40px', background: 'linear-gradient(270deg, transparent, var(--color-gold))' }} />
-            </div>
+            <div style={{ height: '1px', width: '50px', background: 'linear-gradient(90deg, transparent, #C59A4E)' }} />
+            <svg width="22" height="14" viewBox="0 0 24 14" fill="currentColor">
+              <path d="M12 0C10.5 3 7.5 5 4 5C6 7 8 8 12 14C16 8 18 7 20 5C16.5 5 13.5 3 12 0Z" />
+            </svg>
+            <div style={{ height: '1px', width: '50px', background: 'linear-gradient(270deg, transparent, #C59A4E)' }} />
+          </motion.div>
 
-            {/* Sacred Verse */}
+          {/* Sacred Sanskrit Shloka Box */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              marginBottom: 'var(--spacing-8)'
+            }}
+          >
+            {/* Shloka Verse in Bold Serif */}
             <div
               style={{
                 fontFamily: 'var(--font-heading-devanagari)',
-                fontSize: 'clamp(1.25rem, 2.2vw, 1.6rem)',
-                color: '#2A1E17',
-                fontWeight: 600,
-                lineHeight: 1.5,
-                marginBottom: '0.35rem'
+                fontSize: 'clamp(1.35rem, 2.4vw, 1.8rem)',
+                color: '#261911',
+                fontWeight: 700,
+                lineHeight: 1.45,
+                marginBottom: '0.5rem',
+                textShadow: '0 2px 14px rgba(255, 248, 235, 0.9), 0 1px 2px rgba(255, 255, 255, 0.8)'
               }}
             >
-              “विद्या ददाति विनयं विनयाद् याति पात्रताम् ।”
+              “विद्या ददाति विनयं<br />
+              विनयाद् याति पात्रताम् ।”
             </div>
 
-            {/* English/Hindi Subtext */}
+            {/* Sub-meaning in Italic */}
             <div
               style={{
-                fontSize: 'clamp(0.85rem, 1.3vw, 0.95rem)',
-                color: 'var(--color-text-secondary)',
-                fontStyle: 'italic',
-                lineHeight: 1.5
+                fontFamily: 'var(--font-serif-accent)',
+                fontSize: 'clamp(1rem, 1.6vw, 1.15rem)',
+                color: '#573E2C',
+                lineHeight: 1.5,
+                textShadow: '0 1px 8px rgba(255, 248, 235, 0.9)'
               }}
             >
-              {language === 'hi'
-                ? 'विद्या से विनय आता है, और विनय से ही सच्ची योग्यता प्राप्त होती है।'
-                : 'Knowledge gives humility, from humility comes worthiness.'}
+              Knowledge gives humility,<br />
+              from humility comes worthiness.
             </div>
           </motion.div>
 
-          {/* Rounded Pill CTA Action Buttons */}
+          {/* Action CTAs: Rounded Pill Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'flex',
               alignItems: 'center',
               flexWrap: 'wrap',
-              gap: '1rem'
+              gap: '1.15rem'
             }}
           >
-            {/* Primary Saffron/Terracotta Pill Button */}
+            {/* Primary Terracotta/Saffron Pill Button */}
             <button
               onClick={() => onNavigate('education')}
               style={{
@@ -406,50 +436,50 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: 'var(--radius-full)',
-                padding: '0.85rem 1.85rem',
-                fontSize: '0.95rem',
+                padding: '0.9rem 2rem',
+                fontSize: '1rem',
                 fontWeight: 600,
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
+                gap: '0.6rem',
                 cursor: 'pointer',
-                boxShadow: '0 4px 16px rgba(152, 75, 34, 0.35)',
+                boxShadow: '0 4px 18px rgba(152, 75, 34, 0.35)',
                 transition: 'all var(--transition-fast)'
               }}
               className="btn-pill-primary"
             >
-              <span>{language === 'hi' ? 'गुरुकुल परिचय व शिक्षा' : 'Explore Gurukul'}</span>
-              <ArrowRight size={16} />
+              <span>{language === 'hi' ? 'Explore Gurukul' : 'Explore Gurukul'}</span>
+              <ArrowRight size={17} />
             </button>
 
-            {/* Secondary Parchment/Gold Pill Button */}
+            {/* Secondary Warm Parchment Pill Button */}
             <button
               onClick={() => onNavigate('trust')}
               style={{
-                backgroundColor: 'rgba(255, 253, 249, 0.85)',
-                color: '#2A1E17',
-                border: '1.5px solid var(--color-gold-border)',
+                backgroundColor: 'rgba(255, 253, 249, 0.94)',
+                color: '#261911',
+                border: '1.5px solid rgba(197, 154, 78, 0.65)',
                 borderRadius: 'var(--radius-full)',
-                padding: '0.85rem 1.85rem',
-                fontSize: '0.95rem',
+                padding: '0.9rem 2rem',
+                fontSize: '1rem',
                 fontWeight: 600,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
                 cursor: 'pointer',
                 backdropFilter: 'blur(8px)',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                boxShadow: '0 2px 10px rgba(42, 30, 23, 0.06)',
                 transition: 'all var(--transition-fast)'
               }}
               className="btn-pill-secondary"
             >
-              <span>{language === 'hi' ? 'वैदिक गुरुकुल ट्रस्ट' : 'Learn About Our Trust'}</span>
+              <span>{language === 'hi' ? 'Learn About Our Trust' : 'Learn About Our Trust'}</span>
             </button>
           </motion.div>
         </div>
       </div>
 
-      {/* 8. Bottom-Left Slide Indicator Pills */}
+      {/* 8. Bottom-Left Slide Indicator Carousel Pills */}
       <div
         style={{
           position: 'absolute',
@@ -469,7 +499,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
               width: idx === currentSlideIndex ? '28px' : '8px',
               height: '8px',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: idx === currentSlideIndex ? 'var(--color-primary)' : 'rgba(42, 30, 23, 0.25)',
+              backgroundColor: idx === currentSlideIndex ? '#984B22' : 'rgba(42, 30, 23, 0.3)',
               border: 'none',
               transition: 'all var(--transition-base)',
               padding: 0,
@@ -483,7 +513,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         <button
           onClick={() => setIsAutoPlaying((prev) => !prev)}
           style={{
-            color: 'var(--color-text-secondary)',
+            color: '#5C3D28',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -511,9 +541,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '4px',
-          color: 'var(--color-text-muted)',
+          color: '#5C3D28',
           fontSize: '11px',
-          letterSpacing: '0.04em'
+          letterSpacing: '0.04em',
+          fontWeight: 600
         }}
       >
         <div
@@ -521,7 +552,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             width: '20px',
             height: '32px',
             borderRadius: 'var(--radius-full)',
-            border: '1.5px solid var(--color-text-muted)',
+            border: '1.5px solid #5C3D28',
             display: 'flex',
             justifyContent: 'center',
             paddingTop: '5px'
@@ -533,25 +564,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             style={{
               width: '3px',
               height: '6px',
-              backgroundColor: 'var(--color-primary)',
+              backgroundColor: '#984B22',
               borderRadius: 'var(--radius-full)'
             }}
           />
         </div>
-        <span>{language === 'hi' ? 'नीचे देखें ⌄' : 'Scroll to Explore ⌄'}</span>
+        <span>Scroll to Explore ⌄</span>
       </div>
 
       <style>{`
         .btn-pill-primary:hover {
           background-color: #7E3C1A !important;
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(152, 75, 34, 0.45) !important;
+          box-shadow: 0 6px 22px rgba(152, 75, 34, 0.45) !important;
         }
         .btn-pill-secondary:hover {
           background-color: #FFFFFF !important;
-          border-color: var(--color-gold) !important;
+          border-color: #984B22 !important;
           transform: translateY(-2px);
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+          box-shadow: 0 4px 16px rgba(42, 30, 23, 0.12) !important;
         }
       `}</style>
     </section>
