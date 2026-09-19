@@ -6,6 +6,7 @@ import { DataProvider } from './context/DataContext';
 
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
+import { ScrollProgress } from './components/common/ScrollProgress';
 
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -59,6 +60,9 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* 3.5px Top Scroll Progress Bar */}
+      <ScrollProgress />
+
       {/* Main Header with Logo, Navigation & Theme / Language Controls */}
       <Header currentPage={currentPage} onNavigate={navigateTo} />
 
