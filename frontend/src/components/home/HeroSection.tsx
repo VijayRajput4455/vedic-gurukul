@@ -4,16 +4,12 @@ import { useLanguage } from '../../context/LanguageContext';
 import { PageId } from '../../types';
 import { HeroCanvasParticles } from './HeroCanvasParticles';
 import {
-  BookOpen,
-  HeartHandshake,
+  ArrowRight,
   Sparkles,
-  ChevronRight,
-  Flame,
-  Award,
-  Compass,
   Layers,
   Pause,
-  Play
+  Play,
+  MousePointer
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -31,12 +27,12 @@ interface HeroSlide {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [imageLoaded, setImageLoaded] = useState<Record<string, boolean>>({});
   const [isHovered, setIsHovered] = useState(false);
-  
+
   // Parallax transform state (RAF damped)
   const [parallax, setParallax] = useState({
     bgX: 0,
@@ -57,6 +53,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   // Cinematic Slides
   const slides: HeroSlide[] = useMemo(
     () => [
+      {
+        id: 'golden-horizon',
+        image: '/assets/images/hero/vedic_golden_horizon_hero.jpg',
+        fallbackGradient: 'radial-gradient(circle at center, #4A3323 0%, #1E1510 100%)',
+        titleHi: 'वैदिक गुरुकुल एवं आश्रम मण्डप',
+        titleEn: 'Sacred Gurukul Mandapa & River Horizon',
+        tagHi: 'सत्यं • ऋतं • ज्ञानम् • सेवा',
+        tagEn: 'Truth • Cosmic Order • Wisdom • Service'
+      },
       {
         id: 'campus-dawn',
         image: '/assets/images/hero/gurukul_campus_hero.jpg',
@@ -81,7 +86,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
 
   // Smooth RAF Parallax Loop
   const updateParallax = useCallback(() => {
-    // Lerp smoothing factor
     const ease = 0.08;
     currentMouse.current.x += (targetMouse.current.x - currentMouse.current.x) * ease;
     currentMouse.current.y += (targetMouse.current.y - currentMouse.current.y) * ease;
@@ -90,12 +94,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     const my = currentMouse.current.y;
 
     setParallax({
-      bgX: mx * -14,
-      bgY: my * -10,
+      bgX: mx * -12,
+      bgY: my * -8,
       fgX: mx * 5,
       fgY: my * 4,
-      rotX: my * -1.8,
-      rotY: mx * 1.8,
+      rotX: my * -1.5,
+      rotY: mx * 1.5,
       rawMouseX: mx,
       rawMouseY: my
     });
@@ -104,7 +108,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   }, []);
 
   useEffect(() => {
-    // Disable if prefers-reduced-motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
@@ -114,7 +117,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     };
   }, [updateParallax]);
 
-  // Handle Mouse Move for Parallax
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!heroRef.current) return;
     const rect = heroRef.current.getBoundingClientRect();
@@ -128,12 +130,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     setIsHovered(false);
   };
 
-  // Auto-slide Timer (10s cycle)
+  // Auto-slide Timer (12s cycle)
   useEffect(() => {
     if (!isAutoPlaying || isHovered) return;
     const interval = setInterval(() => {
       setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
-    }, 10000);
+    }, 12000);
     return () => clearInterval(interval);
   }, [isAutoPlaying, isHovered, slides.length]);
 
@@ -145,20 +147,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="hero-cinematic-section"
+      className="hero-golden-horizon-section"
       style={{
         position: 'relative',
-        minHeight: 'clamp(620px, 86vh, 920px)',
+        minHeight: 'clamp(640px, 88vh, 920px)',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
         overflow: 'hidden',
-        backgroundColor: '#1C1510',
-        color: '#FFFFFF'
+        backgroundColor: '#F8F3E9',
+        color: '#2A1E17'
       }}
       aria-label="Vedic Gurukul Hero Banner"
     >
-      {/* 1. Background Cinematic Image Carousel with Ken Burns & Smooth Crossfade */}
+      {/* 1. Background Cinematic Image Layer with Ken Burns & Smooth Crossfade */}
       <div
         style={{
           position: 'absolute',
@@ -205,7 +206,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         </AnimatePresence>
       </div>
 
-      {/* 2. Layered Vignette, Dark Shadows & Radial Warm Ambient Overlays for Crystal Clear Contrast */}
+      {/* 2. Soft Parchment-to-Landscape Gradient Overlay on Left for Flawless Text Readability */}
       <div
         style={{
           position: 'absolute',
@@ -214,11 +215,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           right: 0,
           bottom: 0,
           background: `
-            linear-gradient(180deg, 
-              rgba(18, 12, 9, 0.72) 0%, 
-              rgba(22, 15, 11, 0.45) 30%, 
-              rgba(24, 16, 11, 0.65) 65%, 
-              rgba(18, 12, 9, 0.94) 100%
+            linear-gradient(90deg, 
+              rgba(250, 246, 238, 0.94) 0%, 
+              rgba(250, 246, 238, 0.88) 36%, 
+              rgba(250, 246, 238, 0.52) 58%, 
+              rgba(250, 246, 238, 0.12) 80%,
+              rgba(250, 246, 238, 0.02) 100%
             )
           `,
           zIndex: 2,
@@ -226,483 +228,332 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         }}
       />
 
+      {/* 3. Subtle Dark/Warm Top and Bottom Vignette */}
       <div
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
+          height: '120px',
+          background: 'linear-gradient(180deg, rgba(250, 246, 238, 0.7) 0%, transparent 100%)',
+          zIndex: 3,
+          pointerEvents: 'none'
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
           bottom: 0,
-          background: `
-            radial-gradient(ellipse at 50% 45%, 
-              rgba(197, 154, 78, 0.16) 0%, 
-              rgba(166, 95, 43, 0.08) 40%, 
-              rgba(18, 12, 9, 0.75) 100%
-            )
-          `,
+          left: 0,
+          right: 0,
+          height: '80px',
+          background: 'linear-gradient(0deg, rgba(248, 243, 233, 1) 0%, transparent 100%)',
           zIndex: 3,
           pointerEvents: 'none'
         }}
       />
 
-      {/* 3. Soft Light Sweep Sheen */}
+      {/* 4. Soft Light Sweep Sheen */}
       <div className="light-sweep-overlay" style={{ zIndex: 3 }} />
 
-      {/* 4. Atmospheric Golden Dust Particles Engine */}
+      {/* 5. Atmospheric Golden Dust Particles Engine */}
       <HeroCanvasParticles mouseX={parallax.rawMouseX} mouseY={parallax.rawMouseY} />
 
-      {/* 5. Ornamental Sacred Mandala Geometry Watermark */}
+      {/* 6. Subtle Watermark Mandala on Left Backdrop */}
       <div
         style={{
           position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 'clamp(380px, 50vw, 750px)',
-          height: 'clamp(380px, 50vw, 750px)',
+          top: '-10%',
+          left: '-5%',
+          width: '580px',
+          height: '580px',
           borderRadius: '50%',
-          border: '1.5px dashed rgba(223, 178, 96, 0.22)',
-          boxShadow: 'inset 0 0 50px rgba(197, 154, 78, 0.08)',
+          border: '1.5px dashed rgba(197, 154, 78, 0.25)',
+          boxShadow: 'inset 0 0 40px rgba(197, 154, 78, 0.05)',
           pointerEvents: 'none',
-          zIndex: 4
+          zIndex: 3
         }}
         className="animate-mandala-rotate"
-      >
-        <div
-          style={{
-            position: 'absolute',
-            top: '8%',
-            left: '8%',
-            right: '8%',
-            bottom: '8%',
-            borderRadius: '50%',
-            border: '1px solid rgba(223, 178, 96, 0.12)'
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '20%',
-            left: '20%',
-            right: '20%',
-            bottom: '20%',
-            borderRadius: '50%',
-            border: '1px dashed rgba(224, 154, 60, 0.15)'
-          }}
-        />
-      </div>
-
-      {/* 6. Traditional Indian Manuscript Corner Borders on Hero Frame */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          width: '32px',
-          height: '32px',
-          borderTop: '2px solid var(--color-gold)',
-          borderLeft: '2px solid var(--color-gold)',
-          pointerEvents: 'none',
-          zIndex: 5,
-          opacity: 0.65
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          top: '20px',
-          right: '20px',
-          width: '32px',
-          height: '32px',
-          borderTop: '2px solid var(--color-gold)',
-          borderRight: '2px solid var(--color-gold)',
-          pointerEvents: 'none',
-          zIndex: 5,
-          opacity: 0.65
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '20px',
-          width: '32px',
-          height: '32px',
-          borderBottom: '2px solid var(--color-gold)',
-          borderLeft: '2px solid var(--color-gold)',
-          pointerEvents: 'none',
-          zIndex: 5,
-          opacity: 0.65
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          right: '20px',
-          width: '32px',
-          height: '32px',
-          borderBottom: '2px solid var(--color-gold)',
-          borderRight: '2px solid var(--color-gold)',
-          pointerEvents: 'none',
-          zIndex: 5,
-          opacity: 0.65
-        }}
       />
 
-      {/* 7. Foreground Content Container with 3D Depth Parallax & Blur-to-Sharp Reveals */}
+      {/* 7. Foreground Content Container */}
       <div
         style={{
           position: 'relative',
           zIndex: 10,
           width: '100%',
-          transform: `translate3d(${parallax.fgX}px, ${parallax.fgY}px, 0) perspective(1000px) rotateX(${parallax.rotX}deg) rotateY(${parallax.rotY}deg)`,
-          transformStyle: 'preserve-3d',
+          transform: `translate3d(${parallax.fgX}px, ${parallax.fgY}px, 0)`,
           willChange: 'transform'
         }}
         className="container"
       >
-        <div style={{ textAlign: 'center', maxWidth: '1240px', margin: '0 auto', paddingTop: 'var(--spacing-8)' }}>
-          
-          {/* Sanskrit Motto Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            style={{ display: 'inline-flex', justifyContent: 'center', marginBottom: 'var(--spacing-4)' }}
-          >
-            <div
-              className="vedic-badge"
-              style={{
-                backgroundColor: 'rgba(38, 26, 18, 0.75)',
-                border: '1.5px solid var(--color-gold-border)',
-                backdropFilter: 'blur(10px)',
-                color: 'var(--color-gold)',
-                padding: '0.45rem 1.4rem',
-                fontSize: 'var(--text-xs)',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.35)',
-                letterSpacing: '0.04em'
-              }}
-            >
-              <Flame size={14} className="animate-flame" style={{ color: '#E88340' }} />
-              <span className="font-devanagari" style={{ fontWeight: 600 }}>
-                विद्या • संस्कार • सेवा (Vidya • Sanskar • Seva)
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Main Cinematic Heading with Blur-to-Sharp Stagger */}
+        <div
+          style={{
+            maxWidth: '680px',
+            textAlign: 'left',
+            padding: 'var(--spacing-8) 0'
+          }}
+        >
+          {/* Main Sanskrit Gurukul Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
+            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontSize: 'clamp(2.3rem, 5.2vw, 4.1rem)',
+              fontSize: 'clamp(2.5rem, 5.5vw, 4.4rem)',
               fontFamily: 'var(--font-heading-devanagari)',
-              lineHeight: 1.18,
-              marginBottom: 'var(--spacing-4)',
-              color: '#FFFBF5',
-              textShadow: '0 2px 18px rgba(0, 0, 0, 0.75), 0 0 35px rgba(197, 154, 78, 0.25)',
+              color: '#2A1E17',
+              lineHeight: 1.15,
+              marginBottom: '0.4rem',
               letterSpacing: '-0.02em'
             }}
           >
-            {t.hero.title}
+            {language === 'hi' ? 'संस्कृत वैदिक गुरुकुल' : 'Sanskrit Vedic Gurukul'}
           </motion.h1>
 
-          {/* Manuscript Traditional Divider with Gold Lotus Accent */}
+          {/* Subtitle Tagline */}
           <motion.div
-            initial={{ opacity: 0, scaleX: 0 }}
-            animate={{ opacity: 1, scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 'var(--spacing-3)',
-              margin: '0 auto var(--spacing-4) auto',
-              maxWidth: '320px',
-              color: 'var(--color-gold)'
+              fontFamily: 'var(--font-heading-latin)',
+              fontSize: 'clamp(0.85rem, 1.4vw, 1rem)',
+              fontWeight: 700,
+              color: 'var(--color-primary-dark)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              marginBottom: 'var(--spacing-6)'
             }}
           >
-            <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, transparent, var(--color-gold))' }} />
-            <Sparkles size={16} color="var(--color-gold)" />
-            <div style={{ height: '1px', flex: 1, background: 'linear-gradient(90deg, var(--color-gold), transparent)' }} />
+            {language === 'hi'
+              ? 'ज्ञान, संस्कार एवं श्रेष्ठ समाज निर्माण की साधना'
+              : 'A JOURNEY TOWARDS KNOWLEDGE, CHARACTER AND A BETTER SOCIETY'}
           </motion.div>
 
-          {/* Subtitle Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          {/* Traditional Sanskrit Shloka Box */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontSize: 'clamp(1.05rem, 2.1vw, 1.3rem)',
-              color: '#E8DED1',
-              lineHeight: 1.7,
-              maxWidth: '1040px',
-              margin: '0 auto var(--spacing-8) auto',
-              fontFamily: 'var(--font-body-latin)',
-              textShadow: '0 2px 10px rgba(0, 0, 0, 0.65)'
+              marginBottom: 'var(--spacing-8)',
+              position: 'relative'
             }}
           >
-            {t.hero.description}
-          </motion.p>
+            {/* Ornamental Divider */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: 'var(--color-gold)',
+                marginBottom: '0.75rem'
+              }}
+            >
+              <div style={{ height: '1px', width: '40px', background: 'linear-gradient(90deg, transparent, var(--color-gold))' }} />
+              <Sparkles size={14} />
+              <div style={{ height: '1px', width: '40px', background: 'linear-gradient(270deg, transparent, var(--color-gold))' }} />
+            </div>
 
-          {/* Action CTAs Button Group */}
+            {/* Sacred Verse */}
+            <div
+              style={{
+                fontFamily: 'var(--font-heading-devanagari)',
+                fontSize: 'clamp(1.25rem, 2.2vw, 1.6rem)',
+                color: '#2A1E17',
+                fontWeight: 600,
+                lineHeight: 1.5,
+                marginBottom: '0.35rem'
+              }}
+            >
+              “विद्या ददाति विनयं विनयाद् याति पात्रताम् ।”
+            </div>
+
+            {/* English/Hindi Subtext */}
+            <div
+              style={{
+                fontSize: 'clamp(0.85rem, 1.3vw, 0.95rem)',
+                color: 'var(--color-text-secondary)',
+                fontStyle: 'italic',
+                lineHeight: 1.5
+              }}
+            >
+              {language === 'hi'
+                ? 'विद्या से विनय आता है, और विनय से ही सच्ची योग्यता प्राप्त होती है।'
+                : 'Knowledge gives humility, from humility comes worthiness.'}
+            </div>
+          </motion.div>
+
+          {/* Rounded Pill CTA Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
               flexWrap: 'wrap',
-              gap: '1.25rem',
-              marginBottom: 'var(--spacing-12)'
+              gap: '1rem'
             }}
           >
-            {/* Primary Action Button: Education & Admission */}
+            {/* Primary Saffron/Terracotta Pill Button */}
             <button
               onClick={() => onNavigate('education')}
-              className="btn btn-primary btn-lg"
               style={{
-                boxShadow: '0 6px 24px rgba(166, 95, 43, 0.5)',
+                backgroundColor: '#984B22',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 'var(--radius-full)',
                 padding: '0.85rem 1.85rem',
-                fontSize: '1.05rem'
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                cursor: 'pointer',
+                boxShadow: '0 4px 16px rgba(152, 75, 34, 0.35)',
+                transition: 'all var(--transition-fast)'
               }}
+              className="btn-pill-primary"
             >
-              <BookOpen size={19} />
-              <span>{t.hero.primaryCta}</span>
-              <ChevronRight size={17} />
+              <span>{language === 'hi' ? 'गुरुकुल परिचय व शिक्षा' : 'Explore Gurukul'}</span>
+              <ArrowRight size={16} />
             </button>
 
-            {/* Secondary Action Button: Trust & Seva */}
+            {/* Secondary Parchment/Gold Pill Button */}
             <button
               onClick={() => onNavigate('trust')}
-              className="btn btn-forest btn-lg"
               style={{
-                boxShadow: '0 6px 24px rgba(59, 91, 67, 0.45)',
+                backgroundColor: 'rgba(255, 253, 249, 0.85)',
+                color: '#2A1E17',
+                border: '1.5px solid var(--color-gold-border)',
+                borderRadius: 'var(--radius-full)',
                 padding: '0.85rem 1.85rem',
-                fontSize: '1.05rem'
-              }}
-            >
-              <HeartHandshake size={19} />
-              <span>{t.hero.secondaryCta}</span>
-            </button>
-
-            {/* 360 Virtual Campus Tour Button */}
-            <button
-              onClick={() => onNavigate('gallery')}
-              className="btn btn-secondary btn-lg"
-              style={{
-                backgroundColor: 'rgba(28, 21, 16, 0.6)',
-                borderColor: 'var(--color-gold-border)',
-                color: '#F4ECD8',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                cursor: 'pointer',
                 backdropFilter: 'blur(8px)',
-                padding: '0.85rem 1.5rem',
-                fontSize: '1rem'
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                transition: 'all var(--transition-fast)'
               }}
+              className="btn-pill-secondary"
             >
-              <Compass size={18} color="var(--color-gold)" />
-              <span>{language === 'hi' ? 'परिसर 360° दर्शन' : '360° Campus Tour'}</span>
+              <span>{language === 'hi' ? 'वैदिक गुरुकुल ट्रस्ट' : 'Learn About Our Trust'}</span>
             </button>
           </motion.div>
-
-          {/* 8. Bottom 3-Card Glassmorphic Highlights Ribbon */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="grid-3"
-            style={{ maxWidth: '1440px', margin: '0 auto', textAlign: 'left' }}
-          >
-            {/* Highlight 1: 100% Free Bal Vidya Sahayata */}
-            <div
-              className="vedic-card"
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '1rem',
-                backgroundColor: 'rgba(32, 23, 17, 0.72)',
-                backdropFilter: 'blur(14px)',
-                border: '1px solid rgba(223, 178, 96, 0.3)',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '1.25rem'
-              }}
-            >
-              <div
-                style={{
-                  width: '46px',
-                  height: '46px',
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'rgba(166, 95, 43, 0.3)',
-                  border: '1px solid var(--color-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#FFA560',
-                  flexShrink: 0
-                }}
-              >
-                <Flame size={24} />
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.05rem', color: '#FFF8F0', marginBottom: '0.25rem', fontFamily: 'var(--font-heading-devanagari)' }}>
-                  {t.hero.statStudents}
-                </h4>
-                <p style={{ fontSize: 'var(--text-xs)', color: '#DACEC0', margin: 0, lineHeight: 1.5 }}>
-                  {t.hero.statStudentsDesc}
-                </p>
-              </div>
-            </div>
-
-            {/* Highlight 2: Paninian Ashtadhyayi & Shastras */}
-            <div
-              className="vedic-card"
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '1rem',
-                backgroundColor: 'rgba(32, 23, 17, 0.72)',
-                backdropFilter: 'blur(14px)',
-                border: '1px solid rgba(223, 178, 96, 0.3)',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '1.25rem'
-              }}
-            >
-              <div
-                style={{
-                  width: '46px',
-                  height: '46px',
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'rgba(197, 154, 78, 0.25)',
-                  border: '1px solid var(--color-gold)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#DFB260',
-                  flexShrink: 0
-                }}
-              >
-                <BookOpen size={24} />
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.05rem', color: '#FFF8F0', marginBottom: '0.25rem', fontFamily: 'var(--font-heading-devanagari)' }}>
-                  {t.hero.statFocus}
-                </h4>
-                <p style={{ fontSize: 'var(--text-xs)', color: '#DACEC0', margin: 0, lineHeight: 1.5 }}>
-                  {t.hero.statFocusDesc}
-                </p>
-              </div>
-            </div>
-
-            {/* Highlight 3: Vidya-Sanskar-Seva Values */}
-            <div
-              className="vedic-card"
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '1rem',
-                backgroundColor: 'rgba(32, 23, 17, 0.72)',
-                backdropFilter: 'blur(14px)',
-                border: '1px solid rgba(223, 178, 96, 0.3)',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '1.25rem'
-              }}
-            >
-              <div
-                style={{
-                  width: '46px',
-                  height: '46px',
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'rgba(59, 91, 67, 0.3)',
-                  border: '1px solid var(--color-secondary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#73AB81',
-                  flexShrink: 0
-                }}
-              >
-                <Award size={24} />
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.05rem', color: '#FFF8F0', marginBottom: '0.25rem', fontFamily: 'var(--font-heading-devanagari)' }}>
-                  {t.hero.statValues}
-                </h4>
-                <p style={{ fontSize: 'var(--text-xs)', color: '#DACEC0', margin: 0, lineHeight: 1.5 }}>
-                  {t.hero.statValuesDesc}
-                </p>
-              </div>
-            </div>
-
-          </motion.div>
-
         </div>
       </div>
 
-      {/* 9. Cinematic Scene Switcher Controls (Bottom Right Floating Pill) */}
+      {/* 8. Bottom-Left Slide Indicator Pills */}
       <div
         style={{
           position: 'absolute',
           bottom: '24px',
-          right: '28px',
+          left: 'clamp(1rem, 4vw, 3rem)',
           zIndex: 15,
           display: 'flex',
           alignItems: 'center',
-          gap: '0.5rem',
-          backgroundColor: 'rgba(24, 17, 12, 0.75)',
-          border: '1px solid var(--color-gold-border)',
-          borderRadius: 'var(--radius-full)',
-          padding: '0.35rem 0.75rem',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)'
+          gap: '0.5rem'
         }}
       >
-        <span style={{ fontSize: '11px', color: 'var(--color-gold)', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
-          <Layers size={12} />
-          <span>{currentSlideIndex + 1}/{slides.length}</span>
-        </span>
-
         {slides.map((s, idx) => (
           <button
             key={s.id}
             onClick={() => setCurrentSlideIndex(idx)}
             style={{
-              width: idx === currentSlideIndex ? '24px' : '8px',
+              width: idx === currentSlideIndex ? '28px' : '8px',
               height: '8px',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: idx === currentSlideIndex ? 'var(--color-gold)' : 'rgba(255, 255, 255, 0.3)',
+              backgroundColor: idx === currentSlideIndex ? 'var(--color-primary)' : 'rgba(42, 30, 23, 0.25)',
+              border: 'none',
               transition: 'all var(--transition-base)',
               padding: 0,
               cursor: 'pointer'
             }}
             title={language === 'hi' ? s.titleHi : s.titleEn}
-            aria-label={`Switch to slide ${idx + 1}: ${language === 'hi' ? s.titleHi : s.titleEn}`}
+            aria-label={`Slide ${idx + 1}`}
           />
         ))}
 
         <button
           onClick={() => setIsAutoPlaying((prev) => !prev)}
           style={{
-            color: '#DACEC0',
+            color: 'var(--color-text-secondary)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginLeft: '4px',
+            marginLeft: '6px',
             cursor: 'pointer',
-            padding: 0
+            padding: 0,
+            background: 'none',
+            border: 'none'
           }}
-          title={isAutoPlaying ? 'Pause scene rotation' : 'Resume scene rotation'}
-          aria-label={isAutoPlaying ? 'Pause scene rotation' : 'Resume scene rotation'}
+          title={isAutoPlaying ? 'Pause rotation' : 'Resume rotation'}
+          aria-label={isAutoPlaying ? 'Pause rotation' : 'Resume rotation'}
         >
           {isAutoPlaying ? <Pause size={12} /> : <Play size={12} />}
         </button>
       </div>
 
+      {/* 9. Bottom-Right "Scroll to Explore" Pill Indicator */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '20px',
+          right: 'clamp(1rem, 4vw, 3rem)',
+          zIndex: 15,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '4px',
+          color: 'var(--color-text-muted)',
+          fontSize: '11px',
+          letterSpacing: '0.04em'
+        }}
+      >
+        <div
+          style={{
+            width: '20px',
+            height: '32px',
+            borderRadius: 'var(--radius-full)',
+            border: '1.5px solid var(--color-text-muted)',
+            display: 'flex',
+            justifyContent: 'center',
+            paddingTop: '5px'
+          }}
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              width: '3px',
+              height: '6px',
+              backgroundColor: 'var(--color-primary)',
+              borderRadius: 'var(--radius-full)'
+            }}
+          />
+        </div>
+        <span>{language === 'hi' ? 'नीचे देखें ⌄' : 'Scroll to Explore ⌄'}</span>
+      </div>
+
+      <style>{`
+        .btn-pill-primary:hover {
+          background-color: #7E3C1A !important;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(152, 75, 34, 0.45) !important;
+        }
+        .btn-pill-secondary:hover {
+          background-color: #FFFFFF !important;
+          border-color: var(--color-gold) !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+        }
+      `}</style>
     </section>
   );
 };
