@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="saffronGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E07A2E" />
+      <stop offset="50%" stop-color="#C8602A" />
+      <stop offset="100%" stop-color="#8B3E1B" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3E7BE" />
+      <stop offset="50%" stop-color="#DFB260" />
+      <stop offset="100%" stop-color="#A5792F" />
+    </linearGradient>
+  </defs>
+  <!-- Background Circle with Gold Border -->
+  <circle cx="50" cy="50" r="46" fill="#FAF6EE" stroke="url(#goldGrad)" stroke-width="4" />
+  <circle cx="50" cy="50" r="41" fill="url(#saffronGrad)" />
+  
+  <!-- Sacred Diya / Flame and OM symbol -->
+  <path d="M50 18 C56 28, 62 34, 62 44 C62 52, 56 58, 50 58 C44 58, 38 52, 38 44 C38 34, 44 28, 50 18 Z" fill="url(#goldGrad)" />
+  <path d="M50 25 C53 32, 56 36, 56 43 C56 48, 53 52, 50 52 C47 52, 44 48, 44 43 C44 36, 47 32, 50 25 Z" fill="#FFF7E6" />
+  
+  <!-- Diya Base -->
+  <path d="M26 58 C32 72, 68 72, 74 58 C70 66, 30 66, 26 58 Z" fill="url(#goldGrad)" />
+  <ellipse cx="50" cy="74" rx="16" ry="3.5" fill="#75401F" opacity="0.6" />
+  
+  <!-- Rays / Lotus Petals accents -->
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#FFF7E6" stroke-width="0.8" stroke-dasharray="2, 4" opacity="0.7" />
+</svg>

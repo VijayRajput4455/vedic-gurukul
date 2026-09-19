@@ -1,0 +1,158 @@
+:root {
+  /* ==========================================================================
+     Vedic Gurukul Design System Color Tokens (Parchment / Light Mode)
+     ========================================================================== */
+  
+  /* Primary Kesari / Saffron Palette */
+  --color-primary: #A65F2B;
+  --color-primary-hover: #8C4D20;
+  --color-primary-light: #F4E8DC;
+  --color-primary-dark: #75401F;
+  --color-primary-glow: rgba(166, 95, 43, 0.25);
+
+  /* Secondary Forest Green Palette (for Trust, Seva, Nature & Growth) */
+  --color-secondary: #3B5B43;
+  --color-secondary-hover: #2F4935;
+  --color-secondary-light: #EBF2EC;
+  --color-secondary-dark: #223727;
+  --color-secondary-glow: rgba(59, 91, 67, 0.25);
+
+  /* Antique Gold Accents */
+  --color-gold: #C59A4E;
+  --color-gold-light: #F5ECD8;
+  --color-gold-dark: #9A7432;
+  --color-gold-border: rgba(197, 154, 78, 0.45);
+  --color-gold-glow: rgba(197, 154, 78, 0.35);
+
+  /* Terracotta & Earth */
+  --color-terracotta: #A84B2F;
+  --color-terracotta-light: #F9ECE8;
+
+  /* Backgrounds & Surfaces (Warm Ivory / Authentic Parchment) */
+  --color-bg-main: #FBF8F2;
+  --color-bg-secondary: #F4EFEB;
+  --color-bg-card: #FFFDF9;
+  --color-bg-card-hover: #FFFFFF;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-dark-accent: #231A14;
+
+  /* Text & Typography Colors */
+  --color-text-main: #2A1E17;
+  --color-text-secondary: #574A40;
+  --color-text-muted: #857568;
+  --color-text-on-dark: #FDFBF7;
+  --color-text-gold: #B88A45;
+  --color-text-saffron: #A65F2B;
+
+  /* Borders & Dividers */
+  --color-border: #E6DBCF;
+  --color-border-subtle: #F0E8DC;
+  --color-border-ornate: #D4C3AF;
+
+  /* Feedback Colors */
+  --color-success: #2E6B3E;
+  --color-success-bg: #EEF7F0;
+  --color-warning: #C07914;
+  --color-warning-bg: #FEF7EA;
+  --color-error: #B9382F;
+  --color-error-bg: #FDF0EF;
+  --color-info: #35678B;
+  --color-info-bg: #EEF5FA;
+
+  /* Typography Families */
+  --font-heading-devanagari: 'Yatra One', 'Noto Serif Devanagari', serif;
+  --font-body-devanagari: 'Noto Serif Devanagari', serif;
+  --font-heading-latin: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  --font-serif-accent: 'Cormorant Garamond', Georgia, serif;
+  --font-body-latin: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Font Scales */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: 3rem;       /* 48px */
+  --text-6xl: 3.75rem;    /* 60px */
+
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-subtle: 0 2px 6px rgba(42, 30, 23, 0.04), 0 1px 2px rgba(42, 30, 23, 0.03);
+  --shadow-md: 0 4px 14px rgba(42, 30, 23, 0.07), 0 2px 6px rgba(42, 30, 23, 0.04);
+  --shadow-lg: 0 10px 30px rgba(42, 30, 23, 0.09), 0 4px 10px rgba(42, 30, 23, 0.05);
+  --shadow-ornate: 0 12px 36px rgba(166, 95, 43, 0.12), 0 4px 12px rgba(197, 154, 78, 0.08);
+  --shadow-gold: 0 0 25px rgba(197, 154, 78, 0.25);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Max Widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1240px;
+  --container-2xl: 1400px;
+}
+
+/* ==========================================================================
+   Vedic Sandalwood Dark Theme
+   ========================================================================== */
+[data-theme='sandalwood'] {
+  --color-bg-main: #1C1510;
+  --color-bg-secondary: #261D17;
+  --color-bg-card: #2B211A;
+  --color-bg-card-hover: #342820;
+  --color-bg-elevated: #372B22;
+  --color-bg-dark-accent: #140E0A;
+
+  --color-text-main: #FBF8F2;
+  --color-text-secondary: #DACEC0;
+  --color-text-muted: #A89B8C;
+  --color-text-gold: #DFB260;
+  --color-text-saffron: #E88340;
+
+  --color-border: #44352B;
+  --color-border-subtle: #362A22;
+  --color-border-ornate: #644E3F;
+
+  --color-primary: #C86A28;
+  --color-primary-hover: #E07A2E;
+  --color-primary-light: #382417;
+
+  --color-secondary: #4E7457;
+  --color-secondary-hover: #5F8B69;
+  --color-secondary-light: #212F24;
+
+  --color-gold: #DFB260;
+  --color-gold-light: #3A2F1D;
+  --color-gold-border: rgba(223, 178, 96, 0.35);
+
+  --shadow-subtle: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.55);
+}

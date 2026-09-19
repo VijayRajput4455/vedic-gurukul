@@ -1,0 +1,99 @@
+import React, { useState, useEffect } from 'react';
+import { PageId } from './types';
+import { LanguageProvider } from './context/LanguageContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { DataProvider } from './context/DataContext';
+
+import { TopBar } from './components/layout/TopBar';
+import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
+
+import { HomePage } from './pages/HomePage';
+import { AboutPage } from './pages/AboutPage';
+import { PhilosophyPage } from './pages/PhilosophyPage';
+import { EducationPage } from './pages/EducationPage';
+import { AdmissionsPage } from './pages/AdmissionsPage';
+import { TrustPage } from './pages/TrustPage';
+import { GalleryPage } from './pages/GalleryPage';
+import { EventsPage } from './pages/EventsPage';
+import { ContactPage } from './pages/ContactPage';
+import { AdminPage } from './pages/AdminPage';
+
+import './styles/variables.css';
+import './styles/base.css';
+import './styles/components.css';
+import './styles/animations.css';
+
+const parseHash = (): PageId => {
+  const hash = window.location.hash.replace('#', '').toLowerCase() as PageId;
+  const validPages: PageId[] = [
+    'home',
+    'about',
+    'philosophy',
+    'education',
+    'admissions',
+    'trust',
+    'gallery',
+    'events',
+    'contact',
+    'admin'
+  ];
+  return validPages.includes(hash) ? hash : 'home';
+};
+
+const AppContent: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<PageId>(parseHash());
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentPage(parseHash());
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (page: PageId) => {
+    setCurrentPage(page);
+    window.location.hash = page === 'home' ? '' : page;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Top Bar with Announcements, Chime & Controls */}
+      <TopBar onNavigate={navigateTo} />
+
+      {/* Main Header with Logo, Navigation & Quick Apply */}
+      <Header currentPage={currentPage} onNavigate={navigateTo} />
+
+      {/* Main Dynamic View */}
+      <main style={{ flex: 1 }}>
+        {currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
+        {currentPage === 'about' && <AboutPage onNavigate={navigateTo} />}
+        {currentPage === 'philosophy' && <PhilosophyPage onNavigate={navigateTo} />}
+        {currentPage === 'education' && <EducationPage onNavigate={navigateTo} />}
+        {currentPage === 'admissions' && <AdmissionsPage onNavigate={navigateTo} />}
+        {currentPage === 'trust' && <TrustPage onNavigate={navigateTo} />}
+        {currentPage === 'gallery' && <GalleryPage onNavigate={navigateTo} />}
+        {currentPage === 'events' && <EventsPage onNavigate={navigateTo} />}
+        {currentPage === 'contact' && <ContactPage onNavigate={navigateTo} />}
+        {currentPage === 'admin' && <AdminPage onNavigate={navigateTo} />}
+      </main>
+
+      {/* Comprehensive Institutional Footer */}
+      <Footer onNavigate={navigateTo} />
+    </div>
+  );
+};
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <LanguageProvider>
+        <DataProvider>
+          <AppContent />
+        </DataProvider>
+      </LanguageProvider>
+    </ThemeProvider>
+  );
+}
