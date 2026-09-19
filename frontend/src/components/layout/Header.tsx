@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { PageId, NavigationItem } from '../../types';
@@ -91,51 +91,50 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
   return (
     <>
+      {/* Fixed Floating Glassmorphic Pill Capsule Navigation Bar */}
       <header
-        className={`site-navbar-wrapper ${isScrolled ? 'is-scrolled' : 'is-at-top'}`}
+        className="site-navbar-fixed-container"
         style={{
-          position: 'sticky',
-          top: isScrolled ? '10px' : '0px',
+          position: 'fixed',
+          top: '12px',
+          left: 0,
+          right: 0,
           zIndex: 1000,
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
-          padding: isScrolled ? '0 1.25rem' : '0',
-          transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-          pointerEvents: 'none'
+          padding: '0 clamp(0.75rem, 2vw, 1.5rem)',
+          pointerEvents: 'none',
+          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       >
         <div
-          className={`site-navbar-inner ${isScrolled ? 'docked-glass-capsule' : 'transparent-spacious'}`}
+          className={`site-navbar-floating-pill ${isScrolled ? 'is-scrolled' : 'is-top'}`}
           style={{
             width: '100%',
-            maxWidth: isScrolled ? '1320px' : '100%',
-            /* At the Top: Transparent & Spacious, No Background Glass, No Bottom Border */
-            /* When Scrolled: Compact Docking, Heavy Frosted Glass, Elevated Shadow & Border */
-            backgroundColor: isScrolled
-              ? theme === 'parchment'
-                ? 'rgba(255, 252, 245, 0.88)'
-                : 'rgba(20, 14, 10, 0.88)'
-              : 'transparent',
-            backdropFilter: isScrolled ? 'blur(20px)' : 'none',
-            WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
-            borderRadius: isScrolled ? '9999px' : '0px',
-            border: isScrolled
-              ? '1.5px solid rgba(197, 154, 78, 0.45)'
-              : 'none',
-            borderBottom: isScrolled
-              ? '1.5px solid rgba(197, 154, 78, 0.45)'
-              : 'none',
+            maxWidth: '1360px',
+            backgroundColor:
+              theme === 'parchment'
+                ? isScrolled
+                  ? 'rgba(255, 252, 245, 0.94)'
+                  : 'rgba(255, 252, 247, 0.88)'
+                : isScrolled
+                  ? 'rgba(20, 14, 10, 0.94)'
+                  : 'rgba(22, 15, 11, 0.88)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            borderRadius: '9999px',
+            border: '1.5px solid rgba(197, 154, 78, 0.42)',
             boxShadow: isScrolled
-              ? '0 10px 30px rgba(0, 0, 0, 0.2), 0 0 15px rgba(197, 154, 78, 0.15)'
-              : 'none',
-            padding: isScrolled ? '0.55rem 1.4rem' : '1.15rem 2rem',
+              ? '0 12px 35px rgba(0, 0, 0, 0.22), 0 0 15px rgba(197, 154, 78, 0.2)'
+              : '0 6px 25px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.1)',
+            padding: isScrolled ? '0.45rem 1.25rem' : '0.55rem 1.45rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '0.85rem',
-            transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-            pointerEvents: 'auto'
+            gap: '0.75rem',
+            pointerEvents: 'auto',
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         >
           {/* Left: Sacred Lotus Emblem & Institution Branding */}
@@ -144,7 +143,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.7rem',
+              gap: '0.65rem',
               cursor: 'pointer',
               userSelect: 'none',
               flexShrink: 0
@@ -156,8 +155,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             {/* Sacred Lotus Glow Badge */}
             <div
               style={{
-                width: isScrolled ? '36px' : '42px',
-                height: isScrolled ? '36px' : '42px',
+                width: isScrolled ? '34px' : '38px',
+                height: isScrolled ? '34px' : '38px',
                 borderRadius: '50%',
                 backgroundColor: 'rgba(197, 154, 78, 0.18)',
                 border: '1.5px solid var(--color-gold)',
@@ -166,11 +165,11 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 justifyContent: 'center',
                 flexShrink: 0,
                 color: 'var(--color-gold-dark)',
-                boxShadow: '0 0 12px rgba(197, 154, 78, 0.3)',
+                boxShadow: '0 0 10px rgba(197, 154, 78, 0.25)',
                 transition: 'all 0.3s ease'
               }}
             >
-              <svg viewBox="0 0 24 24" width={isScrolled ? '20' : '24'} height={isScrolled ? '20' : '24'} fill="currentColor">
+              <svg viewBox="0 0 24 24" width={isScrolled ? '18' : '22'} height={isScrolled ? '18' : '22'} fill="currentColor">
                 <path d="M12 3c-1.5 2.5-3 5-3 7.5 0 2.5 1.5 4.5 3 4.5s3-2 3-4.5C15 8 13.5 5.5 12 3zm-4.5 3c-.5 2-1 4.5 0 6.5 1 2 2.5 3 4.5 3.5-1.5-1-2.5-2.5-3-4.5-.5-2 0-4-1.5-5.5zm9 0c-1.5 1.5-1 3.5-1.5 5.5-.5 2-1.5 3.5-3 4.5 2-.5 3.5-1.5 4.5-3.5 1-2 .5-4.5 0-6.5zm-11 5c-.5 1.5-.5 3 .5 4.5 1.5 2 3.5 2.5 6 2.5-2-1-3.5-2-4.5-4-1-1.5-1.5-2.5-2-3zm13 0c-.5.5-1 1.5-2 3-1 2-2.5 3-4.5 4 2.5 0 4.5-.5 6-2.5 1-1.5 1-3 .5-4.5zM12 16.5c-3 0-5.5 1-7 2.5 2.5.5 5.5.5 7 .5s4.5 0 7-.5c-1.5-1.5-4-2.5-7-2.5z" />
               </svg>
             </div>
@@ -179,20 +178,19 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               <div
                 style={{
                   fontFamily: 'var(--font-heading-latin)',
-                  fontSize: isScrolled ? '0.95rem' : '1.08rem',
+                  fontSize: isScrolled ? '0.92rem' : '1.02rem',
                   fontWeight: 700,
                   color: 'var(--color-text-main)',
                   lineHeight: 1.1,
                   letterSpacing: '0.04em',
-                  transition: 'font-size 0.3s ease',
-                  textShadow: isScrolled ? 'none' : '0 1px 10px rgba(255, 255, 255, 0.8)'
+                  transition: 'font-size 0.3s ease'
                 }}
               >
                 SANSKRIT VEDIC GURUKUL
               </div>
               <div
                 style={{
-                  fontSize: isScrolled ? '0.64rem' : '0.72rem',
+                  fontSize: isScrolled ? '0.62rem' : '0.68rem',
                   fontWeight: 700,
                   color: 'var(--color-primary)',
                   letterSpacing: '0.08em',
@@ -209,20 +207,16 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           <nav className="desktop-nav" aria-label="Main Navigation">
             <div
               style={{
-                position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.2rem',
+                gap: '0.15rem',
                 backgroundColor:
                   theme === 'parchment'
-                    ? 'rgba(197, 154, 78, 0.12)'
+                    ? 'rgba(197, 154, 78, 0.1)'
                     : 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                padding: '0.25rem 0.35rem',
+                padding: '0.22rem 0.35rem',
                 borderRadius: 'var(--radius-full)',
-                border: '1px solid rgba(197, 154, 78, 0.25)',
-                boxShadow: isScrolled ? 'none' : '0 4px 15px rgba(0, 0, 0, 0.05)'
+                border: '1px solid rgba(197, 154, 78, 0.22)'
               }}
             >
               {navItems.map((item) => {
@@ -234,20 +228,20 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                     onClick={() => handleNavClick(item.id)}
                     style={{
                       position: 'relative',
-                      padding: isScrolled ? '0.35rem 0.68rem' : '0.45rem 0.78rem',
-                      fontSize: '0.85rem',
+                      padding: isScrolled ? '0.35rem 0.65rem' : '0.42rem 0.75rem',
+                      fontSize: '0.84rem',
                       fontWeight: isActive ? 700 : 500,
                       borderRadius: 'var(--radius-full)',
                       color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
                       backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
                       border: isActive ? '1px solid rgba(197, 154, 78, 0.45)' : '1px solid transparent',
-                      boxShadow: isActive ? '0 2px 10px rgba(197, 154, 78, 0.25)' : 'none',
-                      transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                      boxShadow: isActive ? '0 2px 8px rgba(197, 154, 78, 0.2)' : 'none',
+                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.32rem'
+                      gap: '0.3rem'
                     }}
                     className={`nav-link-btn ${isActive ? 'nav-active-pill' : ''}`}
                   >
@@ -255,11 +249,11 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                     {isActive && (
                       <span
                         style={{
-                          width: '6px',
-                          height: '6px',
+                          width: '5px',
+                          height: '5px',
                           borderRadius: '50%',
                           backgroundColor: 'var(--color-primary)',
-                          boxShadow: '0 0 8px var(--color-primary)',
+                          boxShadow: '0 0 6px var(--color-primary)',
                           display: 'inline-block'
                         }}
                       />
@@ -282,9 +276,9 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 gap: '0.45rem',
                 backgroundColor:
                   theme === 'parchment'
-                    ? 'rgba(197, 154, 78, 0.12)'
-                    : 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(197, 154, 78, 0.35)',
+                    ? 'rgba(197, 154, 78, 0.1)'
+                    : 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(197, 154, 78, 0.3)',
                 borderRadius: 'var(--radius-full)',
                 padding: '0.38rem 0.65rem',
                 color: 'var(--color-text-main)',
@@ -297,7 +291,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               className="btn-search-trigger"
             >
               <Search size={15} color="var(--color-primary)" />
-              <span style={{ fontSize: '0.76rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
                 {language === 'hi' ? 'खोजें' : 'Search'}
               </span>
               <kbd
@@ -326,7 +320,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                   theme === 'parchment'
                     ? 'rgba(197, 154, 78, 0.12)'
                     : 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(197, 154, 78, 0.35)',
+                border: '1px solid rgba(197, 154, 78, 0.3)',
                 color: 'var(--color-text-main)',
                 display: 'flex',
                 alignItems: 'center',
@@ -354,9 +348,9 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 color: 'var(--color-text-main)',
                 backgroundColor:
                   theme === 'parchment'
-                    ? 'rgba(197, 154, 78, 0.12)'
+                    ? 'rgba(197, 154, 78, 0.1)'
                     : 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(197, 154, 78, 0.35)',
+                border: '1px solid rgba(197, 154, 78, 0.3)',
                 borderRadius: 'var(--radius-full)',
                 padding: '0.35rem 0.7rem',
                 cursor: 'pointer',

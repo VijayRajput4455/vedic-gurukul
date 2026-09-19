@@ -312,7 +312,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           style={{
             maxWidth: '680px',
             textAlign: 'left',
-            padding: 'var(--spacing-10) 0'
+            padding: 'clamp(5.5rem, 11vh, 7.5rem) 0 var(--spacing-8) 0'
           }}
         >
           {/* Main Sanskrit Gurukul Heading */}

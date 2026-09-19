@@ -68,7 +68,7 @@ const AppContent: React.FC = () => {
       <Header currentPage={currentPage} onNavigate={navigateTo} />
 
       {/* Main Dynamic View */}
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, paddingTop: currentPage === 'home' ? 0 : '86px' }}>
         {currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
         {currentPage === 'about' && <AboutPage onNavigate={navigateTo} />}
         {currentPage === 'philosophy' && <PhilosophyPage onNavigate={navigateTo} />}
