@@ -109,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       >
-        {/* 1. Left: Compact Sacred Lotus Emblem (Text Removed as requested) */}
+        {/* 1. Left: Compact Sacred Lotus Emblem (Text Removed) */}
         <div
           className="navbar-brand-emblem"
           onClick={() => handleNavClick('home')}
@@ -119,7 +119,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             alignItems: 'center',
             cursor: 'pointer',
             userSelect: 'none',
-            flexShrink: 0
+            flex: '0 0 auto'
           }}
           role="button"
           tabIndex={0}
@@ -159,8 +159,18 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           </div>
         </div>
 
-        {/* 2. Center: Dedicated Floating Navigation Links Pill (Clean & Minimal) */}
-        <nav className="desktop-nav" aria-label="Main Navigation" style={{ pointerEvents: 'auto' }}>
+        {/* 2. Center: Strictly Centered Floating Navigation Links Capsule (Absolute 50% Centering) */}
+        <nav
+          className="desktop-nav navbar-center-capsule-wrapper"
+          aria-label="Main Navigation"
+          style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            pointerEvents: 'auto',
+            zIndex: 10
+          }}
+        >
           <div
             className="navbar-center-capsule"
             style={{
@@ -240,6 +250,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             display: 'none',
             alignItems: 'center',
             gap: '0.5rem',
+            marginLeft: 'auto',
+            flex: '0 0 auto',
             backgroundColor:
               theme === 'parchment'
                 ? isScrolled
@@ -256,8 +268,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             boxShadow: isScrolled
               ? '0 12px 35px rgba(0, 0, 0, 0.22), 0 0 15px rgba(197, 154, 78, 0.2)'
               : '0 8px 28px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.1)',
-            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-            flexShrink: 0
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
           }}
         >
           {/* Search Button (Ctrl+K / ⌘K) */}
@@ -389,6 +400,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             display: 'flex',
             alignItems: 'center',
             gap: '0.35rem',
+            marginLeft: 'auto',
             backgroundColor:
               theme === 'parchment'
                 ? isScrolled
@@ -681,12 +693,12 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
       {/* Responsive and Animation Styles */}
       <style>{`
-        @media (min-width: 1080px) {
+        @media (min-width: 1200px) {
           .desktop-nav { display: block !important; }
           .desktop-cta { display: flex !important; }
           .mobile-toggle { display: none !important; }
         }
-        @media (max-width: 1079px) {
+        @media (max-width: 1199px) {
           .desktop-nav { display: none !important; }
           .desktop-cta { display: none !important; }
           .mobile-toggle { display: flex !important; }
