@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { PageId, NavigationItem } from '../../types';
 import { Menu, X, Heart, Moon, Sun, Search, Compass, BookOpen, GraduationCap, Calendar, Phone, HeartHandshake, Sparkles } from 'lucide-react';
 import { CommandPalette } from '../common/CommandPalette';
+import { useScrollSpy } from '../../utils/useScrollSpy';
 
 interface HeaderProps {
   currentPage: PageId;
@@ -17,12 +18,20 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
+  // Section IDs for ScrollSpy tracking
+  const sectionIds = ['home', 'about', 'education', 'philosophy', 'trust', 'gallery', 'events', 'admissions', 'contact'];
+  const activeSpySection = useScrollSpy(sectionIds, 90);
+
+  // Effective active section
+  const effectiveActive = currentPage === 'home' && activeSpySection ? activeSpySection : currentPage;
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 25);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -68,13 +77,22 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
   const handleNavClick = (pageId: PageId) => {
     onNavigate(pageId);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // If on homepage and target section exists in DOM, smooth scroll to it
+    const element = document.getElementById(pageId);
+    if (element) {
+      const yOffset = -85;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
     <>
       <header
-        className={`site-header-wrapper ${isScrolled ? 'header-scrolled' : 'header-top'}`}
+        className={`site-navbar-wrapper ${isScrolled ? 'is-scrolled' : 'is-at-top'}`}
         style={{
           position: 'sticky',
           top: isScrolled ? '10px' : '0px',
@@ -82,38 +100,40 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
-          padding: isScrolled ? '0 1rem' : '0',
+          padding: isScrolled ? '0 1.25rem' : '0',
           transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
           pointerEvents: 'none'
         }}
       >
         <div
-          className={`site-header-inner ${isScrolled ? 'pill-condensed' : 'full-bar'}`}
+          className={`site-navbar-inner ${isScrolled ? 'docked-glass-capsule' : 'transparent-spacious'}`}
           style={{
             width: '100%',
             maxWidth: isScrolled ? '1320px' : '100%',
+            /* At the Top: Transparent & Spacious, No Background Glass, No Bottom Border */
+            /* When Scrolled: Compact Docking, Heavy Frosted Glass, Elevated Shadow & Border */
             backgroundColor: isScrolled
               ? theme === 'parchment'
                 ? 'rgba(255, 252, 245, 0.88)'
                 : 'rgba(20, 14, 10, 0.88)'
-              : theme === 'parchment'
-                ? 'rgba(255, 252, 247, 0.96)'
-                : 'rgba(24, 16, 12, 0.96)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
+              : 'transparent',
+            backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+            WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
             borderRadius: isScrolled ? '9999px' : '0px',
             border: isScrolled
               ? '1.5px solid rgba(197, 154, 78, 0.45)'
-              : '1px solid var(--color-border)',
-            borderTop: isScrolled ? undefined : 'none',
+              : 'none',
+            borderBottom: isScrolled
+              ? '1.5px solid rgba(197, 154, 78, 0.45)'
+              : 'none',
             boxShadow: isScrolled
-              ? '0 12px 36px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(197, 154, 78, 0.15)'
-              : '0 2px 12px rgba(42, 30, 23, 0.05)',
-            padding: isScrolled ? '0.45rem 1.25rem' : '0.65rem 1.75rem',
+              ? '0 10px 30px rgba(0, 0, 0, 0.2), 0 0 15px rgba(197, 154, 78, 0.15)'
+              : 'none',
+            padding: isScrolled ? '0.55rem 1.4rem' : '1.15rem 2rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '0.75rem',
+            gap: '0.85rem',
             transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
             pointerEvents: 'auto'
           }}
@@ -124,7 +144,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.65rem',
+              gap: '0.7rem',
               cursor: 'pointer',
               userSelect: 'none',
               flexShrink: 0
@@ -136,21 +156,21 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             {/* Sacred Lotus Glow Badge */}
             <div
               style={{
-                width: isScrolled ? '34px' : '38px',
-                height: isScrolled ? '34px' : '38px',
+                width: isScrolled ? '36px' : '42px',
+                height: isScrolled ? '36px' : '42px',
                 borderRadius: '50%',
-                backgroundColor: 'rgba(197, 154, 78, 0.16)',
+                backgroundColor: 'rgba(197, 154, 78, 0.18)',
                 border: '1.5px solid var(--color-gold)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
                 color: 'var(--color-gold-dark)',
-                boxShadow: '0 0 10px rgba(197, 154, 78, 0.25)',
+                boxShadow: '0 0 12px rgba(197, 154, 78, 0.3)',
                 transition: 'all 0.3s ease'
               }}
             >
-              <svg viewBox="0 0 24 24" width={isScrolled ? '18' : '22'} height={isScrolled ? '18' : '22'} fill="currentColor">
+              <svg viewBox="0 0 24 24" width={isScrolled ? '20' : '24'} height={isScrolled ? '20' : '24'} fill="currentColor">
                 <path d="M12 3c-1.5 2.5-3 5-3 7.5 0 2.5 1.5 4.5 3 4.5s3-2 3-4.5C15 8 13.5 5.5 12 3zm-4.5 3c-.5 2-1 4.5 0 6.5 1 2 2.5 3 4.5 3.5-1.5-1-2.5-2.5-3-4.5-.5-2 0-4-1.5-5.5zm9 0c-1.5 1.5-1 3.5-1.5 5.5-.5 2-1.5 3.5-3 4.5 2-.5 3.5-1.5 4.5-3.5 1-2 .5-4.5 0-6.5zm-11 5c-.5 1.5-.5 3 .5 4.5 1.5 2 3.5 2.5 6 2.5-2-1-3.5-2-4.5-4-1-1.5-1.5-2.5-2-3zm13 0c-.5.5-1 1.5-2 3-1 2-2.5 3-4.5 4 2.5 0 4.5-.5 6-2.5 1-1.5 1-3 .5-4.5zM12 16.5c-3 0-5.5 1-7 2.5 2.5.5 5.5.5 7 .5s4.5 0 7-.5c-1.5-1.5-4-2.5-7-2.5z" />
               </svg>
             </div>
@@ -159,19 +179,20 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               <div
                 style={{
                   fontFamily: 'var(--font-heading-latin)',
-                  fontSize: isScrolled ? '0.92rem' : '1.02rem',
+                  fontSize: isScrolled ? '0.95rem' : '1.08rem',
                   fontWeight: 700,
                   color: 'var(--color-text-main)',
                   lineHeight: 1.1,
                   letterSpacing: '0.04em',
-                  transition: 'font-size 0.3s ease'
+                  transition: 'font-size 0.3s ease',
+                  textShadow: isScrolled ? 'none' : '0 1px 10px rgba(255, 255, 255, 0.8)'
                 }}
               >
                 SANSKRIT VEDIC GURUKUL
               </div>
               <div
                 style={{
-                  fontSize: isScrolled ? '0.62rem' : '0.68rem',
+                  fontSize: isScrolled ? '0.64rem' : '0.72rem',
                   fontWeight: 700,
                   color: 'var(--color-primary)',
                   letterSpacing: '0.08em',
@@ -184,52 +205,61 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             </div>
           </div>
 
-          {/* Center: Desktop Floating Pill Navigation Links */}
+          {/* Center: Desktop Floating Pill Navigation Links with Active ScrollSpy Indicator */}
           <nav className="desktop-nav" aria-label="Main Navigation">
             <div
               style={{
+                position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.2rem',
-                backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.08)' : 'rgba(255, 255, 255, 0.04)',
+                backgroundColor:
+                  theme === 'parchment'
+                    ? 'rgba(197, 154, 78, 0.12)'
+                    : 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
                 padding: '0.25rem 0.35rem',
                 borderRadius: 'var(--radius-full)',
-                border: '1px solid rgba(197, 154, 78, 0.2)'
+                border: '1px solid rgba(197, 154, 78, 0.25)',
+                boxShadow: isScrolled ? 'none' : '0 4px 15px rgba(0, 0, 0, 0.05)'
               }}
             >
               {navItems.map((item) => {
-                const isActive = currentPage === item.id;
+                const isActive = effectiveActive === item.id;
+
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
                     style={{
                       position: 'relative',
-                      padding: isScrolled ? '0.35rem 0.65rem' : '0.42rem 0.75rem',
-                      fontSize: '0.84rem',
+                      padding: isScrolled ? '0.35rem 0.68rem' : '0.45rem 0.78rem',
+                      fontSize: '0.85rem',
                       fontWeight: isActive ? 700 : 500,
                       borderRadius: 'var(--radius-full)',
                       color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
                       backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
                       border: isActive ? '1px solid rgba(197, 154, 78, 0.45)' : '1px solid transparent',
-                      boxShadow: isActive ? '0 2px 8px rgba(197, 154, 78, 0.2)' : 'none',
-                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      boxShadow: isActive ? '0 2px 10px rgba(197, 154, 78, 0.25)' : 'none',
+                      transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.3rem'
+                      gap: '0.32rem'
                     }}
-                    className="nav-link-btn"
+                    className={`nav-link-btn ${isActive ? 'nav-active-pill' : ''}`}
                   >
+                    {/* Active Glowing Indicator Dot */}
                     {isActive && (
                       <span
                         style={{
-                          width: '5px',
-                          height: '5px',
+                          width: '6px',
+                          height: '6px',
                           borderRadius: '50%',
                           backgroundColor: 'var(--color-primary)',
-                          boxShadow: '0 0 6px var(--color-primary)',
+                          boxShadow: '0 0 8px var(--color-primary)',
                           display: 'inline-block'
                         }}
                       />
@@ -241,17 +271,20 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             </div>
           </nav>
 
-          {/* Right Action Controls */}
+          {/* Right Action Controls: Search (Ctrl+K), Theme Switcher, Language Toggle & Support Trust CTA */}
           <div className="desktop-cta" style={{ display: 'none', alignItems: 'center', gap: '0.55rem', flexShrink: 0 }}>
-            {/* Global Command Palette / Search Button (Ctrl+K) */}
+            {/* Global Command Palette / Search Button (Ctrl+K / ⌘K) */}
             <button
               onClick={() => setCommandPaletteOpen(true)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.45rem',
-                backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(197, 154, 78, 0.3)',
+                backgroundColor:
+                  theme === 'parchment'
+                    ? 'rgba(197, 154, 78, 0.12)'
+                    : 'rgba(255, 255, 255, 0.06)',
+                border: '1px solid rgba(197, 154, 78, 0.35)',
                 borderRadius: 'var(--radius-full)',
                 padding: '0.38rem 0.65rem',
                 color: 'var(--color-text-main)',
@@ -264,7 +297,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               className="btn-search-trigger"
             >
               <Search size={15} color="var(--color-primary)" />
-              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+              <span style={{ fontSize: '0.76rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
                 {language === 'hi' ? 'खोजें' : 'Search'}
               </span>
               <kbd
@@ -289,8 +322,11 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 width: '36px',
                 height: '36px',
                 borderRadius: '50%',
-                backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.12)' : 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(197, 154, 78, 0.3)',
+                backgroundColor:
+                  theme === 'parchment'
+                    ? 'rgba(197, 154, 78, 0.12)'
+                    : 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(197, 154, 78, 0.35)',
                 color: 'var(--color-text-main)',
                 display: 'flex',
                 alignItems: 'center',
@@ -316,8 +352,11 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 fontSize: '0.8rem',
                 fontWeight: 600,
                 color: 'var(--color-text-main)',
-                backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.1)' : 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(197, 154, 78, 0.3)',
+                backgroundColor:
+                  theme === 'parchment'
+                    ? 'rgba(197, 154, 78, 0.12)'
+                    : 'rgba(255, 255, 255, 0.06)',
+                border: '1px solid rgba(197, 154, 78, 0.35)',
                 borderRadius: 'var(--radius-full)',
                 padding: '0.35rem 0.7rem',
                 cursor: 'pointer',
@@ -472,7 +511,10 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               width: '85%',
               maxWidth: '360px',
               height: '100%',
-              backgroundColor: theme === 'parchment' ? 'rgba(255, 252, 245, 0.95)' : 'rgba(22, 15, 11, 0.95)',
+              backgroundColor:
+                theme === 'parchment'
+                  ? 'rgba(255, 252, 245, 0.95)'
+                  : 'rgba(22, 15, 11, 0.95)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
               borderLeft: '1.5px solid var(--color-gold-border)',
@@ -567,7 +609,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             {/* Navigation Links */}
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: 1 }}>
               {navItems.map((item) => {
-                const isActive = currentPage === item.id;
+                const isActive = effectiveActive === item.id;
                 const ItemIcon = getNavIcon(item.id);
 
                 return (

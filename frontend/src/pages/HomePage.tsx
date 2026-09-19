@@ -21,7 +21,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
     <div className="homepage-wrapper">
       {/* 1. Cinematic Hero Section (Golden Horizon Vedic Gurukul) */}
-      <HeroSection onNavigate={onNavigate} />
+      <div id="home">
+        <HeroSection onNavigate={onNavigate} />
+      </div>
 
       {/* 2. 4-Pillar Quick Navigation Ribbon */}
       <HeroPillarsRibbon onNavigate={onNavigate} />
@@ -30,22 +32,31 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <VisionBanner onNavigate={onNavigate} />
 
       {/* 4. Heritage Introduction */}
-      <HeritageSection onNavigate={onNavigate} />
+      <div id="about">
+        <HeritageSection onNavigate={onNavigate} />
+      </div>
 
       {/* 5. Educational Philosophy & Dayanand Saraswati Principles */}
-      <PhilosophyTeaser onNavigate={onNavigate} />
+      <div id="philosophy">
+        <PhilosophyTeaser onNavigate={onNavigate} />
+      </div>
 
       {/* 6. Academic Programs Highlights */}
-      <ProgramsTeaser onNavigate={onNavigate} />
+      <div id="education">
+        <ProgramsTeaser onNavigate={onNavigate} />
+      </div>
 
       {/* 7. Vedic Gurukul Trust & Seva Preview */}
-      <TrustPreview onNavigate={onNavigate} />
+      <div id="trust">
+        <TrustPreview onNavigate={onNavigate} />
+      </div>
 
       {/* 8. Daily Shloka of the Day & Audio Resonator */}
       <DailyVedicVichar />
 
       {/* 9. Virtual Tour & Campus Callout Banner */}
       <section
+        id="gallery"
         style={{
           padding: 'var(--spacing-16) 0',
           background: 'linear-gradient(135deg, var(--color-bg-dark-accent), #36261B)',

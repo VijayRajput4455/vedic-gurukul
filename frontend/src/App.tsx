@@ -7,6 +7,7 @@ import { DataProvider } from './context/DataContext';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { ScrollProgress } from './components/common/ScrollProgress';
+import { ScrollControls } from './components/common/ScrollControls';
 
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -82,6 +83,9 @@ const AppContent: React.FC = () => {
 
       {/* Comprehensive Institutional Footer */}
       <Footer onNavigate={navigateTo} />
+
+      {/* Floating Bottom-Right Quick-Navigation Capsule (ScrollControls) */}
+      <ScrollControls />
     </div>
   );
 };
