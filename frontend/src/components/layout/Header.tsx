@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { PageId, NavigationItem } from '../../types';
-import { Menu, X, Heart } from 'lucide-react';
+import { Menu, X, Heart, Moon, Sun } from 'lucide-react';
 
 interface HeaderProps {
   currentPage: PageId;
@@ -10,6 +11,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
   const { language, toggleLanguage } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems: NavigationItem[] = [
@@ -35,26 +37,24 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
       className="site-header"
       style={{
         position: 'sticky',
-        top: '12px',
+        top: 0,
         zIndex: 1000,
-        margin: '0 auto',
-        padding: '0 1rem',
-        maxWidth: '1540px'
+        width: '100%',
+        backgroundColor: 'var(--color-bg-card)',
+        borderBottom: '1.5px solid var(--color-border)',
+        boxShadow: '0 2px 12px rgba(42, 30, 23, 0.06)',
+        transition: 'background-color var(--transition-base), border-color var(--transition-base)'
       }}
     >
       <div
+        className="container"
         style={{
-          backgroundColor: 'rgba(253, 250, 244, 0.95)',
-          border: '1.5px solid rgba(197, 154, 78, 0.45)',
-          borderRadius: 'var(--radius-full)',
-          boxShadow: '0 4px 20px rgba(42, 30, 23, 0.08)',
-          backdropFilter: 'blur(12px)',
-          padding: '0.45rem 1.25rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '1rem',
-          transition: 'all var(--transition-base)'
+          paddingTop: '0.65rem',
+          paddingBottom: '0.65rem',
+          gap: '1rem'
         }}
       >
         {/* Emblem & Brand Logo */}
@@ -97,12 +97,12 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 fontFamily: 'var(--font-heading-latin)',
                 fontSize: '1rem',
                 fontWeight: 700,
-                color: '#2A1E17',
+                color: 'var(--color-text-main)',
                 lineHeight: 1.1,
                 letterSpacing: '0.04em'
               }}
             >
-              {language === 'hi' ? 'SANSKRIT VEDIC GURUKUL' : 'SANSKRIT VEDIC GURUKUL'}
+              SANSKRIT VEDIC GURUKUL
             </div>
             <div
               style={{
@@ -128,13 +128,13 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                   <button
                     onClick={() => handleNavClick(item.id)}
                     style={{
-                      padding: '0.35rem 0.65rem',
-                      fontSize: '0.84rem',
+                      padding: '0.4rem 0.68rem',
+                      fontSize: '0.85rem',
                       fontWeight: isActive ? 700 : 500,
                       borderRadius: 'var(--radius-full)',
-                      color: isActive ? 'var(--color-primary-dark)' : '#3F3228',
-                      backgroundColor: isActive ? 'rgba(197, 154, 78, 0.16)' : 'transparent',
-                      border: isActive ? '1px solid rgba(197, 154, 78, 0.35)' : '1px solid transparent',
+                      color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
+                      backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
+                      border: isActive ? '1px solid rgba(197, 154, 78, 0.4)' : '1px solid transparent',
                       transition: 'all var(--transition-fast)',
                       cursor: 'pointer'
                     }}
@@ -147,26 +147,53 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           </ul>
         </nav>
 
-        {/* Right Controls: Language Switcher & "Support Our Trust" Button */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '0.75rem' }} className="desktop-cta">
-          {/* Bilingual Toggle */}
+        {/* Right Controls: Theme Toggle, Language Switcher & "Support Our Trust" Button */}
+        <div style={{ display: 'none', alignItems: 'center', gap: '0.65rem' }} className="desktop-cta">
+          {/* Light / Dark Mode Icon Toggle */}
+          <button
+            onClick={toggleTheme}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--color-bg-secondary)',
+              border: '1px solid var(--color-border)',
+              color: 'var(--color-text-main)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all var(--transition-fast)'
+            }}
+            title={theme === 'parchment' ? 'Switch to Sandalwood Dark theme' : 'Switch to Parchment Light theme'}
+            aria-label="Toggle Light/Dark Theme"
+          >
+            {theme === 'parchment' ? (
+              <Moon size={17} color="var(--color-text-secondary)" />
+            ) : (
+              <Sun size={17} color="var(--color-gold)" />
+            )}
+          </button>
+
+          {/* Bilingual Toggle (EN | हिंदी) */}
           <button
             onClick={toggleLanguage}
             style={{
               fontSize: '0.8rem',
               fontWeight: 600,
-              color: '#3F3228',
-              backgroundColor: 'rgba(197, 154, 78, 0.1)',
-              border: '1px solid rgba(197, 154, 78, 0.3)',
+              color: 'var(--color-text-main)',
+              backgroundColor: 'var(--color-bg-secondary)',
+              border: '1px solid var(--color-border)',
               borderRadius: 'var(--radius-full)',
               padding: '0.35rem 0.75rem',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              transition: 'all var(--transition-fast)'
             }}
             title="Toggle Language (EN / हिंदी)"
           >
-            <span style={{ color: language === 'en' ? 'var(--color-primary)' : '#857568' }}>EN</span>
+            <span style={{ color: language === 'en' ? 'var(--color-primary)' : 'var(--color-text-muted)' }}>EN</span>
             <span style={{ margin: '0 4px', color: 'var(--color-gold)' }}>|</span>
-            <span style={{ color: language === 'hi' ? 'var(--color-primary)' : '#857568' }}>हिंदी</span>
+            <span style={{ color: language === 'hi' ? 'var(--color-primary)' : 'var(--color-text-muted)' }}>हिंदी</span>
           </button>
 
           {/* Support Our Trust Pill Button */}
@@ -178,7 +205,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               border: 'none',
               borderRadius: 'var(--radius-full)',
               padding: '0.5rem 1.15rem',
-              fontSize: '0.84rem',
+              fontSize: '0.85rem',
               fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
@@ -194,8 +221,29 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           </button>
         </div>
 
-        {/* Mobile Hamburger Toggle Button */}
+        {/* Mobile Controls: Theme Icon + Language + Hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="mobile-toggle">
+          {/* Mobile Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--color-bg-secondary)',
+              border: '1px solid var(--color-border)',
+              color: 'var(--color-text-main)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'parchment' ? <Moon size={15} /> : <Sun size={15} color="var(--color-gold)" />}
+          </button>
+
+          {/* Mobile Language Toggle */}
           <button
             onClick={toggleLanguage}
             style={{
@@ -204,21 +252,23 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               color: 'var(--color-primary)',
               padding: '0.3rem 0.6rem',
               borderRadius: 'var(--radius-full)',
-              border: '1px solid var(--color-gold-border)'
+              border: '1px solid var(--color-gold-border)',
+              backgroundColor: 'var(--color-bg-secondary)'
             }}
           >
             {language === 'hi' ? 'EN' : 'हिन्दी'}
           </button>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             style={{
-              width: '36px',
-              height: '36px',
+              width: '34px',
+              height: '34px',
               borderRadius: 'var(--radius-full)',
               border: '1px solid var(--color-border)',
-              backgroundColor: 'rgba(253, 250, 244, 0.95)',
-              color: '#2A1E17',
+              backgroundColor: 'var(--color-bg-secondary)',
+              color: 'var(--color-text-main)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -236,13 +286,10 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
       {mobileMenuOpen && (
         <div
           style={{
-            backgroundColor: 'rgba(253, 250, 244, 0.98)',
-            border: '1.5px solid var(--color-gold-border)',
-            borderRadius: 'var(--radius-xl)',
+            backgroundColor: 'var(--color-bg-card)',
+            borderTop: '1px solid var(--color-border)',
             padding: '1.25rem',
-            marginTop: '0.5rem',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
-            backdropFilter: 'blur(14px)'
+            boxShadow: 'var(--shadow-lg)'
           }}
           className="animate-fade-in-up"
         >
@@ -257,10 +304,10 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                       width: '100%',
                       textAlign: 'left',
                       padding: '0.65rem 1rem',
-                      borderRadius: 'var(--radius-lg)',
+                      borderRadius: 'var(--radius-md)',
                       fontWeight: isActive ? 700 : 500,
-                      backgroundColor: isActive ? 'rgba(197, 154, 78, 0.18)' : 'transparent',
-                      color: isActive ? 'var(--color-primary-dark)' : '#2A1E17',
+                      backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
+                      color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
                       border: isActive ? '1px solid rgba(197, 154, 78, 0.4)' : '1px solid transparent',
                       display: 'flex',
                       alignItems: 'center',

@@ -4,7 +4,6 @@ import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { DataProvider } from './context/DataContext';
 
-import { TopBar } from './components/layout/TopBar';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 
@@ -60,10 +59,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Top Bar with Announcements, Chime & Controls */}
-      <TopBar onNavigate={navigateTo} />
-
-      {/* Main Header with Logo, Navigation & Quick Apply */}
+      {/* Main Header with Logo, Navigation & Theme / Language Controls */}
       <Header currentPage={currentPage} onNavigate={navigateTo} />
 
       {/* Main Dynamic View */}
