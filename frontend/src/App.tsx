@@ -8,6 +8,7 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { ScrollProgress } from './components/common/ScrollProgress';
 import { ScrollControls } from './components/common/ScrollControls';
+import { CustomCursor } from './components/common/CustomCursor';
 
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -61,6 +62,9 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* 3-Layer Hardware-Accelerated Cybernetic Custom Cursor */}
+      <CustomCursor />
+
       {/* 3.5px Top Scroll Progress Bar */}
       <ScrollProgress />
 

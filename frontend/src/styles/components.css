@@ -145,34 +145,50 @@
   border: 1px solid rgba(168, 75, 47, 0.3);
 }
 
-/* Vedic Cards & Boxes */
-.vedic-card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border);
+/* ==========================================================================
+   Universal Glassmorphism & Tactile Card System
+   ========================================================================== */
+.glass-card,
+.vedic-card,
+.card {
+  background: var(--glass-bg, rgba(255, 253, 249, 0.75));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border, rgba(197, 154, 78, 0.22));
   border-radius: var(--radius-lg);
   padding: var(--spacing-6);
   box-shadow: var(--shadow-subtle);
-  transition: all var(--transition-base);
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms ease,
+              background-color 300ms ease;
   position: relative;
   overflow: hidden;
+  will-change: transform, box-shadow;
 }
 
-.vedic-card:hover {
-  background-color: var(--color-bg-card-hover);
-  border-color: var(--color-gold-border);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+.glass-card:hover,
+.vedic-card:hover,
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-gold);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.35), 0 0 20px -4px var(--accent-glow);
 }
 
 /* Traditional Ornate Border Card with Corner Mandalas */
 .vedic-card-ornate {
-  background-color: var(--color-bg-card);
+  background: var(--glass-bg, rgba(255, 253, 249, 0.75));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-border-ornate);
   border-radius: var(--radius-lg);
   padding: var(--spacing-8);
   position: relative;
   box-shadow: var(--shadow-subtle);
-  transition: all var(--transition-base);
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms ease;
+  will-change: transform, box-shadow;
 }
 
 .vedic-card-ornate::before {
@@ -188,8 +204,19 @@
 }
 
 .vedic-card-ornate:hover {
+  transform: translateY(-4px);
   border-color: var(--color-gold);
-  box-shadow: var(--shadow-ornate);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.35), 0 0 24px -2px var(--accent-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-card:hover,
+  .vedic-card:hover,
+  .vedic-card-ornate:hover,
+  .card:hover {
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* Section Header Component */
