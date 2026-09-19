@@ -112,7 +112,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '740px',
+            maxWidth: '1080px',
             margin: '0 auto'
           }}>
             {language === 'hi'
@@ -322,7 +322,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
           <div
             style={{
               position: 'relative',
-              maxWidth: '960px',
+              maxWidth: '1240px',
               width: '94%',
               maxHeight: '90vh',
               display: 'flex',

@@ -40,7 +40,7 @@ export const PhilosophyTeaser: React.FC<PhilosophyTeaserProps> = ({ onNavigate }
           border: '1.5px solid var(--color-gold-border)',
           borderRadius: 'var(--radius-xl)',
           padding: 'var(--spacing-8)',
-          maxWidth: '860px',
+          maxWidth: '1200px',
           margin: '0 auto var(--spacing-12) auto',
           position: 'relative',
           boxShadow: 'var(--shadow-subtle)',

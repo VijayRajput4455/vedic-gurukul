@@ -112,11 +112,11 @@
   --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Max Widths */
-  --container-sm: 640px;
-  --container-md: 768px;
-  --container-lg: 1024px;
-  --container-xl: 1240px;
-  --container-2xl: 1400px;
+  --container-sm: 680px;
+  --container-md: 840px;
+  --container-lg: 1160px;
+  --container-xl: 1540px;
+  --container-2xl: 1760px;
 }
 
 /* ==========================================================================

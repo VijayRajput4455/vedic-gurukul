@@ -55,7 +55,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           backgroundSize: '28px 28px'
         }} />
 
-        <div className="container" style={{ position: 'relative', zIndex: 5, textAlign: 'center', maxWidth: '820px' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 5, textAlign: 'center', maxWidth: '1200px' }}>
           <div className="vedic-badge badge-gold" style={{ marginBottom: '1rem' }}>
             <Compass size={14} />
             <span>{language === 'hi' ? 'परिसर दर्शन एवं प्रवेश' : 'Campus Visit & Admissions'}</span>

@@ -72,7 +72,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '740px',
+            maxWidth: '1080px',
             margin: '0 auto'
           }}>
             {language === 'hi'

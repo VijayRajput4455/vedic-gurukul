@@ -38,7 +38,7 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '740px',
+            maxWidth: '1080px',
             margin: '0 auto'
           }}>
             {language === 'hi'
@@ -186,7 +186,7 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '960px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '1400px', margin: '0 auto' }}>
             {philosophyPillars.map((pillar: PhilosophyPillar) => (
               <div key={pillar.id} className="vedic-card" style={{
                 borderLeft: '4px solid var(--color-primary)',
@@ -260,7 +260,7 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
             </div>
           </div>
 
-          <div className="grid-3" style={{ maxWidth: '1060px', margin: '0 auto' }}>
+          <div className="grid-3" style={{ maxWidth: '1440px', margin: '0 auto' }}>
             <div className="vedic-card" style={{ textAlign: 'center' }}>
               <div style={{
                 width: '52px',

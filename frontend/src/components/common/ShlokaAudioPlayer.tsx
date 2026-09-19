@@ -38,7 +38,7 @@ export const ShlokaAudioPlayer: React.FC = () => {
 
   return (
     <div className="vedic-card-ornate" style={{
-      maxWidth: '840px',
+      maxWidth: '1240px',
       margin: '0 auto',
       position: 'relative'
     }}>
@@ -96,13 +96,13 @@ export const ShlokaAudioPlayer: React.FC = () => {
           fontSize: 'clamp(1.15rem, 2.5vw, 1.45rem)',
           lineHeight: 1.8,
           color: 'var(--color-primary)',
-          maxWidth: '720px',
+          maxWidth: '1080px',
           margin: '0 auto 1rem auto'
         }}>
           {currentShloka.sanskritVerse}
         </p>
 
-        <p className="shloka-transliteration" style={{ maxWidth: '680px', margin: '0 auto' }}>
+        <p className="shloka-transliteration" style={{ maxWidth: '980px', margin: '0 auto' }}>
           {currentShloka.transliteration}
         </p>
       </div>

@@ -52,7 +52,7 @@ export const EducationPage: React.FC<EducationPageProps> = ({ onNavigate }) => {
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '760px',
+            maxWidth: '1100px',
             margin: '0 auto'
           }}>
             {language === 'hi'

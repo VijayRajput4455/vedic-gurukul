@@ -41,7 +41,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
         {/* Intro text */}
         <p style={{
           textAlign: 'center',
-          maxWidth: '760px',
+          maxWidth: '1100px',
           margin: '0 auto var(--spacing-10) auto',
           fontSize: 'var(--text-base)',
           color: 'var(--color-text-secondary)',
@@ -127,7 +127,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
           border: '1px solid rgba(59, 91, 67, 0.3)',
           borderRadius: 'var(--radius-lg)',
           padding: '1rem 1.5rem',
-          maxWidth: '840px',
+          maxWidth: '1100px',
           margin: '0 auto var(--spacing-8) auto',
           display: 'flex',
           alignItems: 'center',

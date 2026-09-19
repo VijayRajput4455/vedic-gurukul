@@ -144,7 +144,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate }) =>
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '740px',
+            maxWidth: '1080px',
             margin: '0 auto'
           }}>
             {language === 'hi'
@@ -197,7 +197,7 @@ export const AdmissionsPage: React.FC<AdmissionsPageProps> = ({ onNavigate }) =>
 
       {/* Main Interactive Form Wizard */}
       <section className="section-pad" style={{ backgroundColor: 'var(--color-bg-main)' }}>
-        <div className="container" style={{ maxWidth: '820px' }}>
+        <div className="container" style={{ maxWidth: '1100px' }}>
           
           <div className="vedic-card-ornate" style={{ padding: 'var(--spacing-8)' }}>
             

@@ -103,7 +103,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '740px',
+            maxWidth: '1080px',
             margin: '0 auto'
           }}>
             {language === 'hi'
@@ -130,7 +130,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-10)', maxWidth: '1020px', margin: '0 auto var(--spacing-16) auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-10)', maxWidth: '1440px', margin: '0 auto var(--spacing-16) auto' }}>
             {trustInitiativesData.map((init: TrustInitiative, index: number) => (
               <div key={init.id} className="vedic-card-ornate" style={{
                 display: 'grid',
@@ -194,7 +194,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
             border: '2px solid var(--color-gold-border)',
             borderRadius: 'var(--radius-xl)',
             padding: 'var(--spacing-10)',
-            maxWidth: '860px',
+            maxWidth: '1240px',
             margin: '0 auto var(--spacing-16) auto',
             boxShadow: 'var(--shadow-lg)'
           }}>
@@ -211,7 +211,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
               }}>
                 {language === 'hi' ? 'विद्यादान एवं सेवा सहयोग पोर्टल' : 'Online Seva Contribution & 80G Receipt Portal'}
               </h3>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', maxWidth: '900px', margin: '0 auto' }}>
                 {language === 'hi'
                   ? 'आपका प्रत्येक सहयोग सीधे बालकों के पोषण, शिक्षा और वैदिक ग्रन्थों के संरक्षण में प्रयुक्त होता है।'
                   : 'Every contribution directly funds child education, nutrition, and Sanskrit manuscript preservation.'}
@@ -410,7 +410,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
 
           {/* 4. Statutory & Bank Account Information Placeholders */}
           <div className="vedic-card" style={{
-            maxWidth: '860px',
+            maxWidth: '1240px',
             margin: '0 auto',
             backgroundColor: 'var(--color-bg-card)',
             border: '1px solid var(--color-border)'

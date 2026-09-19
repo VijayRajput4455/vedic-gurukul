@@ -55,9 +55,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         </div>
 
         {/* Main Hero Headings */}
-        <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto var(--spacing-8) auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '1240px', margin: '0 auto var(--spacing-8) auto' }}>
           <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.4rem)',
+            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
             fontFamily: 'var(--font-heading-devanagari)',
             color: 'var(--color-text-main)',
             lineHeight: 1.2,
@@ -68,10 +68,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           </h1>
 
           <p style={{
-            fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
             color: 'var(--color-text-secondary)',
             lineHeight: 1.7,
-            maxWidth: '780px',
+            maxWidth: '1040px',
             margin: '0 auto var(--spacing-8) auto',
             fontFamily: 'var(--font-body-latin)'
           }}>
@@ -109,7 +109,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         </div>
 
         {/* 3 Core Highlights Ribbon */}
-        <div className="grid-3" style={{ maxWidth: '1060px', margin: '0 auto' }}>
+        <div className="grid-3" style={{ maxWidth: '1440px', margin: '0 auto' }}>
           
           <div className="vedic-card" style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
             <div style={{

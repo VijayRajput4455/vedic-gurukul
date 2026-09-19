@@ -81,7 +81,7 @@ END:VCALENDAR`;
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '740px',
+            maxWidth: '1080px',
             margin: '0 auto'
           }}>
             {language === 'hi'
@@ -93,7 +93,7 @@ END:VCALENDAR`;
 
       {/* 2. Official Notice Board Ticker & List */}
       <section className="section-pad-sm" style={{ backgroundColor: 'var(--color-bg-main)', borderBottom: '1px solid var(--color-border)' }}>
-        <div className="container" style={{ maxWidth: '960px' }}>
+        <div className="container" style={{ maxWidth: '1400px' }}>
           <div className="section-header" style={{ marginBottom: 'var(--spacing-6)' }}>
             <div className="section-tag">
               <span className="vedic-badge badge-gold">
@@ -165,7 +165,7 @@ END:VCALENDAR`;
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-8)', maxWidth: '960px', margin: '0 auto var(--spacing-16) auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-8)', maxWidth: '1400px', margin: '0 auto var(--spacing-16) auto' }}>
             {upcomingEvents.map((evt: EventItem) => (
               <div key={evt.id} className="vedic-card-ornate" style={{
                 display: 'grid',
@@ -262,7 +262,7 @@ END:VCALENDAR`;
           </div>
 
           {/* 4. Past Events Archive */}
-          <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <h3 style={{
               fontFamily: 'var(--font-heading-devanagari)',
               fontSize: '1.3rem',

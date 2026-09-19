@@ -43,7 +43,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <p style={{
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
-            maxWidth: '720px',
+            maxWidth: '1080px',
             margin: '0 auto'
           }}>
             {language === 'hi'
@@ -152,7 +152,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          <div className="vedic-card-ornate" style={{ maxWidth: '960px', margin: '0 auto var(--spacing-8) auto' }}>
+          <div className="vedic-card-ornate" style={{ maxWidth: '1400px', margin: '0 auto var(--spacing-8) auto' }}>
             <p style={{ fontSize: 'var(--text-base)', lineHeight: 1.8, color: 'var(--color-text-main)', marginBottom: '1.25rem' }}>
               {language === 'hi'
                 ? 'हमारा गुरुकुल महर्षि दयानन्द सरस्वती द्वारा सत्यार्थ प्रकाश एवं संस्कार विधि में प्रतिपादित शैक्षणिक नियमों को अपने मूल आधार के रूप में स्वीकार करता है। महर्षि दयानन्द का स्पष्ट मत था कि शिक्षा का उद्देश्य केवल आजीविका कमाना नहीं, अपितु व्यक्ति का आत्मिक, बौद्धिक एवं शारीरिक विकास कर उसे एक न्यायप्रिय, सत्यनिष्ठ एवं परोपकारी मनुष्य बनाना है।'
@@ -228,7 +228,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ maxWidth: '1360px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {dailyRoutineSchedule.map((item, idx) => (
               <div key={idx} style={{
                 display: 'flex',
@@ -262,7 +262,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', margin: 0, maxWidth: '400px' }}>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', margin: 0, maxWidth: '600px' }}>
                   {item.descEn}
                 </p>
               </div>
@@ -345,7 +345,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
       {/* 5. FAQs Section */}
       <section className="section-pad" style={{ backgroundColor: 'var(--color-bg-main)' }}>
-        <div className="container" style={{ maxWidth: '840px' }}>
+        <div className="container" style={{ maxWidth: '1240px' }}>
           <div className="section-header">
             <div className="section-tag">
               <span className="vedic-badge badge-gold">
