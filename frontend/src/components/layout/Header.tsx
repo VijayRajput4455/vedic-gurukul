@@ -91,28 +91,155 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
   return (
     <>
-      {/* Fixed Floating Glassmorphic Pill Capsule Navigation Bar */}
+      {/* Fixed Floating Header Top Bar */}
       <header
         className="site-navbar-fixed-container"
         style={{
           position: 'fixed',
-          top: '12px',
+          top: '14px',
           left: 0,
           right: 0,
           zIndex: 1000,
           width: '100%',
           display: 'flex',
-          justifyContent: 'center',
-          padding: '0 clamp(0.75rem, 2vw, 1.5rem)',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 clamp(1rem, 3vw, 2.5rem)',
           pointerEvents: 'none',
           transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       >
+        {/* 1. Left: Compact Sacred Lotus Emblem (Text Removed as requested) */}
         <div
-          className={`site-navbar-floating-pill ${isScrolled ? 'is-scrolled' : 'is-top'}`}
+          className="navbar-brand-emblem"
+          onClick={() => handleNavClick('home')}
           style={{
-            width: '100%',
-            maxWidth: '1360px',
+            pointerEvents: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            userSelect: 'none',
+            flexShrink: 0
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Sanskrit Vedic Gurukul Home"
+        >
+          <div
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '50%',
+              backgroundColor:
+                theme === 'parchment'
+                  ? isScrolled
+                    ? 'rgba(255, 252, 245, 0.94)'
+                    : 'rgba(255, 252, 247, 0.88)'
+                  : isScrolled
+                    ? 'rgba(20, 14, 10, 0.94)'
+                    : 'rgba(22, 15, 11, 0.88)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1.5px solid var(--color-gold)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--color-gold-dark)',
+              boxShadow: isScrolled
+                ? '0 10px 28px rgba(0, 0, 0, 0.2), 0 0 12px rgba(197, 154, 78, 0.25)'
+                : '0 6px 20px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.2)',
+              transition: 'all 0.3s ease'
+            }}
+            title="Sanskrit Vedic Gurukul Home"
+            className="emblem-badge-btn"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12 3c-1.5 2.5-3 5-3 7.5 0 2.5 1.5 4.5 3 4.5s3-2 3-4.5C15 8 13.5 5.5 12 3zm-4.5 3c-.5 2-1 4.5 0 6.5 1 2 2.5 3 4.5 3.5-1.5-1-2.5-2.5-3-4.5-.5-2 0-4-1.5-5.5zm9 0c-1.5 1.5-1 3.5-1.5 5.5-.5 2-1.5 3.5-3 4.5 2-.5 3.5-1.5 4.5-3.5 1-2 .5-4.5 0-6.5zm-11 5c-.5 1.5-.5 3 .5 4.5 1.5 2 3.5 2.5 6 2.5-2-1-3.5-2-4.5-4-1-1.5-1.5-2.5-2-3zm13 0c-.5.5-1 1.5-2 3-1 2-2.5 3-4.5 4 2.5 0 4.5-.5 6-2.5 1-1.5 1-3 .5-4.5zM12 16.5c-3 0-5.5 1-7 2.5 2.5.5 5.5.5 7 .5s4.5 0 7-.5c-1.5-1.5-4-2.5-7-2.5z" />
+            </svg>
+          </div>
+        </div>
+
+        {/* 2. Center: Dedicated Floating Navigation Links Pill (Clean & Minimal) */}
+        <nav className="desktop-nav" aria-label="Main Navigation" style={{ pointerEvents: 'auto' }}>
+          <div
+            className="navbar-center-capsule"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.18rem',
+              backgroundColor:
+                theme === 'parchment'
+                  ? isScrolled
+                    ? 'rgba(255, 252, 245, 0.94)'
+                    : 'rgba(255, 252, 247, 0.88)'
+                  : isScrolled
+                    ? 'rgba(20, 14, 10, 0.94)'
+                    : 'rgba(22, 15, 11, 0.88)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              padding: '0.35rem 0.5rem',
+              borderRadius: '9999px',
+              border: '1.5px solid rgba(197, 154, 78, 0.42)',
+              boxShadow: isScrolled
+                ? '0 12px 35px rgba(0, 0, 0, 0.22), 0 0 15px rgba(197, 154, 78, 0.2)'
+                : '0 8px 28px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.1)',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {navItems.map((item) => {
+              const isActive = effectiveActive === item.id;
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  style={{
+                    position: 'relative',
+                    padding: '0.42rem 0.78rem',
+                    fontSize: '0.85rem',
+                    fontWeight: isActive ? 700 : 500,
+                    borderRadius: 'var(--radius-full)',
+                    color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
+                    backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
+                    border: isActive ? '1px solid rgba(197, 154, 78, 0.45)' : '1px solid transparent',
+                    boxShadow: isActive ? '0 2px 8px rgba(197, 154, 78, 0.2)' : 'none',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem'
+                  }}
+                  className={`nav-link-btn ${isActive ? 'nav-active-pill' : ''}`}
+                >
+                  {/* Active Glowing Indicator Dot */}
+                  {isActive && (
+                    <span
+                      style={{
+                        width: '5px',
+                        height: '5px',
+                        borderRadius: '50%',
+                        backgroundColor: 'var(--color-primary)',
+                        boxShadow: '0 0 6px var(--color-primary)',
+                        display: 'inline-block'
+                      }}
+                    />
+                  )}
+                  <span>{language === 'hi' ? item.labelHi : item.labelEn}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+
+        {/* 3. Right Side: Action Controls Floating Dock OUTSIDE the Navigation Bar */}
+        <div
+          className="desktop-cta navbar-right-dock"
+          style={{
+            pointerEvents: 'auto',
+            display: 'none',
+            alignItems: 'center',
+            gap: '0.5rem',
             backgroundColor:
               theme === 'parchment'
                 ? isScrolled
@@ -123,360 +250,238 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                   : 'rgba(22, 15, 11, 0.88)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
+            padding: '0.35rem 0.5rem',
             borderRadius: '9999px',
             border: '1.5px solid rgba(197, 154, 78, 0.42)',
             boxShadow: isScrolled
               ? '0 12px 35px rgba(0, 0, 0, 0.22), 0 0 15px rgba(197, 154, 78, 0.2)'
-              : '0 6px 25px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.1)',
-            padding: isScrolled ? '0.45rem 1.25rem' : '0.55rem 1.45rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '0.75rem',
-            pointerEvents: 'auto',
-            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+              : '0 8px 28px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.1)',
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            flexShrink: 0
           }}
         >
-          {/* Left: Sacred Lotus Emblem & Institution Branding */}
-          <div
-            onClick={() => handleNavClick('home')}
+          {/* Search Button (Ctrl+K / ⌘K) */}
+          <button
+            onClick={() => setCommandPaletteOpen(true)}
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(197, 154, 78, 0.3)',
+              borderRadius: 'var(--radius-full)',
+              padding: '0.38rem 0.65rem',
+              color: 'var(--color-text-main)',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              fontSize: '0.8rem'
+            }}
+            title="Search Gurukul Pages, Courses & Services (Ctrl + K)"
+            aria-label="Open Command Palette Search"
+            className="btn-search-trigger"
+          >
+            <Search size={15} color="var(--color-primary)" />
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
+              {language === 'hi' ? 'खोजें' : 'Search'}
+            </span>
+            <kbd
+              style={{
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                backgroundColor: theme === 'parchment' ? '#FFFFFF' : '#2A1E17',
+                border: '1px solid var(--color-border)',
+                borderRadius: '4px',
+                padding: '1px 5px',
+                color: 'var(--color-gold-dark)'
+              }}
+            >
+              ⌘K
+            </kbd>
+          </button>
+
+          {/* Theme Mode Switcher (Moon / Sun) */}
+          <button
+            onClick={toggleTheme}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.12)' : 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(197, 154, 78, 0.3)',
+              color: 'var(--color-text-main)',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.65rem',
+              justifyContent: 'center',
               cursor: 'pointer',
-              userSelect: 'none',
-              flexShrink: 0
+              transition: 'all 0.25s ease'
             }}
-            role="button"
-            tabIndex={0}
-            aria-label="Sanskrit Vedic Gurukul Home"
+            title={theme === 'parchment' ? 'सांध्य डार्क मोड सक्रिय करें (Sandalwood Dark)' : 'स्वर्ण पार्चमेंट लाइट मोड सक्रिय करें (Parchment Light)'}
+            aria-label="Toggle Light / Dark Mode"
+            className="btn-theme-toggle"
           >
-            {/* Sacred Lotus Glow Badge */}
-            <div
-              style={{
-                width: isScrolled ? '34px' : '38px',
-                height: isScrolled ? '34px' : '38px',
-                borderRadius: '50%',
-                backgroundColor: 'rgba(197, 154, 78, 0.18)',
-                border: '1.5px solid var(--color-gold)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-                color: 'var(--color-gold-dark)',
-                boxShadow: '0 0 10px rgba(197, 154, 78, 0.25)',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <svg viewBox="0 0 24 24" width={isScrolled ? '18' : '22'} height={isScrolled ? '18' : '22'} fill="currentColor">
-                <path d="M12 3c-1.5 2.5-3 5-3 7.5 0 2.5 1.5 4.5 3 4.5s3-2 3-4.5C15 8 13.5 5.5 12 3zm-4.5 3c-.5 2-1 4.5 0 6.5 1 2 2.5 3 4.5 3.5-1.5-1-2.5-2.5-3-4.5-.5-2 0-4-1.5-5.5zm9 0c-1.5 1.5-1 3.5-1.5 5.5-.5 2-1.5 3.5-3 4.5 2-.5 3.5-1.5 4.5-3.5 1-2 .5-4.5 0-6.5zm-11 5c-.5 1.5-.5 3 .5 4.5 1.5 2 3.5 2.5 6 2.5-2-1-3.5-2-4.5-4-1-1.5-1.5-2.5-2-3zm13 0c-.5.5-1 1.5-2 3-1 2-2.5 3-4.5 4 2.5 0 4.5-.5 6-2.5 1-1.5 1-3 .5-4.5zM12 16.5c-3 0-5.5 1-7 2.5 2.5.5 5.5.5 7 .5s4.5 0 7-.5c-1.5-1.5-4-2.5-7-2.5z" />
-              </svg>
-            </div>
+            {theme === 'parchment' ? (
+              <Moon size={16} color="var(--color-text-secondary)" />
+            ) : (
+              <Sun size={16} color="var(--color-gold)" />
+            )}
+          </button>
 
-            <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-heading-latin)',
-                  fontSize: isScrolled ? '0.92rem' : '1.02rem',
-                  fontWeight: 700,
-                  color: 'var(--color-text-main)',
-                  lineHeight: 1.1,
-                  letterSpacing: '0.04em',
-                  transition: 'font-size 0.3s ease'
-                }}
-              >
-                SANSKRIT VEDIC GURUKUL
-              </div>
-              <div
-                style={{
-                  fontSize: isScrolled ? '0.62rem' : '0.68rem',
-                  fontWeight: 700,
-                  color: 'var(--color-primary)',
-                  letterSpacing: '0.08em',
-                  lineHeight: 1.1,
-                  transition: 'font-size 0.3s ease'
-                }}
-              >
-                — विद्या संस्कार सेवा —
-              </div>
-            </div>
-          </div>
+          {/* Language Switcher (EN | हिंदी) */}
+          <button
+            onClick={toggleLanguage}
+            style={{
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              color: 'var(--color-text-main)',
+              backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.1)' : 'rgba(255, 255, 255, 0.06)',
+              border: '1px solid rgba(197, 154, 78, 0.3)',
+              borderRadius: 'var(--radius-full)',
+              padding: '0.35rem 0.7rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '3px'
+            }}
+            title="Toggle Language / भाषा बदलें"
+            aria-label="Toggle Language"
+            className="btn-lang-toggle"
+          >
+            <span style={{ color: language === 'en' ? 'var(--color-primary)' : 'var(--color-text-muted)', fontWeight: language === 'en' ? 700 : 500 }}>
+              EN
+            </span>
+            <span style={{ color: 'var(--color-gold)', opacity: 0.7 }}>|</span>
+            <span style={{ color: language === 'hi' ? 'var(--color-primary)' : 'var(--color-text-muted)', fontWeight: language === 'hi' ? 700 : 500 }}>
+              हिंदी
+            </span>
+          </button>
 
-          {/* Center: Desktop Floating Pill Navigation Links with Active ScrollSpy Indicator */}
-          <nav className="desktop-nav" aria-label="Main Navigation">
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.15rem',
-                backgroundColor:
-                  theme === 'parchment'
-                    ? 'rgba(197, 154, 78, 0.1)'
-                    : 'rgba(255, 255, 255, 0.05)',
-                padding: '0.22rem 0.35rem',
-                borderRadius: 'var(--radius-full)',
-                border: '1px solid rgba(197, 154, 78, 0.22)'
-              }}
-            >
-              {navItems.map((item) => {
-                const isActive = effectiveActive === item.id;
+          {/* Support Our Trust Primary CTA Button */}
+          <button
+            onClick={() => handleNavClick('trust')}
+            style={{
+              background: 'linear-gradient(135deg, #984B22 0%, #C59A4E 100%)',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 'var(--radius-full)',
+              padding: '0.45rem 1.15rem',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              cursor: 'pointer',
+              boxShadow: '0 4px 14px rgba(152, 75, 34, 0.35)',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+            className="btn-header-trust"
+          >
+            <Heart size={14} fill="currentColor" className="heart-beat-icon" />
+            <span>{language === 'hi' ? 'ट्रस्ट सहयोग' : 'Support Trust'}</span>
+          </button>
+        </div>
 
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    style={{
-                      position: 'relative',
-                      padding: isScrolled ? '0.35rem 0.65rem' : '0.42rem 0.75rem',
-                      fontSize: '0.84rem',
-                      fontWeight: isActive ? 700 : 500,
-                      borderRadius: 'var(--radius-full)',
-                      color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
-                      backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
-                      border: isActive ? '1px solid rgba(197, 154, 78, 0.45)' : '1px solid transparent',
-                      boxShadow: isActive ? '0 2px 8px rgba(197, 154, 78, 0.2)' : 'none',
-                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3rem'
-                    }}
-                    className={`nav-link-btn ${isActive ? 'nav-active-pill' : ''}`}
-                  >
-                    {/* Active Glowing Indicator Dot */}
-                    {isActive && (
-                      <span
-                        style={{
-                          width: '5px',
-                          height: '5px',
-                          borderRadius: '50%',
-                          backgroundColor: 'var(--color-primary)',
-                          boxShadow: '0 0 6px var(--color-primary)',
-                          display: 'inline-block'
-                        }}
-                      />
-                    )}
-                    <span>{language === 'hi' ? item.labelHi : item.labelEn}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </nav>
+        {/* 4. Mobile Right Controls Cluster: Search + Theme + Hamburger */}
+        <div
+          className="mobile-toggle navbar-mobile-dock"
+          style={{
+            pointerEvents: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+            backgroundColor:
+              theme === 'parchment'
+                ? isScrolled
+                  ? 'rgba(255, 252, 245, 0.94)'
+                  : 'rgba(255, 252, 247, 0.88)'
+                : isScrolled
+                  ? 'rgba(20, 14, 10, 0.94)'
+                  : 'rgba(22, 15, 11, 0.88)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            padding: '0.28rem 0.45rem',
+            borderRadius: '9999px',
+            border: '1.5px solid rgba(197, 154, 78, 0.42)',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)'
+          }}
+        >
+          {/* Mobile Search Trigger */}
+          <button
+            onClick={() => setCommandPaletteOpen(true)}
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: 'var(--color-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label="Open Search"
+          >
+            <Search size={16} />
+          </button>
 
-          {/* Right Action Controls: Search (Ctrl+K), Theme Switcher, Language Toggle & Support Trust CTA */}
-          <div className="desktop-cta" style={{ display: 'none', alignItems: 'center', gap: '0.55rem', flexShrink: 0 }}>
-            {/* Global Command Palette / Search Button (Ctrl+K / ⌘K) */}
-            <button
-              onClick={() => setCommandPaletteOpen(true)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                backgroundColor:
-                  theme === 'parchment'
-                    ? 'rgba(197, 154, 78, 0.1)'
-                    : 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(197, 154, 78, 0.3)',
-                borderRadius: 'var(--radius-full)',
-                padding: '0.38rem 0.65rem',
-                color: 'var(--color-text-main)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                fontSize: '0.8rem'
-              }}
-              title="Search Gurukul Pages, Courses & Services (Ctrl + K)"
-              aria-label="Open Command Palette Search"
-              className="btn-search-trigger"
-            >
-              <Search size={15} color="var(--color-primary)" />
-              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
-                {language === 'hi' ? 'खोजें' : 'Search'}
-              </span>
-              <kbd
-                style={{
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  backgroundColor: theme === 'parchment' ? '#FFFFFF' : '#2A1E17',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '4px',
-                  padding: '1px 5px',
-                  color: 'var(--color-gold-dark)'
-                }}
-              >
-                ⌘K
-              </kbd>
-            </button>
+          {/* Mobile Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: 'var(--color-text-main)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'parchment' ? <Moon size={15} /> : <Sun size={15} color="var(--color-gold)" />}
+          </button>
 
-            {/* Light / Dark Mode Toggle Single-Icon Button */}
-            <button
-              onClick={toggleTheme}
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                backgroundColor:
-                  theme === 'parchment'
-                    ? 'rgba(197, 154, 78, 0.12)'
-                    : 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(197, 154, 78, 0.3)',
-                color: 'var(--color-text-main)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.25s ease'
-              }}
-              title={theme === 'parchment' ? 'सांध्य डार्क मोड सक्रिय करें (Sandalwood Dark)' : 'स्वर्ण पार्चमेंट लाइट मोड सक्रिय करें (Parchment Light)'}
-              aria-label="Toggle Light / Dark Mode"
-              className="btn-theme-toggle"
-            >
-              {theme === 'parchment' ? (
-                <Moon size={16} color="var(--color-text-secondary)" />
-              ) : (
-                <Sun size={16} color="var(--color-gold)" />
-              )}
-            </button>
+          {/* Mobile Language Toggle */}
+          <button
+            onClick={toggleLanguage}
+            style={{
+              fontSize: '11px',
+              fontWeight: 700,
+              color: 'var(--color-primary)',
+              padding: '0.25rem 0.5rem',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--color-gold-border)',
+              backgroundColor: 'var(--color-bg-secondary)',
+              cursor: 'pointer'
+            }}
+          >
+            {language === 'hi' ? 'EN' : 'हिन्दी'}
+          </button>
 
-            {/* Bilingual Switcher (EN | हिंदी) */}
-            <button
-              onClick={toggleLanguage}
-              style={{
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                color: 'var(--color-text-main)',
-                backgroundColor:
-                  theme === 'parchment'
-                    ? 'rgba(197, 154, 78, 0.1)'
-                    : 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(197, 154, 78, 0.3)',
-                borderRadius: 'var(--radius-full)',
-                padding: '0.35rem 0.7rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '3px'
-              }}
-              title="Toggle Language / भाषा बदलें"
-              aria-label="Toggle Language"
-              className="btn-lang-toggle"
-            >
-              <span style={{ color: language === 'en' ? 'var(--color-primary)' : 'var(--color-text-muted)', fontWeight: language === 'en' ? 700 : 500 }}>
-                EN
-              </span>
-              <span style={{ color: 'var(--color-gold)', opacity: 0.7 }}>|</span>
-              <span style={{ color: language === 'hi' ? 'var(--color-primary)' : 'var(--color-text-muted)', fontWeight: language === 'hi' ? 700 : 500 }}>
-                हिंदी
-              </span>
-            </button>
-
-            {/* Support Our Trust Primary CTA Button */}
-            <button
-              onClick={() => handleNavClick('trust')}
-              style={{
-                background: 'linear-gradient(135deg, #984B22 0%, #C59A4E 100%)',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: 'var(--radius-full)',
-                padding: isScrolled ? '0.42rem 1.05rem' : '0.48rem 1.15rem',
-                fontSize: '0.84rem',
-                fontWeight: 600,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(152, 75, 34, 0.35)',
-                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-              className="btn-header-trust"
-            >
-              <Heart size={14} fill="currentColor" className="heart-beat-icon" />
-              <span>{language === 'hi' ? 'ट्रस्ट सहयोग' : 'Support Trust'}</span>
-            </button>
-          </div>
-
-          {/* Mobile Right Controls: Search + Theme + Hamburger */}
-          <div className="mobile-toggle" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            {/* Mobile Search Trigger */}
-            <button
-              onClick={() => setCommandPaletteOpen(true)}
-              style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-bg-secondary)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--color-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer'
-              }}
-              aria-label="Open Search"
-            >
-              <Search size={16} />
-            </button>
-
-            {/* Mobile Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-bg-secondary)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--color-text-main)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer'
-              }}
-              aria-label="Toggle Theme"
-            >
-              {theme === 'parchment' ? <Moon size={15} /> : <Sun size={15} color="var(--color-gold)" />}
-            </button>
-
-            {/* Mobile Language Toggle */}
-            <button
-              onClick={toggleLanguage}
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                color: 'var(--color-primary)',
-                padding: '0.32rem 0.55rem',
-                borderRadius: 'var(--radius-full)',
-                border: '1px solid var(--color-gold-border)',
-                backgroundColor: 'var(--color-bg-secondary)',
-                cursor: 'pointer'
-              }}
-            >
-              {language === 'hi' ? 'EN' : 'हिन्दी'}
-            </button>
-
-            {/* Mobile Hamburger Trigger */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: 'var(--radius-full)',
-                border: '1.5px solid var(--color-gold-border)',
-                backgroundColor: 'var(--color-bg-secondary)',
-                color: 'var(--color-text-main)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer'
-              }}
-              aria-label="Toggle Navigation Menu"
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
-            </button>
-          </div>
+          {/* Mobile Hamburger Trigger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              width: '34px',
+              height: '34px',
+              borderRadius: 'var(--radius-full)',
+              border: 'none',
+              backgroundColor: 'var(--color-primary)',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label="Toggle Navigation Menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
       </header>
 
@@ -685,6 +690,12 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           .desktop-nav { display: none !important; }
           .desktop-cta { display: none !important; }
           .mobile-toggle { display: flex !important; }
+        }
+
+        .emblem-badge-btn:hover {
+          transform: scale(1.06);
+          border-color: #FFFFFF !important;
+          box-shadow: 0 0 16px rgba(197, 154, 78, 0.5) !important;
         }
 
         .nav-link-btn:hover {
