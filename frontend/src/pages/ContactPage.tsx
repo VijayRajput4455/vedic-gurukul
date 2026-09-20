@@ -3,6 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import { PageId } from '../types';
 import { CampusDossierModal } from '../components/common/CampusDossierModal';
+import { generateVedicDossierPdf } from '../utils/pdfGenerator';
 import {
   Mail,
   Phone,
@@ -29,7 +30,8 @@ import {
   Landmark,
   ChevronRight,
   Download,
-  FileText
+  FileText,
+  Loader2
 } from 'lucide-react';
 
 interface ContactPageProps {
@@ -52,8 +54,23 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   const { language, t } = useLanguage();
   const { addContactMessage } = useData();
 
-  // Dossier Modal State
+  // Dossier Modal & Direct Download States
   const [showDossierModal, setShowDossierModal] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+
+  const handleDirectDownloadPdf = async () => {
+    try {
+      setIsGeneratingPdf(true);
+      await generateVedicDossierPdf({
+        language,
+        filename: 'vedicgurukul.pdf'
+      });
+    } catch (err) {
+      console.error('Failed to generate PDF:', err);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   // Form State
   const [name, setName] = useState('');
@@ -204,22 +221,34 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           {/* PDF Download Dossier CTA */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
             <button
-              onClick={() => setShowDossierModal(true)}
+              onClick={handleDirectDownloadPdf}
+              disabled={isGeneratingPdf}
               className="btn btn-gold"
               style={{
                 gap: '0.5rem',
                 padding: '0.75rem 1.6rem',
                 boxShadow: 'var(--shadow-gold)',
                 display: 'inline-flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                cursor: isGeneratingPdf ? 'wait' : 'pointer'
               }}
+              title="Download official PDF (vedicgurukul.pdf)"
             >
-              <Download size={17} />
+              {isGeneratingPdf ? <Loader2 size={17} className="animate-spin" /> : <Download size={17} />}
               <span>
-                {language === 'hi'
-                  ? 'परिसर संदर्शिका एवं संपर्क विवरण (PDF डाउनलोड)'
-                  : 'Download Campus Guide & Contact Dossier (PDF)'}
+                {isGeneratingPdf
+                  ? (language === 'hi' ? 'vedicgurukul.pdf तैयार हो रही है...' : 'Downloading vedicgurukul.pdf...')
+                  : (language === 'hi' ? 'परिसर संदर्शिका PDF डाउनलोड करें (vedicgurukul.pdf)' : 'Download Campus Guide PDF (vedicgurukul.pdf)')}
               </span>
+            </button>
+
+            <button
+              onClick={() => setShowDossierModal(true)}
+              className="btn btn-secondary"
+              style={{ gap: '0.4rem', padding: '0.75rem 1.25rem' }}
+            >
+              <FileText size={16} />
+              <span>{language === 'hi' ? 'दस्तावेज पूर्वावलोकन' : 'View Preview'}</span>
             </button>
           </div>
         </div>
@@ -351,9 +380,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
                 </div>
 
-                {/* Quick PDF Dossier Download Trigger */}
+                {/* Quick Direct PDF Dossier Download Trigger */}
                 <button
-                  onClick={() => setShowDossierModal(true)}
+                  onClick={handleDirectDownloadPdf}
+                  disabled={isGeneratingPdf}
                   className="btn btn-secondary btn-sm"
                   style={{
                     width: '100%',
@@ -361,14 +391,18 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                     gap: '0.45rem',
                     border: '1px dashed var(--color-gold-border)',
                     backgroundColor: 'var(--color-bg-secondary)',
-                    color: 'var(--color-primary-dark)'
+                    color: 'var(--color-primary-dark)',
+                    cursor: isGeneratingPdf ? 'wait' : 'pointer'
                   }}
+                  title="Direct 1-Click PDF Download (vedicgurukul.pdf)"
                 >
-                  <FileText size={15} color="var(--color-primary)" />
+                  {isGeneratingPdf ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} color="var(--color-primary)" />}
                   <span>
-                    {language === 'hi'
-                      ? 'संपूर्ण विवरण PDF में देखें व डाउनलोड करें'
-                      : 'View & Download Complete Details (Vedic PDF)'}
+                    {isGeneratingPdf
+                      ? (language === 'hi' ? 'vedicgurukul.pdf डाउनलोड हो रही है...' : 'Downloading vedicgurukul.pdf...')
+                      : (language === 'hi'
+                        ? 'संपूर्ण विवरण PDF डाउनलोड करें (vedicgurukul.pdf)'
+                        : 'Download Complete Details (vedicgurukul.pdf)')}
                   </span>
                 </button>
               </div>
@@ -982,12 +1016,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               <button
-                onClick={() => setShowDossierModal(true)}
+                onClick={handleDirectDownloadPdf}
+                disabled={isGeneratingPdf}
                 className="btn btn-gold"
-                style={{ gap: '0.45rem', boxShadow: 'var(--shadow-gold)' }}
+                style={{ gap: '0.45rem', boxShadow: 'var(--shadow-gold)', cursor: isGeneratingPdf ? 'wait' : 'pointer' }}
               >
-                <Download size={15} />
-                <span>{language === 'hi' ? 'PDF संदर्शिका डाउनलोड करें' : 'Download PDF Dossier'}</span>
+                {isGeneratingPdf ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
+                <span>
+                  {isGeneratingPdf
+                    ? (language === 'hi' ? 'vedicgurukul.pdf तैयार हो रही है...' : 'Downloading vedicgurukul.pdf...')
+                    : (language === 'hi' ? 'PDF संदर्शिका डाउनलोड करें (vedicgurukul.pdf)' : 'Download PDF (vedicgurukul.pdf)')}
+                </span>
               </button>
               <a
                 href={googleMapsDirectionsUrl}

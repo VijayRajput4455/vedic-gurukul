@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import { generateVedicDossierPdf } from '../../utils/pdfGenerator';
 import {
   X,
   Download,
@@ -17,7 +18,8 @@ import {
   CheckCircle2,
   FileText,
   Printer,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 
 interface CampusDossierModalProps {
@@ -28,9 +30,25 @@ interface CampusDossierModalProps {
 export const CampusDossierModal: React.FC<CampusDossierModalProps> = ({ isOpen, onClose }) => {
   const { language: currentLang } = useLanguage();
   const [docLang, setDocLang] = useState<'hi' | 'en'>(currentLang || 'hi');
+  const [isDownloading, setIsDownloading] = useState(false);
   const isHi = docLang === 'hi';
 
   if (!isOpen) return null;
+
+  const handleDownloadPdf = async () => {
+    try {
+      setIsDownloading(true);
+      await generateVedicDossierPdf({
+        language: docLang,
+        filename: 'vedicgurukul.pdf'
+      });
+    } catch (err) {
+      console.error('Failed to download PDF:', err);
+      handlePrint();
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   const handlePrint = () => {
     const page1 = document.getElementById('vedic-dossier-page-1');
@@ -391,14 +409,27 @@ export const CampusDossierModal: React.FC<CampusDossierModalProps> = ({ isOpen, 
               </button>
             </div>
 
-            {/* Print / Save PDF Button */}
+            {/* Direct 1-Click PDF Download Button */}
+            <button
+              onClick={handleDownloadPdf}
+              disabled={isDownloading}
+              className="btn btn-gold btn-sm"
+              style={{ gap: '0.4rem', padding: '0.45rem 1rem', boxShadow: 'var(--shadow-gold)', cursor: isDownloading ? 'wait' : 'pointer' }}
+              title="Download PDF directly as vedicgurukul.pdf"
+            >
+              {isDownloading ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+              <span>{isDownloading ? 'vedicgurukul.pdf...' : (isHi ? 'PDF डाउनलोड (vedicgurukul.pdf)' : 'Download PDF (vedicgurukul.pdf)')}</span>
+            </button>
+
+            {/* Print A4 Sheet Button */}
             <button
               onClick={handlePrint}
-              className="btn btn-primary btn-sm"
-              style={{ gap: '0.4rem', padding: '0.45rem 1rem' }}
+              className="btn btn-secondary btn-sm"
+              style={{ gap: '0.4rem', padding: '0.45rem 0.85rem' }}
+              title="Open browser print dialog"
             >
-              <Download size={14} />
-              <span>{isHi ? 'PDF डाउनलोड / प्रिंट' : 'Download / Print PDF'}</span>
+              <Printer size={14} />
+              <span>{isHi ? 'प्रिंट' : 'Print'}</span>
             </button>
 
             {/* Close Button */}
