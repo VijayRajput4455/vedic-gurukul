@@ -6,6 +6,7 @@ import { Menu, X, Heart, Moon, Sun, Search, Compass, BookOpen, GraduationCap, Ca
 import { CommandPalette } from '../common/CommandPalette';
 import { VedicThemeModal } from '../common/VedicThemeModal';
 import { useScrollSpy } from '../../utils/useScrollSpy';
+import { vedicAudio } from '../../utils/audio';
 
 interface HeaderProps {
   currentPage: PageId;
@@ -111,8 +112,117 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           pointerEvents: 'none'
         }}
       >
-        {/* 1. Left: Zero-width anchor for desktop layout */}
-        <div style={{ flex: '0 0 auto', width: '1px' }} className="navbar-left-spacer" />
+        {/* 1. Left: Sacred Vedic ॐ Brand Logo Badge */}
+        <div
+          className="navbar-brand-logo-container"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            pointerEvents: 'auto',
+            zIndex: 15
+          }}
+        >
+          <button
+            onClick={() => {
+              handleNavClick('home');
+              vedicAudio.playResonance(432, 3);
+            }}
+            className="navbar-om-logo-btn"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+              backgroundColor:
+                theme === 'parchment'
+                  ? isScrolled ? 'rgba(251, 248, 242, 0.94)' : 'rgba(255, 253, 249, 0.88)'
+                  : isScrolled ? 'rgba(20, 14, 10, 0.92)' : 'rgba(28, 21, 16, 0.85)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1.2px solid var(--color-gold-border)',
+              borderRadius: '9999px',
+              padding: '0.35rem 0.9rem 0.35rem 0.45rem',
+              cursor: 'pointer',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: theme === 'parchment' ? '0 4px 16px rgba(197, 154, 78, 0.16)' : '0 6px 20px rgba(0,0,0,0.5)',
+              textDecoration: 'none',
+              textAlign: 'left'
+            }}
+            title={language === 'hi' ? 'संस्कृत वैदिक गुरुकुल — मुख्य पृष्ठ (नाद 432Hz)' : 'Sanskrit Vedic Gurukul — Home (432Hz Resonance)'}
+            aria-label="Vedic Gurukul Home"
+          >
+            {/* Medallion with Sacred ॐ */}
+            <div
+              style={{
+                position: 'relative',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, var(--color-primary-light), var(--color-gold-light))',
+                border: '1.5px solid var(--color-gold)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 10px var(--color-gold-glow)',
+                flexShrink: 0
+              }}
+              className="om-medallion"
+            >
+              {/* Spinning Subtle Yantra Ring */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: '-2px',
+                  borderRadius: '50%',
+                  border: '1px dashed var(--color-gold)',
+                  opacity: 0.7
+                }}
+                className="animate-spin-slow"
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-heading-devanagari)',
+                  fontSize: '1.2rem',
+                  fontWeight: 800,
+                  color: 'var(--color-primary-dark)',
+                  lineHeight: 1,
+                  textShadow: '0 0 8px rgba(212, 175, 55, 0.6)'
+                }}
+              >
+                ॐ
+              </span>
+            </div>
+
+            {/* Brand Titles (Responsive) */}
+            <div className="navbar-logo-text" style={{ display: 'flex', flexDirection: 'column' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-heading-devanagari)',
+                  fontSize: '0.92rem',
+                  fontWeight: 800,
+                  color: 'var(--color-primary-dark)',
+                  lineHeight: 1.15,
+                  letterSpacing: '0.02em',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {language === 'hi' ? 'संस्कृत वैदिक गुरुकुल' : 'Sanskrit Vedic Gurukul'}
+              </span>
+              <span
+                style={{
+                  fontSize: '0.65rem',
+                  fontWeight: 600,
+                  color: 'var(--color-text-gold)',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  lineHeight: 1,
+                  marginTop: '1px'
+                }}
+              >
+                {language === 'hi' ? 'हरिद्वार • ऋषि परम्परा' : 'Haridwar • Vedic Heritage'}
+              </span>
+            </div>
+          </button>
+        </div>
 
         {/* 2. Center: Perfectly Centered Floating Pill Capsule with Vedic Theme Colors & Gold Underline */}
         <nav
@@ -688,13 +798,34 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           .desktop-nav { display: flex !important; }
           .desktop-cta { display: flex !important; }
           .mobile-toggle { display: none !important; }
-          .navbar-left-spacer { display: block !important; }
+          .navbar-brand-logo-container { display: flex !important; }
+          .navbar-logo-text { display: flex !important; }
         }
         @media (max-width: 1199px) {
           .desktop-nav { display: none !important; }
           .desktop-cta { display: none !important; }
           .mobile-toggle { display: flex !important; }
-          .navbar-left-spacer { display: none !important; }
+          .navbar-brand-logo-container { display: flex !important; }
+          .navbar-logo-text { display: none !important; }
+        }
+        @media (min-width: 600px) and (max-width: 1199px) {
+          .navbar-logo-text { display: flex !important; }
+        }
+
+        .navbar-om-logo-btn:hover {
+          border-color: var(--color-gold) !important;
+          transform: translateY(-1.5px) scale(1.02);
+          box-shadow: 0 6px 20px var(--color-gold-glow) !important;
+        }
+
+        .navbar-om-logo-btn:hover .om-medallion {
+          background: linear-gradient(135deg, var(--color-primary), var(--color-gold)) !important;
+          box-shadow: 0 0 16px var(--color-primary-glow) !important;
+        }
+
+        .navbar-om-logo-btn:hover .om-medallion span {
+          color: #FFFFFF !important;
+          text-shadow: 0 0 10px #FFFFFF !important;
         }
 
         .nav-pill-item:hover {
@@ -712,6 +843,15 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
         .btn-support-pill:hover {
           transform: translateY(-1.5px) scale(1.02);
           box-shadow: 0 6px 20px var(--color-primary-glow) !important;
+        }
+
+        .animate-spin-slow {
+          animation: spinSlow 20s linear infinite;
+        }
+
+        @keyframes spinSlow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
 
         @keyframes slideInRight {

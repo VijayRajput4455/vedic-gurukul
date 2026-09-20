@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
 import { PageId } from '../../types';
 import { HeroCanvasParticles } from './HeroCanvasParticles';
+import { vedicAudio } from '../../utils/audio';
 import {
   ArrowRight,
   Sparkles,
   Pause,
   Play,
-  ChevronDown
+  ChevronDown,
+  Volume2
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -319,56 +321,85 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             padding: 'clamp(5.5rem, 12vh, 8.5rem) 0 clamp(3.5rem, 8vh, 5.5rem) 0'
           }}
         >
-          {/* 1. Sacred Small Sanskrit Label: ॥ ॐ ॥ */}
+          {/* 1. Sacred Interactive Sanskrit Logo Crest: ॥ ॐ ॥ */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            onClick={() => vedicAudio.playResonance(432, 4)}
+            whileHover={{ scale: 1.04, y: -2 }}
+            whileTap={{ scale: 0.97 }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.65rem',
-              backgroundColor: 'rgba(212, 175, 55, 0.15)',
-              border: '1px solid rgba(229, 169, 60, 0.4)',
+              backgroundColor: 'rgba(212, 175, 55, 0.16)',
+              border: '1.2px solid rgba(229, 169, 60, 0.5)',
               borderRadius: 'var(--radius-full)',
-              padding: '0.35rem 1.15rem',
+              padding: '0.35rem 1.15rem 0.35rem 0.5rem',
               marginBottom: 'var(--spacing-4)',
-              backdropFilter: 'blur(8px)',
-              boxShadow: '0 2px 14px rgba(0, 0, 0, 0.3)'
+              backdropFilter: 'blur(12px)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(229, 169, 60, 0.2)',
+              cursor: 'pointer',
+              userSelect: 'none'
             }}
+            title={language === 'hi' ? 'वैदिक ओंकार नाद (432Hz) सुनने हेतु क्लिक करें' : 'Click to experience 432Hz Sacred Om Resonance'}
           >
-            <span
+            {/* Medallion with spinning mandala */}
+            <div
               style={{
-                fontFamily: 'var(--font-heading-devanagari)',
-                fontSize: '1.05rem',
-                fontWeight: 700,
-                color: '#F5D77F',
-                letterSpacing: '0.08em',
-                lineHeight: 1
+                position: 'relative',
+                width: '28px',
+                height: '28px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, rgba(229, 169, 60, 0.9), rgba(166, 95, 43, 0.9))',
+                border: '1px solid #FFE299',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 8px rgba(229, 169, 60, 0.8)',
+                flexShrink: 0
               }}
             >
-              ॥ ॐ ॥
-            </span>
-            <span
-              style={{
-                width: '4px',
-                height: '4px',
-                borderRadius: '50%',
-                backgroundColor: '#F5D77F',
-                opacity: 0.6
-              }}
-            />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: '-2px',
+                  borderRadius: '50%',
+                  border: '1px dashed #FFE299',
+                  opacity: 0.8
+                }}
+                className="animate-spin-slow"
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-heading-devanagari)',
+                  fontSize: '0.95rem',
+                  fontWeight: 800,
+                  color: '#FFFFFF',
+                  lineHeight: 1,
+                  textShadow: '0 0 6px #FFF'
+                }}
+              >
+                ॐ
+              </span>
+            </div>
+
             <span
               style={{
                 fontFamily: 'var(--font-heading-latin)',
-                fontSize: '0.78rem',
+                fontSize: '0.8rem',
                 fontWeight: 700,
                 color: '#FFF8EE',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase'
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem'
               }}
             >
-              Sanskrit Vedic Gurukul & Trust
+              <span>{language === 'hi' ? 'संस्कृत वैदिक गुरुकुल' : 'Sanskrit Vedic Gurukul'}</span>
+              <Volume2 size={12} color="#F5D77F" style={{ opacity: 0.85 }} />
             </span>
           </motion.div>
 
