@@ -162,12 +162,6 @@ export const IdleOmAnimation: React.FC = () => {
       <div className="om-spark om-spark-2" />
       <div className="om-spark om-spark-3" />
       <div className="om-spark om-spark-4" />
-
-      {/* 6. Spiritual Mantra Subtitle */}
-      <div className="om-mantra-caption">
-        {/* <span className="om-mantra-text">॥ शान्तिः शान्तिः शान्तिः ॥</span> */}
-        {/* <span className="om-mantra-en"></span> */}
-      </div>
     </div>
   );
 };
