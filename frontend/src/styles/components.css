@@ -146,73 +146,84 @@
 }
 
 /* ==========================================================================
-   Universal Glassmorphism & Tactile Card System
+   Universal Glassmorphism & Tactile Ornate Card System (Dotted Inner Frame & Left Theme Line)
    ========================================================================== */
 .glass-card,
 .vedic-card,
+.vedic-card-ornate,
+.learning-card,
+.vision-mission-card,
+.value-card,
 .card {
-  background: var(--glass-bg, rgba(255, 253, 249, 0.75));
+  background: var(--glass-bg, rgba(255, 253, 249, 0.82));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border, rgba(197, 154, 78, 0.22));
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-6);
+  border: 1.5px solid var(--color-border-ornate, rgba(197, 154, 78, 0.35));
+  border-left: 5px solid var(--color-primary) !important;
+  border-radius: var(--radius-xl, 16px);
+  padding: var(--spacing-8, 2rem);
+  position: relative;
   box-shadow: var(--shadow-subtle);
   transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
               border-color 300ms ease,
               background-color 300ms ease;
-  position: relative;
-  overflow: hidden;
   will-change: transform, box-shadow;
+}
+
+/* Authentic Traditional Dotted/Dashed Inner Golden Frame */
+.glass-card::before,
+.vedic-card::before,
+.vedic-card-ornate::before,
+.learning-card::before,
+.vision-mission-card::before,
+.value-card::before,
+.card::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  border: 1.2px dashed var(--color-gold-border, rgba(197, 154, 78, 0.45));
+  border-radius: calc(var(--radius-xl, 16px) - 4px);
+  pointer-events: none;
+  transition: border-color 300ms ease, opacity 300ms ease;
+  opacity: 0.85;
+  z-index: 1;
 }
 
 .glass-card:hover,
 .vedic-card:hover,
+.vedic-card-ornate:hover,
+.learning-card:hover,
+.vision-mission-card:hover,
+.value-card:hover,
 .card:hover {
   transform: translateY(-4px);
   border-color: var(--color-gold);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.35), 0 0 20px -4px var(--accent-glow);
+  border-left-color: var(--color-primary-dark) !important;
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.35), 0 0 22px -2px var(--accent-glow);
 }
 
-/* Traditional Ornate Border Card with Corner Mandalas */
-.vedic-card-ornate {
-  background: var(--glass-bg, rgba(255, 253, 249, 0.75));
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border-ornate);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-8);
-  position: relative;
-  box-shadow: var(--shadow-subtle);
-  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 300ms ease;
-  will-change: transform, box-shadow;
-}
-
-.vedic-card-ornate::before {
-  content: '';
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  right: 4px;
-  bottom: 4px;
-  border: 1px dashed var(--color-gold-border);
-  border-radius: calc(var(--radius-lg) - 4px);
-  pointer-events: none;
-}
-
-.vedic-card-ornate:hover {
-  transform: translateY(-4px);
+.glass-card:hover::before,
+.vedic-card:hover::before,
+.vedic-card-ornate:hover::before,
+.learning-card:hover::before,
+.vision-mission-card:hover::before,
+.value-card:hover::before,
+.card:hover::before {
   border-color: var(--color-gold);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.35), 0 0 24px -2px var(--accent-glow);
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .glass-card:hover,
   .vedic-card:hover,
   .vedic-card-ornate:hover,
+  .learning-card:hover,
+  .vision-mission-card:hover,
+  .value-card:hover,
   .card:hover {
     transform: none !important;
     transition: none !important;

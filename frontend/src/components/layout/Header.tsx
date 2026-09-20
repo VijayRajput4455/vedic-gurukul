@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { PageId, NavigationItem } from '../../types';
-import { Menu, X, Heart, Moon, Sun, Search, Compass, BookOpen, GraduationCap, Calendar, Phone, HeartHandshake, Sparkles } from 'lucide-react';
+import { Menu, X, Heart, Moon, Sun, Search, Compass, BookOpen, GraduationCap, Calendar, Phone, HeartHandshake, Sparkles, Palette } from 'lucide-react';
 import { CommandPalette } from '../common/CommandPalette';
+import { VedicThemeModal } from '../common/VedicThemeModal';
 import { useScrollSpy } from '../../utils/useScrollSpy';
 
 interface HeaderProps {
@@ -13,7 +14,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
   const { language, toggleLanguage } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, openThemeModal, activeThemeData } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
@@ -27,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 25);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -91,12 +92,12 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
   return (
     <>
-      {/* Fixed Floating Header Top Bar */}
+      {/* Sticky Fixed Header Navbar */}
       <header
-        className="site-navbar-fixed-container"
+        className={`site-header-navbar ${isScrolled ? 'scrolled' : 'at-top'}`}
         style={{
           position: 'fixed',
-          top: '14px',
+          top: 0,
           left: 0,
           right: 0,
           zIndex: 1000,
@@ -104,328 +105,288 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 clamp(1rem, 3vw, 2.5rem)',
-          pointerEvents: 'none',
-          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+          padding: isScrolled ? '0.65rem clamp(1.25rem, 3.5vw, 3rem)' : '1.1rem clamp(1.25rem, 3.5vw, 3rem)',
+          backgroundColor: 'transparent',
+          transition: 'padding 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+          pointerEvents: 'none'
         }}
       >
-        {/* 1. Left: Compact Sacred Lotus Emblem (Text Removed) */}
-        <div
-          className="navbar-brand-emblem"
-          onClick={() => handleNavClick('home')}
-          style={{
-            pointerEvents: 'auto',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            userSelect: 'none',
-            flex: '0 0 auto'
-          }}
-          role="button"
-          tabIndex={0}
-          aria-label="Sanskrit Vedic Gurukul Home"
-        >
-          <div
-            style={{
-              width: '42px',
-              height: '42px',
-              borderRadius: '50%',
-              backgroundColor:
-                theme === 'parchment'
-                  ? isScrolled
-                    ? 'rgba(255, 252, 245, 0.94)'
-                    : 'rgba(255, 252, 247, 0.88)'
-                  : isScrolled
-                    ? 'rgba(20, 14, 10, 0.94)'
-                    : 'rgba(22, 15, 11, 0.88)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1.5px solid var(--color-gold)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--color-gold-dark)',
-              boxShadow: isScrolled
-                ? '0 10px 28px rgba(0, 0, 0, 0.2), 0 0 12px rgba(197, 154, 78, 0.25)'
-                : '0 6px 20px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.2)',
-              transition: 'all 0.3s ease'
-            }}
-            title="Sanskrit Vedic Gurukul Home"
-            className="emblem-badge-btn"
-          >
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-              <path d="M12 3c-1.5 2.5-3 5-3 7.5 0 2.5 1.5 4.5 3 4.5s3-2 3-4.5C15 8 13.5 5.5 12 3zm-4.5 3c-.5 2-1 4.5 0 6.5 1 2 2.5 3 4.5 3.5-1.5-1-2.5-2.5-3-4.5-.5-2 0-4-1.5-5.5zm9 0c-1.5 1.5-1 3.5-1.5 5.5-.5 2-1.5 3.5-3 4.5 2-.5 3.5-1.5 4.5-3.5 1-2 .5-4.5 0-6.5zm-11 5c-.5 1.5-.5 3 .5 4.5 1.5 2 3.5 2.5 6 2.5-2-1-3.5-2-4.5-4-1-1.5-1.5-2.5-2-3zm13 0c-.5.5-1 1.5-2 3-1 2-2.5 3-4.5 4 2.5 0 4.5-.5 6-2.5 1-1.5 1-3 .5-4.5zM12 16.5c-3 0-5.5 1-7 2.5 2.5.5 5.5.5 7 .5s4.5 0 7-.5c-1.5-1.5-4-2.5-7-2.5z" />
-            </svg>
-          </div>
-        </div>
+        {/* 1. Left: Zero-width anchor for desktop layout */}
+        <div style={{ flex: '0 0 auto', width: '1px' }} className="navbar-left-spacer" />
 
-        {/* 2. Center: Strictly Centered Floating Navigation Links Capsule (Absolute 50% Centering) */}
+        {/* 2. Center: Perfectly Centered Floating Pill Capsule with Vedic Theme Colors & Gold Underline */}
         <nav
-          className="desktop-nav navbar-center-capsule-wrapper"
-          aria-label="Main Navigation"
+          className="desktop-nav"
           style={{
             position: 'absolute',
             left: '50%',
             transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             pointerEvents: 'auto',
             zIndex: 10
           }}
+          aria-label="Main Navigation"
         >
           <div
-            className="navbar-center-capsule"
+            className="nav-links-pill-container"
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.18rem',
+              gap: '0.22rem',
               backgroundColor:
                 theme === 'parchment'
-                  ? isScrolled
-                    ? 'rgba(255, 252, 245, 0.94)'
-                    : 'rgba(255, 252, 247, 0.88)'
-                  : isScrolled
-                    ? 'rgba(20, 14, 10, 0.94)'
-                    : 'rgba(22, 15, 11, 0.88)',
+                  ? isScrolled ? 'rgba(251, 248, 242, 0.92)' : 'rgba(255, 253, 249, 0.85)'
+                  : isScrolled ? 'rgba(20, 14, 10, 0.90)' : 'rgba(28, 21, 16, 0.82)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              padding: '0.35rem 0.5rem',
+              padding: '0.32rem 0.5rem',
               borderRadius: '9999px',
-              border: '1.5px solid rgba(197, 154, 78, 0.42)',
-              boxShadow: isScrolled
-                ? '0 12px 35px rgba(0, 0, 0, 0.22), 0 0 15px rgba(197, 154, 78, 0.2)'
-                : '0 8px 28px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.1)',
+              border: '1px solid var(--color-gold-border)',
+              boxShadow:
+                theme === 'parchment'
+                  ? '0 6px 24px rgba(197, 154, 78, 0.15)'
+                  : '0 8px 32px rgba(0, 0, 0, 0.55), 0 0 16px rgba(223, 178, 96, 0.12)',
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           >
             {navItems.map((item) => {
               const isActive = effectiveActive === item.id;
-
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
+                  className={`nav-pill-item ${isActive ? 'active' : ''}`}
                   style={{
                     position: 'relative',
-                    padding: '0.42rem 0.78rem',
-                    fontSize: '0.85rem',
+                    padding: '0.42rem 0.85rem',
+                    fontSize: '0.86rem',
                     fontWeight: isActive ? 700 : 500,
-                    borderRadius: 'var(--radius-full)',
-                    color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
+                    borderRadius: '9999px',
+                    color: isActive
+                      ? 'var(--color-primary)'
+                      : theme === 'parchment' ? 'var(--color-text-secondary)' : '#DACEC0',
                     backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
-                    border: isActive ? '1px solid rgba(197, 154, 78, 0.45)' : '1px solid transparent',
-                    boxShadow: isActive ? '0 2px 8px rgba(197, 154, 78, 0.2)' : 'none',
+                    border: isActive ? '1px solid var(--color-gold-border)' : '1px solid transparent',
+                    boxShadow: isActive ? '0 0 12px var(--color-gold-glow)' : 'none',
                     transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
                     display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '0.3rem'
+                    justifyContent: 'center'
                   }}
-                  className={`nav-link-btn ${isActive ? 'nav-active-pill' : ''}`}
                 >
-                  {/* Active Glowing Indicator Dot */}
+                  <span>{language === 'hi' ? item.labelHi : item.labelEn}</span>
+                  {/* Glowing Vedic Gold Underline Indicator */}
                   {isActive && (
                     <span
                       style={{
-                        width: '5px',
-                        height: '5px',
-                        borderRadius: '50%',
-                        backgroundColor: 'var(--color-primary)',
-                        boxShadow: '0 0 6px var(--color-primary)',
-                        display: 'inline-block'
+                        position: 'absolute',
+                        bottom: '3px',
+                        width: '18px',
+                        height: '2px',
+                        borderRadius: '2px',
+                        background: 'linear-gradient(90deg, var(--color-primary), var(--color-gold), var(--color-primary))',
+                        boxShadow: '0 0 8px var(--color-gold)'
                       }}
                     />
                   )}
-                  <span>{language === 'hi' ? item.labelHi : item.labelEn}</span>
                 </button>
               );
             })}
           </div>
         </nav>
 
-        {/* 3. Right Side: Action Controls Floating Dock OUTSIDE the Navigation Bar */}
+        {/* 3. Right Side: Action Controls Cluster (Vedic Theme Colors) */}
         <div
-          className="desktop-cta navbar-right-dock"
+          className="desktop-cta navbar-right-controls"
           style={{
-            pointerEvents: 'auto',
             display: 'none',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.45rem',
             marginLeft: 'auto',
-            flex: '0 0 auto',
-            backgroundColor:
-              theme === 'parchment'
-                ? isScrolled
-                  ? 'rgba(255, 252, 245, 0.94)'
-                  : 'rgba(255, 252, 247, 0.88)'
-                : isScrolled
-                  ? 'rgba(20, 14, 10, 0.94)'
-                  : 'rgba(22, 15, 11, 0.88)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            padding: '0.35rem 0.5rem',
-            borderRadius: '9999px',
-            border: '1.5px solid rgba(197, 154, 78, 0.42)',
-            boxShadow: isScrolled
-              ? '0 12px 35px rgba(0, 0, 0, 0.22), 0 0 15px rgba(197, 154, 78, 0.2)'
-              : '0 8px 28px rgba(0, 0, 0, 0.12), 0 0 10px rgba(197, 154, 78, 0.1)',
-            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+            pointerEvents: 'auto',
+            zIndex: 10
           }}
         >
-          {/* Search Button (Ctrl+K / ⌘K) */}
+          {/* 🔍 AI / Search Command Palette Button */}
           <button
             onClick={() => setCommandPaletteOpen(true)}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.45rem',
-              backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(197, 154, 78, 0.3)',
-              borderRadius: 'var(--radius-full)',
-              padding: '0.38rem 0.65rem',
+              gap: '0.4rem',
+              backgroundColor:
+                theme === 'parchment'
+                  ? isScrolled ? 'rgba(251, 248, 242, 0.92)' : 'rgba(255, 253, 249, 0.85)'
+                  : isScrolled ? 'rgba(20, 14, 10, 0.90)' : 'rgba(28, 21, 16, 0.82)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid var(--color-gold-border)',
+              borderRadius: '9999px',
+              padding: '0.42rem 0.82rem',
               color: 'var(--color-text-main)',
+              fontSize: '0.82rem',
+              fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.2s ease',
-              fontSize: '0.8rem'
+              boxShadow: theme === 'parchment' ? 'var(--shadow-subtle)' : '0 4px 16px rgba(0,0,0,0.4)'
             }}
-            title="Search Gurukul Pages, Courses & Services (Ctrl + K)"
-            aria-label="Open Command Palette Search"
-            className="btn-search-trigger"
+            className="btn-action-pill"
+            title="Search Gurukul (Ctrl + K / ⌘K)"
           >
-            <Search size={15} color="var(--color-primary)" />
-            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>
-              {language === 'hi' ? 'खोजें' : 'Search'}
-            </span>
-            <kbd
-              style={{
-                fontSize: '0.65rem',
-                fontWeight: 700,
-                backgroundColor: theme === 'parchment' ? '#FFFFFF' : '#2A1E17',
-                border: '1px solid var(--color-border)',
-                borderRadius: '4px',
-                padding: '1px 5px',
-                color: 'var(--color-gold-dark)'
-              }}
-            >
-              ⌘K
-            </kbd>
+            <Search size={14} color="var(--color-primary)" />
+            <span>AI</span>
           </button>
 
-          {/* Theme Mode Switcher (Moon / Sun) */}
+          {/* 🎨 11 Vedic Sanskrit Themes Studio Trigger */}
+          <button
+            onClick={openThemeModal}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              backgroundColor:
+                theme === 'parchment'
+                  ? isScrolled ? 'rgba(251, 248, 242, 0.92)' : 'rgba(255, 253, 249, 0.85)'
+                  : isScrolled ? 'rgba(20, 14, 10, 0.90)' : 'rgba(28, 21, 16, 0.82)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid var(--color-gold-border)',
+              borderRadius: '9999px',
+              padding: '0.42rem 0.82rem',
+              color: 'var(--color-text-main)',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: theme === 'parchment' ? 'var(--shadow-subtle)' : '0 4px 16px rgba(0,0,0,0.4)'
+            }}
+            className="btn-action-pill"
+            title={`Vedic Sanskrit Themes (${activeThemeData.nameEn})`}
+          >
+            <Palette size={14} color="var(--color-primary)" />
+            <span>{activeThemeData.symbol}</span>
+          </button>
+
+          {/* Base Theme Mode Switcher Toggle */}
           <button
             onClick={toggleTheme}
             style={{
-              width: '36px',
-              height: '36px',
+              width: '38px',
+              height: '38px',
               borderRadius: '50%',
-              backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.12)' : 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(197, 154, 78, 0.3)',
+              backgroundColor:
+                theme === 'parchment'
+                  ? isScrolled ? 'rgba(251, 248, 242, 0.92)' : 'rgba(255, 253, 249, 0.85)'
+                  : isScrolled ? 'rgba(20, 14, 10, 0.90)' : 'rgba(28, 21, 16, 0.82)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid var(--color-gold-border)',
               color: 'var(--color-text-main)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              transition: 'all 0.25s ease'
+              transition: 'all 0.2s ease',
+              boxShadow: theme === 'parchment' ? 'var(--shadow-subtle)' : '0 4px 16px rgba(0,0,0,0.4)'
             }}
-            title={theme === 'parchment' ? 'सांध्य डार्क मोड सक्रिय करें (Sandalwood Dark)' : 'स्वर्ण पार्चमेंट लाइट मोड सक्रिय करें (Parchment Light)'}
-            aria-label="Toggle Light / Dark Mode"
-            className="btn-theme-toggle"
+            title={theme === 'parchment' ? 'Switch to Sandalwood Dark theme' : 'Switch to Parchment Light theme'}
+            className="btn-action-round"
           >
             {theme === 'parchment' ? (
-              <Moon size={16} color="var(--color-text-secondary)" />
+              <Moon size={15} color="var(--color-text-secondary)" />
             ) : (
-              <Sun size={16} color="var(--color-gold)" />
+              <Sun size={15} color="var(--color-gold)" />
             )}
           </button>
 
-          {/* Language Switcher (EN | हिंदी) */}
+          {/* Language Switcher Toggle */}
           <button
             onClick={toggleLanguage}
             style={{
               fontSize: '0.8rem',
               fontWeight: 600,
               color: 'var(--color-text-main)',
-              backgroundColor: theme === 'parchment' ? 'rgba(197, 154, 78, 0.1)' : 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid rgba(197, 154, 78, 0.3)',
-              borderRadius: 'var(--radius-full)',
-              padding: '0.35rem 0.7rem',
+              backgroundColor:
+                theme === 'parchment'
+                  ? isScrolled ? 'rgba(251, 248, 242, 0.92)' : 'rgba(255, 253, 249, 0.85)'
+                  : isScrolled ? 'rgba(20, 14, 10, 0.90)' : 'rgba(28, 21, 16, 0.82)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid var(--color-gold-border)',
+              borderRadius: '9999px',
+              padding: '0.42rem 0.75rem',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '3px'
+              gap: '3px',
+              boxShadow: theme === 'parchment' ? 'var(--shadow-subtle)' : '0 4px 16px rgba(0,0,0,0.4)'
             }}
-            title="Toggle Language / भाषा बदलें"
-            aria-label="Toggle Language"
-            className="btn-lang-toggle"
+            title="Toggle Language (EN / हिंदी)"
+            className="btn-action-pill"
           >
-            <span style={{ color: language === 'en' ? 'var(--color-primary)' : 'var(--color-text-muted)', fontWeight: language === 'en' ? 700 : 500 }}>
+            <span style={{ color: language === 'en' ? 'var(--color-primary)' : 'var(--color-text-muted)' }}>
               EN
             </span>
-            <span style={{ color: 'var(--color-gold)', opacity: 0.7 }}>|</span>
-            <span style={{ color: language === 'hi' ? 'var(--color-primary)' : 'var(--color-text-muted)', fontWeight: language === 'hi' ? 700 : 500 }}>
+            <span style={{ color: 'var(--color-gold-border)' }}>|</span>
+            <span style={{ color: language === 'hi' ? 'var(--color-primary)' : 'var(--color-text-muted)' }}>
               हिंदी
             </span>
           </button>
 
-          {/* Support Our Trust Primary CTA Button */}
+          {/* Support / Action Button (Vedic Primary Theme Pill) */}
           <button
             onClick={() => handleNavClick('trust')}
             style={{
-              background: 'linear-gradient(135deg, #984B22 0%, #C59A4E 100%)',
-              color: '#FFFFFF',
-              border: 'none',
-              borderRadius: 'var(--radius-full)',
-              padding: '0.45rem 1.15rem',
-              fontSize: '0.84rem',
-              fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.4rem',
+              background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-gold) 100%)',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '9999px',
+              padding: '0.45rem 1.05rem',
+              fontSize: '0.82rem',
+              fontWeight: 600,
               cursor: 'pointer',
-              boxShadow: '0 4px 14px rgba(152, 75, 34, 0.35)',
-              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+              boxShadow: '0 4px 18px var(--color-primary-glow)',
+              transition: 'all 0.2s ease'
             }}
-            className="btn-header-trust"
+            className="btn-action-pill btn-support-pill"
           >
-            <Heart size={14} fill="currentColor" className="heart-beat-icon" />
+            <Heart size={13} fill="currentColor" />
             <span>{language === 'hi' ? 'ट्रस्ट सहयोग' : 'Support Trust'}</span>
           </button>
         </div>
 
-        {/* 4. Mobile Right Controls Cluster: Search + Theme + Hamburger */}
+        {/* 4. Mobile Controls: Search + Theme + Hamburger */}
         <div
-          className="mobile-toggle navbar-mobile-dock"
+          className="mobile-toggle"
           style={{
-            pointerEvents: 'auto',
             display: 'flex',
             alignItems: 'center',
             gap: '0.35rem',
             marginLeft: 'auto',
-            backgroundColor:
-              theme === 'parchment'
-                ? isScrolled
-                  ? 'rgba(255, 252, 245, 0.94)'
-                  : 'rgba(255, 252, 247, 0.88)'
-                : isScrolled
-                  ? 'rgba(20, 14, 10, 0.94)'
-                  : 'rgba(22, 15, 11, 0.88)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            padding: '0.28rem 0.45rem',
-            borderRadius: '9999px',
-            border: '1.5px solid rgba(197, 154, 78, 0.42)',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)'
+            pointerEvents: 'auto'
           }}
         >
           {/* Mobile Search Trigger */}
           <button
             onClick={() => setCommandPaletteOpen(true)}
             style={{
-              width: '32px',
-              height: '32px',
+              width: '34px',
+              height: '34px',
               borderRadius: '50%',
-              backgroundColor: 'transparent',
-              border: 'none',
+              backgroundColor:
+                theme === 'parchment'
+                  ? 'rgba(255, 253, 249, 0.85)'
+                  : 'rgba(43, 33, 26, 0.82)',
+              border: '1px solid var(--color-gold-border)',
               color: 'var(--color-primary)',
               display: 'flex',
               alignItems: 'center',
@@ -434,18 +395,45 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             }}
             aria-label="Open Search"
           >
-            <Search size={16} />
+            <Search size={15} />
+          </button>
+
+          {/* Mobile Vedic Theme Palette Trigger */}
+          <button
+            onClick={openThemeModal}
+            style={{
+              width: '34px',
+              height: '34px',
+              borderRadius: '50%',
+              backgroundColor:
+                theme === 'parchment'
+                  ? 'rgba(255, 253, 249, 0.85)'
+                  : 'rgba(43, 33, 26, 0.82)',
+              border: '1px solid var(--color-gold-border)',
+              color: 'var(--color-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label="Vedic Themes"
+            title="11 Vedic Sanskrit Themes"
+          >
+            <Palette size={15} />
           </button>
 
           {/* Mobile Theme Toggle */}
           <button
             onClick={toggleTheme}
             style={{
-              width: '32px',
-              height: '32px',
+              width: '34px',
+              height: '34px',
               borderRadius: '50%',
-              backgroundColor: 'transparent',
-              border: 'none',
+              backgroundColor:
+                theme === 'parchment'
+                  ? 'rgba(255, 253, 249, 0.85)'
+                  : 'rgba(43, 33, 26, 0.82)',
+              border: '1px solid var(--color-gold-border)',
               color: 'var(--color-text-main)',
               display: 'flex',
               alignItems: 'center',
@@ -454,7 +442,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             }}
             aria-label="Toggle Theme"
           >
-            {theme === 'parchment' ? <Moon size={15} /> : <Sun size={15} color="var(--color-gold)" />}
+            {theme === 'parchment' ? <Moon size={14} color="var(--color-text-secondary)" /> : <Sun size={14} color="var(--color-gold)" />}
           </button>
 
           {/* Mobile Language Toggle */}
@@ -467,7 +455,10 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               padding: '0.25rem 0.5rem',
               borderRadius: 'var(--radius-full)',
               border: '1px solid var(--color-gold-border)',
-              backgroundColor: 'var(--color-bg-secondary)',
+              backgroundColor:
+                theme === 'parchment'
+                  ? 'rgba(255, 253, 249, 0.85)'
+                  : 'rgba(43, 33, 26, 0.82)',
               cursor: 'pointer'
             }}
           >
@@ -507,7 +498,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             right: 0,
             bottom: 0,
             zIndex: 9999,
-            backgroundColor: 'rgba(18, 12, 9, 0.65)',
+            backgroundColor: 'rgba(28, 21, 16, 0.7)',
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
             display: 'flex',
@@ -522,14 +513,11 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               width: '85%',
               maxWidth: '360px',
               height: '100%',
-              backgroundColor:
-                theme === 'parchment'
-                  ? 'rgba(255, 252, 245, 0.95)'
-                  : 'rgba(22, 15, 11, 0.95)',
+              backgroundColor: 'var(--color-bg-card)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
               borderLeft: '1.5px solid var(--color-gold-border)',
-              boxShadow: '-10px 0 30px rgba(0, 0, 0, 0.3)',
+              boxShadow: 'var(--shadow-lg)',
               display: 'flex',
               flexDirection: 'column',
               padding: '1.5rem',
@@ -545,7 +533,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                     width: '32px',
                     height: '32px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(197, 154, 78, 0.15)',
+                    backgroundColor: 'var(--color-gold-light)',
                     border: '1px solid var(--color-gold)',
                     display: 'flex',
                     alignItems: 'center',
@@ -600,7 +588,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 justifyContent: 'space-between',
                 padding: '0.65rem 0.9rem',
                 backgroundColor: 'var(--color-bg-secondary)',
-                border: '1px solid rgba(197, 154, 78, 0.3)',
+                border: '1px solid var(--color-gold-border)',
                 borderRadius: 'var(--radius-lg)',
                 color: 'var(--color-text-main)',
                 fontSize: '0.85rem',
@@ -635,7 +623,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                         fontWeight: isActive ? 700 : 500,
                         backgroundColor: isActive ? 'var(--color-primary-light)' : 'transparent',
                         color: isActive ? 'var(--color-primary-dark)' : 'var(--color-text-main)',
-                        border: isActive ? '1px solid rgba(197, 154, 78, 0.4)' : '1px solid transparent',
+                        border: isActive ? '1px solid var(--color-gold-border)' : '1px solid transparent',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
@@ -661,7 +649,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 onClick={() => handleNavClick('trust')}
                 style={{
                   width: '100%',
-                  background: 'linear-gradient(135deg, #984B22 0%, #C59A4E 100%)',
+                  background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-gold) 100%)',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: 'var(--radius-full)',
@@ -672,7 +660,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '0.5rem',
-                  boxShadow: '0 4px 14px rgba(152, 75, 34, 0.35)',
+                  boxShadow: '0 4px 14px var(--color-primary-glow)',
                   cursor: 'pointer'
                 }}
               >
@@ -691,41 +679,39 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
         onNavigate={handleNavClick}
       />
 
+      {/* Interactive 11 Vedic Sanskrit Themes Studio Modal */}
+      <VedicThemeModal />
+
       {/* Responsive and Animation Styles */}
       <style>{`
         @media (min-width: 1200px) {
-          .desktop-nav { display: block !important; }
+          .desktop-nav { display: flex !important; }
           .desktop-cta { display: flex !important; }
           .mobile-toggle { display: none !important; }
+          .navbar-left-spacer { display: block !important; }
         }
         @media (max-width: 1199px) {
           .desktop-nav { display: none !important; }
           .desktop-cta { display: none !important; }
           .mobile-toggle { display: flex !important; }
+          .navbar-left-spacer { display: none !important; }
         }
 
-        .emblem-badge-btn:hover {
-          transform: scale(1.06);
-          border-color: #FFFFFF !important;
-          box-shadow: 0 0 16px rgba(197, 154, 78, 0.5) !important;
-        }
-
-        .nav-link-btn:hover {
-          color: var(--color-primary-dark) !important;
+        .nav-pill-item:hover {
+          color: var(--color-primary) !important;
           background-color: var(--color-primary-light) !important;
         }
 
-        .btn-search-trigger:hover,
-        .btn-theme-toggle:hover,
-        .btn-lang-toggle:hover {
-          background-color: rgba(197, 154, 78, 0.22) !important;
+        .btn-action-pill:hover,
+        .btn-action-round:hover {
+          background-color: var(--color-primary-light) !important;
           border-color: var(--color-gold) !important;
           transform: translateY(-1px);
         }
 
-        .btn-header-trust:hover {
+        .btn-support-pill:hover {
           transform: translateY(-1.5px) scale(1.02);
-          box-shadow: 0 6px 20px rgba(152, 75, 34, 0.5) !important;
+          box-shadow: 0 6px 20px var(--color-primary-glow) !important;
         }
 
         @keyframes slideInRight {
@@ -740,15 +726,6 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
-        }
-
-        @keyframes beat {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.2); }
-        }
-
-        .heart-beat-icon {
-          animation: beat 2s infinite ease-in-out;
         }
       `}</style>
     </>

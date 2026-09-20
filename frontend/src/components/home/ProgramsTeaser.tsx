@@ -43,8 +43,7 @@ export const ProgramsTeaser: React.FC<ProgramsTeaserProps> = ({ onNavigate }) =>
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              height: '100%',
-              borderTop: '3px solid var(--color-primary)'
+              height: '100%'
             }}>
               <div>
                 {/* Badges */}

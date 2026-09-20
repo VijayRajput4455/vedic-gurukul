@@ -131,12 +131,12 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-10)', maxWidth: '1440px', margin: '0 auto var(--spacing-16) auto' }}>
-            {trustInitiativesData.map((init: TrustInitiative, index: number) => (
+            {trustInitiativesData.map((init: TrustInitiative) => (
               <div key={init.id} className="vedic-card-ornate" style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr',
                 gap: '1.5rem',
-                borderLeft: `5px solid ${index === 0 ? 'var(--color-secondary)' : index === 1 ? 'var(--color-gold)' : 'var(--color-primary)'}`
+                borderLeft: '5px solid var(--color-primary)'
               }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.5rem' }}>

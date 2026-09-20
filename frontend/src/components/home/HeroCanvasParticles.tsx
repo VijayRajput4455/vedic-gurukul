@@ -9,7 +9,6 @@ interface Particle {
   opacity: number;
   targetOpacity: number;
   pulseSpeed: number;
-  hueOffset: number;
 }
 
 interface HeroCanvasParticlesProps {
@@ -19,6 +18,12 @@ interface HeroCanvasParticlesProps {
 
 export const HeroCanvasParticles: React.FC<HeroCanvasParticlesProps> = ({ mouseX = 0, mouseY = 0 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const mouseRef = useRef({ x: mouseX, y: mouseY });
+
+  // Update mouseRef without triggering useEffect re-runs
+  useEffect(() => {
+    mouseRef.current = { x: mouseX, y: mouseY };
+  }, [mouseX, mouseY]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -42,56 +47,50 @@ export const HeroCanvasParticles: React.FC<HeroCanvasParticlesProps> = ({ mouseX
 
     window.addEventListener('resize', handleResize);
 
-    // Particle count: 35-45 for delicate, non-distracting atmospheric ambiance
-    const particleCount = Math.min(45, Math.floor(width / 32));
+    // Particle count: 32 for delicate, peaceful, non-distracting atmospheric ambiance
+    const particleCount = Math.min(36, Math.max(18, Math.floor(width / 42)));
     const particles: Particle[] = [];
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 2.2 + 0.8,
-        speedY: -(Math.random() * 0.35 + 0.15),
-        speedX: (Math.random() - 0.5) * 0.2,
-        opacity: Math.random() * 0.35 + 0.1,
-        targetOpacity: Math.random() * 0.45 + 0.15,
-        pulseSpeed: Math.random() * 0.02 + 0.008,
-        hueOffset: Math.random() * 15 - 7.5
+        size: Math.random() * 1.8 + 0.8,
+        // Ultra-slow, peaceful floating dust speed (0.05 to 0.14 px per frame)
+        speedY: -(Math.random() * 0.10 + 0.04),
+        speedX: (Math.random() - 0.5) * 0.04,
+        opacity: Math.random() * 0.25 + 0.1,
+        targetOpacity: Math.random() * 0.35 + 0.1,
+        pulseSpeed: Math.random() * 0.008 + 0.003
       });
     }
 
     let time = 0;
+    let lastTimestamp = performance.now();
 
-    const render = () => {
+    const render = (timestamp: number) => {
+      // Calculate elapsed delta time capped at 32ms to prevent huge jumps on tab switch/click
+      const elapsed = Math.min(32, timestamp - lastTimestamp);
+      lastTimestamp = timestamp;
+      const timeScale = elapsed / 16.666; // Normalize to 60fps
+
       ctx.clearRect(0, 0, width, height);
-      time += 0.02;
+      time += 0.006 * timeScale;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Move upward with gentle sinusoidal wave drift
-        p.y += p.speedY;
-        p.x += p.speedX + Math.sin(time + i) * 0.2;
+        // Move upward with very gentle, slow sinusoidal wave drift
+        p.y += p.speedY * timeScale;
+        p.x += (p.speedX + Math.sin(time * 0.8 + i) * 0.04) * timeScale;
 
-        // Subtle mouse influence
-        if (mouseX !== 0 || mouseY !== 0) {
-          const dx = p.x - (width / 2 + mouseX * (width / 2));
-          const dy = p.y - (height / 2 + mouseY * (height / 2));
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 180 && dist > 0) {
-            const force = (180 - dist) / 180;
-            p.x += (dx / dist) * force * 0.6;
-            p.y += (dy / dist) * force * 0.6;
-          }
-        }
-
-        // Pulse opacity
-        p.opacity += (p.targetOpacity - p.opacity) * p.pulseSpeed;
+        // Pulse opacity slowly and softly
+        p.opacity += (p.targetOpacity - p.opacity) * (p.pulseSpeed * timeScale);
         if (Math.abs(p.targetOpacity - p.opacity) < 0.02) {
-          p.targetOpacity = Math.random() * 0.4 + 0.1;
+          p.targetOpacity = Math.random() * 0.35 + 0.08;
         }
 
-        // Wrap around boundaries
+        // Wrap around boundaries seamlessly
         if (p.y < -10) {
           p.y = height + 10;
           p.x = Math.random() * width;
@@ -99,29 +98,28 @@ export const HeroCanvasParticles: React.FC<HeroCanvasParticlesProps> = ({ mouseX
         if (p.x < -10) p.x = width + 10;
         if (p.x > width + 10) p.x = -10;
 
-        // Draw glowing particle
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2.5);
-        // Antique gold / saffron warm ember tones (HSL 40°, 85%, 70%)
+        // Draw glowing golden particle
+        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2.2);
         gradient.addColorStop(0, `rgba(245, 218, 145, ${p.opacity})`);
-        gradient.addColorStop(0.5, `rgba(224, 154, 60, ${p.opacity * 0.6})`);
+        gradient.addColorStop(0.5, `rgba(224, 154, 60, ${p.opacity * 0.5})`);
         gradient.addColorStop(1, 'rgba(166, 95, 43, 0)');
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
         ctx.fill();
       }
 
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
     };
-  }, [mouseX, mouseY]);
+  }, []); // Run effect once on mount, no re-creations on mouse moves or clicks
 
   return (
     <canvas
@@ -139,3 +137,4 @@ export const HeroCanvasParticles: React.FC<HeroCanvasParticlesProps> = ({ mouseX
     />
   );
 };
+

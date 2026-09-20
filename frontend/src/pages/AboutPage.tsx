@@ -98,7 +98,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             <div style={{ position: 'relative' }}>
               <div className="img-zoom-wrapper" style={{ borderRadius: 'var(--radius-xl)', border: '2px solid var(--color-border-ornate)' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1000&q=80"
+                  src="/assets/images/gallery/vedic_study_courtyard.jpg"
                   alt="Pathshala classroom studies"
                   style={{ width: '100%', height: '380px', objectFit: 'cover' }}
                 />

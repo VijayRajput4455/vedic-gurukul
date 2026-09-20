@@ -256,7 +256,7 @@ export const AdminPage: React.FC<AdminPageProps> = () => {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {donations.map((don: DonationPledge) => (
-                  <div key={don.id} className="vedic-card" style={{ padding: '1rem 1.25rem', borderLeft: '4px solid var(--color-secondary)' }}>
+                  <div key={don.id} className="vedic-card" style={{ padding: '1rem 1.25rem', borderLeft: '4px solid var(--color-primary)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                       <div>
                         <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--color-secondary-dark)' }}>{don.receiptNumber}</span>

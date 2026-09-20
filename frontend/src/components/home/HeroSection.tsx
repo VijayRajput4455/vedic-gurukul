@@ -6,9 +6,9 @@ import { HeroCanvasParticles } from './HeroCanvasParticles';
 import {
   ArrowRight,
   Sparkles,
-  Layers,
   Pause,
-  Play
+  Play,
+  ChevronDown
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -18,7 +18,6 @@ interface HeroSectionProps {
 interface HeroSlide {
   id: string;
   image: string;
-  fallbackGradient: string;
   titleHi: string;
   titleEn: string;
   tagHi: string;
@@ -47,31 +46,28 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   const currentMouse = useRef({ x: 0, y: 0 });
   const rafId = useRef<number | null>(null);
 
-  // Cinematic Slides
+  // High-Resolution Authentic Vedic Gurukul Photography Slides
   const slides: HeroSlide[] = useMemo(
     () => [
       {
-        id: 'golden-horizon',
-        image: '/assets/images/hero/vedic_golden_horizon_hero.jpg',
-        fallbackGradient: 'radial-gradient(circle at center, #4A3323 0%, #1E1510 100%)',
+        id: 'vedic-hero-mandap',
+        image: '/assets/images/hero/vedic_hero_mandap.jpg',
         titleHi: 'वैदिक गुरुकुल एवं आश्रम मण्डप',
         titleEn: 'Sacred Gurukul Mandapa & River Horizon',
         tagHi: 'सत्यं • ऋतं • ज्ञानम् • सेवा',
         tagEn: 'Truth • Cosmic Order • Wisdom • Service'
       },
       {
-        id: 'campus-dawn',
-        image: '/assets/images/hero/gurukul_campus_hero.jpg',
-        fallbackGradient: 'radial-gradient(circle at center, #3A2518 0%, #1A120D 100%)',
-        titleHi: 'वैदिक गुरुकुल परिसर एवं अध्ययन कुटीर',
-        titleEn: 'Sacred Gurukul Campus & Study Pavilions',
+        id: 'vedic-study-courtyard',
+        image: '/assets/images/hero/vedic_study_courtyard.jpg',
+        titleHi: 'प्राचीन वटवृक्ष पावन स्वाध्याय',
+        titleEn: 'Sacred Banyan Courtyard & Shastric Study',
         tagHi: 'प्रातःकालीन स्वाध्याय व तपस्या',
         tagEn: 'Dawn Contemplation & Shastra Study'
       },
       {
-        id: 'granthalaya-hall',
-        image: '/assets/images/hero/vedic_granthalaya_hero.jpg',
-        fallbackGradient: 'radial-gradient(circle at center, #2E1F16 0%, #160F0B 100%)',
+        id: 'vedic-library-grantha',
+        image: '/assets/images/hero/vedic_library_grantha.jpg',
         titleHi: 'प्राचीन पाणिनीय ग्रन्थागार',
         titleEn: 'Ancient Vedic Manuscript Library',
         tagHi: 'पाणिनीय व्याकरण व दर्शन अनुसंधान',
@@ -91,10 +87,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     const my = currentMouse.current.y;
 
     setParallax({
-      bgX: mx * -10,
-      bgY: my * -6,
-      fgX: mx * 4,
-      fgY: my * 3,
+      bgX: mx * -8,
+      bgY: my * -5,
+      fgX: mx * 3,
+      fgY: my * 2,
       rawMouseX: mx,
       rawMouseY: my
     });
@@ -125,16 +121,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     setIsHovered(false);
   };
 
-  // Auto-slide Timer (12s cycle)
+  // Auto-slide Timer (10s cycle)
   useEffect(() => {
     if (!isAutoPlaying || isHovered) return;
     const interval = setInterval(() => {
       setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
-    }, 12000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [isAutoPlaying, isHovered, slides.length]);
 
   const currentSlide = slides[currentSlideIndex];
+
+  const handleScrollToNext = () => {
+    const nextEl = document.getElementById('welcome-section') || document.getElementById('home-next');
+    if (nextEl) {
+      nextEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section
@@ -142,19 +147,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="hero-golden-horizon-section"
+      className="hero-cinematic-section"
       style={{
         position: 'relative',
-        minHeight: 'clamp(660px, 90vh, 940px)',
+        minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         overflow: 'hidden',
-        backgroundColor: '#F7F1E5',
-        color: '#261911'
+        backgroundColor: '#1E140D',
+        color: '#FFFFFF'
       }}
       aria-label="Vedic Gurukul Hero Banner"
     >
-      {/* 1. Full-bleed Background Scene with Ken Burns & Smooth Crossfade */}
+      {/* =========================================================================
+          LAYER 1: Full-Width Gurukul Background with Cinematic Ken Burns Movement
+          ========================================================================= */}
       <div
         style={{
           position: 'absolute',
@@ -170,30 +177,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         <AnimatePresence mode="sync">
           <motion.div
             key={currentSlide.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.4, ease: 'easeInOut' }}
+            transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
             style={{
               position: 'absolute',
               top: 0,
               left: 0,
               width: '100%',
-              height: '100%',
-              background: currentSlide.fallbackGradient
+              height: '100%'
             }}
           >
             <img
               src={currentSlide.image}
               alt={language === 'hi' ? currentSlide.titleHi : currentSlide.titleEn}
-              className={currentSlideIndex === 0 ? 'ken-burns-1' : 'ken-burns-2'}
+              className="ken-burns-hero-cinematic"
               onLoad={() => setImageLoaded((prev) => ({ ...prev, [currentSlide.id]: true }))}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                objectPosition: 'center 40%',
-                opacity: imageLoaded[currentSlide.id] ? 1 : 0,
+                objectPosition: 'center 42%',
+                opacity: imageLoaded[currentSlide.id] ? 1 : 0.8,
                 transition: 'opacity 0.8s ease'
               }}
             />
@@ -201,7 +207,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         </AnimatePresence>
       </div>
 
-      {/* 2. Delicate, Transparent Ambient Warmth Overlay (NO heavy white wash) */}
+      {/* =========================================================================
+          LAYER 2: Atmospheric Elements (Gentle Sun Rays & Warm Vignette Overlay)
+          ========================================================================= */}
+      {/* Crisp, Warm Multi-Stop Atmospheric Shading (Ensures High Contrast & Readability) */}
       <div
         style={{
           position: 'absolute',
@@ -211,10 +220,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           bottom: 0,
           background: `
             linear-gradient(90deg, 
-              rgba(255, 250, 240, 0.42) 0%, 
-              rgba(255, 250, 240, 0.28) 32%, 
-              rgba(255, 250, 240, 0.10) 55%, 
-              transparent 75%
+              rgba(18, 12, 8, 0.86) 0%, 
+              rgba(18, 12, 8, 0.72) 38%, 
+              rgba(18, 12, 8, 0.42) 65%, 
+              rgba(18, 12, 8, 0.28) 100%
+            ),
+            linear-gradient(180deg, 
+              rgba(18, 12, 8, 0.45) 0%, 
+              transparent 25%, 
+              transparent 70%, 
+              rgba(18, 12, 8, 0.85) 100%
             )
           `,
           zIndex: 2,
@@ -222,50 +237,41 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         }}
       />
 
-      {/* 3. Subtle Warm Ambient Radial Soft Light for Text Readability without Obscuring Background */}
+      {/* Soft Golden Sunbeam Glow from Top-Right */}
       <div
         style={{
           position: 'absolute',
-          top: '25%',
-          left: '8%',
-          width: '650px',
-          height: '650px',
+          top: '-10%',
+          right: '15%',
+          width: '700px',
+          height: '700px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle at center, rgba(255, 248, 230, 0.45) 0%, rgba(255, 248, 230, 0.15) 50%, transparent 80%)',
-          filter: 'blur(30px)',
+          background: 'radial-gradient(circle at center, rgba(245, 197, 86, 0.18) 0%, rgba(212, 122, 43, 0.08) 45%, transparent 70%)',
+          filter: 'blur(50px)',
           zIndex: 2,
           pointerEvents: 'none'
         }}
       />
 
-      {/* 4. Bottom Soft Fade into 4-Pillar Ribbon */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '90px',
-          background: 'linear-gradient(0deg, #F8F3E9 0%, rgba(248, 243, 233, 0.6) 40%, transparent 100%)',
-          zIndex: 3,
-          pointerEvents: 'none'
-        }}
-      />
+      {/* Floating Golden Dust Particles Canvas */}
+      <HeroCanvasParticles />
 
-      {/* 5. Delicate Golden Lace Mandala Filigree in Top-Left Corner */}
+      {/* =========================================================================
+          LAYER 3: Traditional Devanagari Filigree & Subtle Mandala Geometry
+          ========================================================================= */}
       <div
         style={{
           position: 'absolute',
-          top: '-15%',
-          left: '-10%',
-          width: '640px',
-          height: '640px',
+          top: '-10%',
+          left: '-8%',
+          width: '580px',
+          height: '580px',
           borderRadius: '50%',
-          border: '1px solid rgba(197, 154, 78, 0.3)',
-          boxShadow: 'inset 0 0 60px rgba(197, 154, 78, 0.08)',
+          border: '1px solid rgba(229, 169, 60, 0.22)',
+          boxShadow: 'inset 0 0 60px rgba(229, 169, 60, 0.06)',
           pointerEvents: 'none',
           zIndex: 3,
-          opacity: 0.35
+          opacity: 0.45
         }}
         className="animate-mandala-rotate"
       >
@@ -277,7 +283,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             right: '12%',
             bottom: '12%',
             borderRadius: '50%',
-            border: '1px dashed rgba(197, 154, 78, 0.25)'
+            border: '1px dashed rgba(229, 169, 60, 0.20)'
           }}
         />
         <div
@@ -288,16 +294,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             right: '25%',
             bottom: '25%',
             borderRadius: '50%',
-            border: '1px solid rgba(166, 95, 43, 0.2)'
+            border: '1px solid rgba(198, 93, 33, 0.20)'
           }}
         />
       </div>
 
-      {/* 6. Soft Light Sweep & Golden Particle Canvas */}
-      <div className="light-sweep-overlay" style={{ zIndex: 3 }} />
-      <HeroCanvasParticles mouseX={parallax.rawMouseX} mouseY={parallax.rawMouseY} />
-
-      {/* 7. Foreground Content Container */}
+      {/* =========================================================================
+          LAYER 4: Structured Foreground Typography & Vedic CTAs
+          ========================================================================= */}
       <div
         style={{
           position: 'relative',
@@ -310,117 +314,153 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
       >
         <div
           style={{
-            maxWidth: '680px',
+            maxWidth: '780px',
             textAlign: 'left',
-            padding: 'clamp(5.5rem, 11vh, 7.5rem) 0 var(--spacing-8) 0'
+            padding: 'clamp(5.5rem, 12vh, 8.5rem) 0 clamp(3.5rem, 8vh, 5.5rem) 0'
           }}
         >
-          {/* Main Sanskrit Gurukul Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              fontSize: 'clamp(2.6rem, 5.8vw, 4.4rem)',
-              fontFamily: 'var(--font-heading-devanagari)',
-              color: '#261911',
-              lineHeight: 1.14,
-              marginBottom: '0.65rem',
-              letterSpacing: '-0.015em',
-              fontWeight: 700,
-              textShadow: '0 2px 16px rgba(255, 248, 235, 0.9), 0 1px 3px rgba(255, 255, 255, 0.8)'
-            }}
-          >
-            {language === 'hi' ? 'संस्कृत वैदिक गुरुकुल' : 'संस्कृत वैदिक गुरुकुल'}
-          </motion.h1>
-
-          {/* Uppercase Elegant Subtitle Tagline */}
+          {/* 1. Sacred Small Sanskrit Label: ॥ ॐ ॥ */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontFamily: 'var(--font-heading-latin)',
-              fontSize: 'clamp(0.85rem, 1.4vw, 0.98rem)',
-              fontWeight: 700,
-              color: '#5C3D28',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              lineHeight: 1.5,
-              marginBottom: 'var(--spacing-6)',
-              textShadow: '0 1px 10px rgba(255, 248, 235, 0.9)'
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+              backgroundColor: 'rgba(212, 175, 55, 0.15)',
+              border: '1px solid rgba(229, 169, 60, 0.4)',
+              borderRadius: 'var(--radius-full)',
+              padding: '0.35rem 1.15rem',
+              marginBottom: 'var(--spacing-4)',
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 2px 14px rgba(0, 0, 0, 0.3)'
             }}
           >
-            {language === 'hi'
-              ? 'A JOURNEY TOWARDS KNOWLEDGE, CHARACTER AND A BETTER SOCIETY'
-              : 'A JOURNEY TOWARDS KNOWLEDGE, CHARACTER AND A BETTER SOCIETY'}
+            <span
+              style={{
+                fontFamily: 'var(--font-heading-devanagari)',
+                fontSize: '1.05rem',
+                fontWeight: 700,
+                color: '#F5D77F',
+                letterSpacing: '0.08em',
+                lineHeight: 1
+              }}
+            >
+              ॥ ॐ ॥
+            </span>
+            <span
+              style={{
+                width: '4px',
+                height: '4px',
+                borderRadius: '50%',
+                backgroundColor: '#F5D77F',
+                opacity: 0.6
+              }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-heading-latin)',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                color: '#FFF8EE',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase'
+              }}
+            >
+              Sanskrit Vedic Gurukul & Trust
+            </span>
           </motion.div>
 
-          {/* Traditional Ornate Flourish Divider */}
+          {/* 2. Main Sanskrit Heading: ज्ञानं परमं बलम् */}
+          <motion.h1
+            initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.85, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              fontSize: 'clamp(2.5rem, 5.8vw, 4.2rem)',
+              fontFamily: 'var(--font-heading-devanagari)',
+              fontWeight: 700,
+              lineHeight: 1.12,
+              marginBottom: '0.45rem',
+              color: '#FFFFFF',
+              background: 'linear-gradient(135deg, #FFFFFF 20%, #FBE8BD 60%, #E5B35C 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 4px 28px rgba(0, 0, 0, 0.75)'
+            }}
+          >
+            ज्ञानं परमं बलम्
+          </motion.h1>
+
+          {/* 3. English Heading: Awaken the Light of Vedic Knowledge */}
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              fontFamily: 'var(--font-heading-latin)',
+              fontSize: 'clamp(1.25rem, 2.6vw, 1.95rem)',
+              fontWeight: 600,
+              color: '#F4E8D6',
+              letterSpacing: '0.02em',
+              lineHeight: 1.3,
+              marginBottom: 'var(--spacing-4)',
+              textShadow: '0 2px 16px rgba(0, 0, 0, 0.7)'
+            }}
+          >
+            Awaken the Light of Vedic Knowledge
+          </motion.h2>
+
+          {/* Traditional Sanskrit-Inspired Decorative Motif Line */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.75, delay: 0.25, ease: 'easeOut' }}
+            transition={{ duration: 0.75, delay: 0.3, ease: 'easeOut' }}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.6rem',
-              color: '#B88A45',
+              gap: '0.65rem',
+              color: '#D4AF37',
               marginBottom: 'var(--spacing-5)'
             }}
           >
-            <div style={{ height: '1px', width: '50px', background: 'linear-gradient(90deg, transparent, #C59A4E)' }} />
-            <svg width="22" height="14" viewBox="0 0 24 14" fill="currentColor">
+            <div style={{ height: '1.5px', width: '60px', background: 'linear-gradient(90deg, transparent, #D4AF37)' }} />
+            <svg width="24" height="14" viewBox="0 0 24 14" fill="currentColor" aria-hidden="true">
               <path d="M12 0C10.5 3 7.5 5 4 5C6 7 8 8 12 14C16 8 18 7 20 5C16.5 5 13.5 3 12 0Z" />
             </svg>
-            <div style={{ height: '1px', width: '50px', background: 'linear-gradient(270deg, transparent, #C59A4E)' }} />
+            <Sparkles size={14} />
+            <svg width="24" height="14" viewBox="0 0 24 14" fill="currentColor" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
+              <path d="M12 0C10.5 3 7.5 5 4 5C6 7 8 8 12 14C16 8 18 7 20 5C16.5 5 13.5 3 12 0Z" />
+            </svg>
+            <div style={{ height: '1.5px', width: '60px', background: 'linear-gradient(270deg, transparent, #D4AF37)' }} />
           </motion.div>
 
-          {/* Sacred Sanskrit Shloka Box */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
+          {/* 4. Supporting Text */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.36, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              marginBottom: 'var(--spacing-8)'
+              fontFamily: 'var(--font-body-latin)',
+              fontSize: 'clamp(0.98rem, 1.4vw, 1.15rem)',
+              color: '#E0D4C5',
+              lineHeight: 1.7,
+              marginBottom: 'var(--spacing-8)',
+              maxWidth: '680px',
+              textShadow: '0 2px 12px rgba(0, 0, 0, 0.6)'
             }}
           >
-            {/* Shloka Verse in Bold Serif */}
-            <div
-              style={{
-                fontFamily: 'var(--font-heading-devanagari)',
-                fontSize: 'clamp(1.35rem, 2.4vw, 1.8rem)',
-                color: '#261911',
-                fontWeight: 700,
-                lineHeight: 1.45,
-                marginBottom: '0.5rem',
-                textShadow: '0 2px 14px rgba(255, 248, 235, 0.9), 0 1px 2px rgba(255, 255, 255, 0.8)'
-              }}
-            >
-              “विद्या ददाति विनयं<br />
-              विनयाद् याति पात्रताम् ।”
-            </div>
+            {language === 'hi'
+              ? 'संस्कृत वैदिक गुरुकुल में आपका स्वागत है — जहाँ स्वामी दयानन्द सरस्वती के पावन आदर्शों के अनुरूप पारम्परिक शिक्षा, संस्कृत स्वाध्याय, वैदिक प्रज्ञा एवं चरित्र-निर्माण का दिव्य संगम होता है।'
+              : 'Welcome to our Sanskrit Vedic Gurukul, where traditional education, Sanskrit learning, Vedic wisdom, and character development come together in a nurturing environment.'}
+          </motion.p>
 
-            {/* Sub-meaning in Italic */}
-            <div
-              style={{
-                fontFamily: 'var(--font-serif-accent)',
-                fontSize: 'clamp(1rem, 1.6vw, 1.15rem)',
-                color: '#573E2C',
-                lineHeight: 1.5,
-                textShadow: '0 1px 8px rgba(255, 248, 235, 0.9)'
-              }}
-            >
-              Knowledge gives humility,<br />
-              from humility comes worthiness.
-            </div>
-          </motion.div>
-
-          {/* Action CTAs: Rounded Pill Buttons */}
+          {/* 5. Primary & Secondary CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -428,58 +468,62 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
               gap: '1.15rem'
             }}
           >
-            {/* Primary Terracotta/Saffron Pill Button */}
+            {/* Primary Saffron/Ochre CTA Button: Explore Our Gurukul */}
             <button
               onClick={() => onNavigate('education')}
               style={{
-                backgroundColor: '#984B22',
+                backgroundColor: '#C65D21',
+                backgroundImage: 'linear-gradient(135deg, #D46B28 0%, #B84E1A 100%)',
                 color: '#FFFFFF',
-                border: 'none',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
                 borderRadius: 'var(--radius-full)',
-                padding: '0.9rem 2rem',
+                padding: '0.95rem 2.2rem',
                 fontSize: '1rem',
                 fontWeight: 600,
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.6rem',
+                gap: '0.65rem',
                 cursor: 'pointer',
-                boxShadow: '0 4px 18px rgba(152, 75, 34, 0.35)',
-                transition: 'all var(--transition-fast)'
+                boxShadow: '0 6px 24px rgba(198, 93, 33, 0.45)',
+                transition: 'all var(--transition-base)'
               }}
-              className="btn-pill-primary"
+              className="hero-btn-primary"
             >
-              <span>{language === 'hi' ? 'Explore Gurukul' : 'Explore Gurukul'}</span>
+              <span>{language === 'hi' ? 'गुरुकुल परिचय देखें' : 'Explore Our Gurukul'}</span>
               <ArrowRight size={17} />
             </button>
 
-            {/* Secondary Warm Parchment Pill Button */}
+            {/* Secondary Antique Gold Border CTA Button: Discover Our Vision */}
             <button
-              onClick={() => onNavigate('trust')}
+              onClick={() => onNavigate('philosophy')}
               style={{
-                backgroundColor: 'rgba(255, 253, 249, 0.94)',
-                color: '#261911',
-                border: '1.5px solid rgba(197, 154, 78, 0.65)',
+                backgroundColor: 'rgba(28, 20, 14, 0.65)',
+                color: '#FFF8EE',
+                border: '1.5px solid rgba(229, 169, 60, 0.7)',
                 borderRadius: 'var(--radius-full)',
-                padding: '0.9rem 2rem',
+                padding: '0.95rem 2.2rem',
                 fontSize: '1rem',
                 fontWeight: 600,
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
                 cursor: 'pointer',
-                backdropFilter: 'blur(8px)',
-                boxShadow: '0 2px 10px rgba(42, 30, 23, 0.06)',
-                transition: 'all var(--transition-fast)'
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 4px 18px rgba(0, 0, 0, 0.35)',
+                transition: 'all var(--transition-base)'
               }}
-              className="btn-pill-secondary"
+              className="hero-btn-secondary"
             >
-              <span>{language === 'hi' ? 'Learn About Our Trust' : 'Learn About Our Trust'}</span>
+              <span>{language === 'hi' ? 'हमारा ध्येय व दर्शन' : 'Discover Our Vision'}</span>
             </button>
           </motion.div>
         </div>
       </div>
 
-      {/* 8. Bottom-Left Slide Indicator Carousel Pills */}
+      {/* =========================================================================
+          LAYER 5: Interactive Slide Switcher Pills & Scroll Indicator
+          ========================================================================= */}
+      {/* Slide Indicators on Bottom-Left */}
       <div
         style={{
           position: 'absolute',
@@ -488,7 +532,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           zIndex: 15,
           display: 'flex',
           alignItems: 'center',
-          gap: '0.5rem'
+          gap: '0.5rem',
+          backgroundColor: 'rgba(18, 12, 8, 0.55)',
+          padding: '6px 12px',
+          borderRadius: 'var(--radius-full)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(229, 169, 60, 0.25)'
         }}
       >
         {slides.map((s, idx) => (
@@ -496,10 +545,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             key={s.id}
             onClick={() => setCurrentSlideIndex(idx)}
             style={{
-              width: idx === currentSlideIndex ? '28px' : '8px',
-              height: '8px',
+              width: idx === currentSlideIndex ? '30px' : '8px',
+              height: '7px',
               borderRadius: 'var(--radius-full)',
-              backgroundColor: idx === currentSlideIndex ? '#984B22' : 'rgba(42, 30, 23, 0.3)',
+              backgroundColor: idx === currentSlideIndex ? '#D4AF37' : 'rgba(255, 255, 255, 0.35)',
               border: 'none',
               transition: 'all var(--transition-base)',
               padding: 0,
@@ -513,78 +562,91 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
         <button
           onClick={() => setIsAutoPlaying((prev) => !prev)}
           style={{
-            color: '#5C3D28',
+            color: '#E5B35C',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginLeft: '6px',
+            marginLeft: '4px',
             cursor: 'pointer',
             padding: 0,
             background: 'none',
             border: 'none'
           }}
-          title={isAutoPlaying ? 'Pause rotation' : 'Resume rotation'}
-          aria-label={isAutoPlaying ? 'Pause rotation' : 'Resume rotation'}
+          title={isAutoPlaying ? 'Pause slide rotation' : 'Resume slide rotation'}
+          aria-label={isAutoPlaying ? 'Pause slide rotation' : 'Resume slide rotation'}
         >
           {isAutoPlaying ? <Pause size={12} /> : <Play size={12} />}
         </button>
       </div>
 
-      {/* 9. Bottom-Right "Scroll to Explore" Pill Indicator */}
-      <div
+      {/* Subtle Scroll Down Indicator on Bottom-Center/Right */}
+      <button
+        onClick={handleScrollToNext}
         style={{
           position: 'absolute',
-          bottom: '20px',
+          bottom: '22px',
           right: 'clamp(1rem, 4vw, 3rem)',
           zIndex: 15,
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          gap: '4px',
-          color: '#5C3D28',
+          gap: '6px',
+          color: '#F4E8D6',
           fontSize: '11px',
-          letterSpacing: '0.04em',
-          fontWeight: 600
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          fontWeight: 600,
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: '6px 10px'
         }}
+        className="scroll-down-btn"
       >
-        <div
-          style={{
-            width: '20px',
-            height: '32px',
-            borderRadius: 'var(--radius-full)',
-            border: '1.5px solid #5C3D28',
-            display: 'flex',
-            justifyContent: 'center',
-            paddingTop: '5px'
-          }}
+        <span>Scroll to Explore</span>
+        <motion.div
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              width: '3px',
-              height: '6px',
-              backgroundColor: '#984B22',
-              borderRadius: 'var(--radius-full)'
-            }}
-          />
-        </div>
-        <span>Scroll to Explore ⌄</span>
-      </div>
+          <ChevronDown size={16} color="#D4AF37" />
+        </motion.div>
+      </button>
 
+      {/* Component Specific Hover Styles & Ken Burns Animation */}
       <style>{`
-        .btn-pill-primary:hover {
-          background-color: #7E3C1A !important;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 22px rgba(152, 75, 34, 0.45) !important;
+        .ken-burns-hero-cinematic {
+          animation: subtleKenBurns 28s ease-in-out infinite alternate;
         }
-        .btn-pill-secondary:hover {
-          background-color: #FFFFFF !important;
-          border-color: #984B22 !important;
+
+        @keyframes subtleKenBurns {
+          0% {
+            transform: scale(1) translate(0, 0);
+          }
+          50% {
+            transform: scale(1.06) translate(-1%, -1%);
+          }
+          100% {
+            transform: scale(1.03) translate(1%, 0.5%);
+          }
+        }
+
+        .hero-btn-primary:hover {
+          background-image: linear-gradient(135deg, #E07A2E 0%, #C65D21 100%) !important;
           transform: translateY(-2px);
-          box-shadow: 0 4px 16px rgba(42, 30, 23, 0.12) !important;
+          box-shadow: 0 8px 30px rgba(212, 107, 40, 0.6) !important;
+        }
+
+        .hero-btn-secondary:hover {
+          background-color: rgba(229, 169, 60, 0.22) !important;
+          border-color: #F5D77F !important;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 24px rgba(229, 169, 60, 0.3) !important;
+        }
+
+        .scroll-down-btn:hover {
+          color: #D4AF37;
         }
       `}</style>
     </section>
   );
 };
+

@@ -73,7 +73,7 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
           <div className="grid-3">
             
             {/* Vidya */}
-            <div className="vedic-card-ornate" style={{ borderTop: '3px solid var(--color-primary)' }}>
+            <div className="vedic-card-ornate">
               <div style={{
                 width: '48px',
                 height: '48px',
@@ -101,7 +101,7 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
             </div>
 
             {/* Sanskar */}
-            <div className="vedic-card-ornate" style={{ borderTop: '3px solid var(--color-gold)' }}>
+            <div className="vedic-card-ornate">
               <div style={{
                 width: '48px',
                 height: '48px',
@@ -129,7 +129,7 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
             </div>
 
             {/* Seva */}
-            <div className="vedic-card-ornate" style={{ borderTop: '3px solid var(--color-secondary)' }}>
+            <div className="vedic-card-ornate">
               <div style={{
                 width: '48px',
                 height: '48px',

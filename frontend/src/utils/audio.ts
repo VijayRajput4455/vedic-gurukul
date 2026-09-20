@@ -73,6 +73,39 @@ class VedicAudioEngine {
     }
   }
 
+  public playBellChime(frequencyHz: number = 528): boolean {
+    try {
+      this.initContext();
+      if (!this.ctx) return false;
+
+      const now = this.ctx.currentTime;
+      const gainNode = this.ctx.createGain();
+      gainNode.gain.setValueAtTime(0.18, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+      gainNode.connect(this.ctx.destination);
+
+      // Bell harmonics
+      const freqs = [frequencyHz, frequencyHz * 1.5, frequencyHz * 2.08, frequencyHz * 3.14];
+      freqs.forEach((f, idx) => {
+        const osc = this.ctx!.createOscillator();
+        osc.type = idx === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(f, now);
+
+        const oscGain = this.ctx!.createGain();
+        oscGain.gain.value = 1 / (idx * 2 + 1);
+        osc.connect(oscGain);
+        oscGain.connect(gainNode);
+
+        osc.start(now);
+        osc.stop(now + 1.8);
+      });
+
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   public stop() {
     if (this.gainNode && this.ctx) {
       try {

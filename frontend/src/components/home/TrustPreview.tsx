@@ -53,7 +53,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
         {/* 3 Key Trust Initiatives Grid */}
         <div className="grid-3" style={{ marginBottom: 'var(--spacing-10)' }}>
           
-          <div className="vedic-card" style={{ borderTop: '3px solid var(--color-secondary)' }}>
+          <div className="vedic-card">
             <div style={{
               width: '46px',
               height: '46px',
@@ -75,7 +75,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <div className="vedic-card" style={{ borderTop: '3px solid var(--color-gold)' }}>
+          <div className="vedic-card">
             <div style={{
               width: '46px',
               height: '46px',
@@ -97,7 +97,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <div className="vedic-card" style={{ borderTop: '3px solid var(--color-primary)' }}>
+          <div className="vedic-card">
             <div style={{
               width: '46px',
               height: '46px',

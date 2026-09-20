@@ -16,7 +16,8 @@ import {
   Flame,
   Volume2,
   X,
-  ArrowRight
+  ArrowRight,
+  Palette
 } from 'lucide-react';
 import { vedicAudio } from '../../utils/audio';
 
@@ -38,7 +39,7 @@ interface SearchItem {
 
 export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose, onNavigate }) => {
   const { language, toggleLanguage } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, setVedicTheme, availableThemes, openThemeModal, toggleDailyMode } = useTheme();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -195,6 +196,37 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
       icon: theme === 'parchment' ? Moon : Sun,
       action: () => { toggleTheme(); onClose(); }
     },
+    {
+      id: 'act-theme-modal',
+      titleHi: '🎨 वैदिक सौन्दर्य चक्र (११ दिव्य भाव)',
+      titleEn: '🎨 Open Vedic Themes Studio (11 Sacred Themes)',
+      categoryHi: 'थीम एवं सौन्दर्य',
+      categoryEn: 'Themes & Aesthetics',
+      icon: Palette,
+      action: () => { onClose(); openThemeModal(); }
+    },
+    {
+      id: 'act-daily-cycle',
+      titleHi: '🔄 २४-घंटे दैनिक वैदिक चक्र टॉगल करें',
+      titleEn: '🔄 Toggle 24-Hour Daily Vedic Theme Cycle',
+      categoryHi: 'थीम एवं सौन्दर्य',
+      categoryEn: 'Themes & Aesthetics',
+      icon: Palette,
+      action: () => { toggleDailyMode(); onClose(); }
+    },
+    ...availableThemes.map((vTheme) => ({
+      id: `theme-${vTheme.id}`,
+      titleHi: `${vTheme.symbol} ${vTheme.nameHi} (${vTheme.sanskritName})`,
+      titleEn: `${vTheme.symbol} ${vTheme.nameEn} - ${vTheme.patternNameEn}`,
+      categoryHi: 'वैदिक थीम चयन',
+      categoryEn: 'Vedic Themes',
+      icon: Palette,
+      action: () => {
+        setVedicTheme(vTheme.id);
+        try { vedicAudio.playBellChime(); } catch {}
+        onClose();
+      }
+    })),
     {
       id: 'act-lang',
       titleHi: language === 'hi' ? 'Switch to English Language' : 'हिन्दी भाषा में बदलें',

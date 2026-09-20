@@ -9,6 +9,7 @@ import { Footer } from './components/layout/Footer';
 import { ScrollProgress } from './components/common/ScrollProgress';
 import { ScrollControls } from './components/common/ScrollControls';
 import { CustomCursor } from './components/common/CustomCursor';
+import { VedicBackground } from './components/common/VedicBackground';
 
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -61,7 +62,10 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      {/* Dynamic Full-Page Sacred Vedic Geometry Pattern & Ambient Background */}
+      <VedicBackground />
+
       {/* 3-Layer Hardware-Accelerated Cybernetic Custom Cursor */}
       <CustomCursor />
 
