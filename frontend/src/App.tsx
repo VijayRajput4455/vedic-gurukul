@@ -10,6 +10,7 @@ import { ScrollProgress } from './components/common/ScrollProgress';
 import { ScrollControls } from './components/common/ScrollControls';
 import { CustomCursor } from './components/common/CustomCursor';
 import { VedicBackground } from './components/common/VedicBackground';
+import { IdleOmAnimation } from './components/common/IdleOmAnimation';
 
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -68,6 +69,9 @@ const AppContent: React.FC = () => {
 
       {/* 3-Layer Hardware-Accelerated Cybernetic Custom Cursor */}
       <CustomCursor />
+
+      {/* 3-Second Idle Mouse Stillness Sacred Om Animation */}
+      <IdleOmAnimation />
 
       {/* 3.5px Top Scroll Progress Bar */}
       <ScrollProgress />
