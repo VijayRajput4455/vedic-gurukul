@@ -13,27 +13,27 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
   return (
     <section className="section-pad" style={{
       backgroundColor: 'var(--color-bg-secondary)',
-      borderTop: '2px solid rgba(59, 91, 67, 0.25)',
-      borderBottom: '2px solid rgba(59, 91, 67, 0.25)',
+      borderTop: '1px solid var(--color-border)',
+      borderBottom: '1px solid var(--color-border)',
       position: 'relative'
     }}>
       <div className="container">
         
-        {/* Section Header with Forest Green Accent */}
+        {/* Section Header */}
         <div className="section-header">
           <div className="section-tag">
-            <span className="vedic-badge badge-forest">
+            <span className="vedic-badge badge-saffron">
               <HeartHandshake size={14} />
               <span>{t.trustPreview.tag}</span>
             </span>
           </div>
-          <h2 className="section-title" style={{ fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-secondary-dark)' }}>
+          <h2 className="section-title" style={{ fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-primary-dark)' }}>
             {t.trustPreview.title}
           </h2>
           <p className="section-subtitle">
             {t.trustPreview.subtitle}
           </p>
-          <div className="ornamental-divider" style={{ color: 'var(--color-secondary)' }}>
+          <div className="ornamental-divider" style={{ color: 'var(--color-primary)' }}>
             <Sparkles size={16} />
           </div>
         </div>
@@ -58,8 +58,8 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
               width: '46px',
               height: '46px',
               borderRadius: 'var(--radius-md)',
-              backgroundColor: 'var(--color-secondary-light)',
-              color: 'var(--color-secondary)',
+              backgroundColor: 'var(--color-primary-light)',
+              color: 'var(--color-primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -67,7 +67,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
             }}>
               <BookHeart size={24} />
             </div>
-            <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-secondary-dark)', marginBottom: '0.4rem' }}>
+            <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-primary-dark)', marginBottom: '0.4rem' }}>
               {t.trustPreview.init1Title}
             </h3>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 }}>
@@ -124,7 +124,8 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
         {/* Transparency Alert Box */}
         <div style={{
           backgroundColor: 'var(--color-bg-card)',
-          border: '1px solid rgba(59, 91, 67, 0.3)',
+          border: '1px solid var(--color-border-ornate)',
+          borderLeft: '4.5px solid var(--color-primary)',
           borderRadius: 'var(--radius-lg)',
           padding: '1rem 1.5rem',
           maxWidth: '1100px',
@@ -133,7 +134,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
           alignItems: 'center',
           gap: '1rem'
         }}>
-          <ShieldCheck size={28} color="var(--color-secondary)" style={{ flexShrink: 0 }} />
+          <ShieldCheck size={28} color="var(--color-primary)" style={{ flexShrink: 0 }} />
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.6 }}>
             {t.trustPreview.transparencyNote}
           </p>
@@ -143,7 +144,7 @@ export const TrustPreview: React.FC<TrustPreviewProps> = ({ onNavigate }) => {
         <div style={{ textAlign: 'center' }}>
           <button
             onClick={() => onNavigate('trust')}
-            className="btn btn-forest btn-lg"
+            className="btn btn-primary btn-lg"
           >
             <HeartHandshake size={18} />
             <span>{t.trustPreview.cta}</span>

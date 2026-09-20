@@ -239,14 +239,14 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'var(--color-secondary)'
+                    color: 'var(--color-primary)'
                   }}
                   className="vm-icon-box"
                 >
                   <Target size={28} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-secondary)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-primary)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     {language === 'hi' ? 'हमारा संकल्प' : 'OUR MISSION'}
                   </div>
                   <h3 style={{ fontFamily: 'var(--font-heading-devanagari)', fontSize: '1.5rem', color: 'var(--color-text-main)', margin: 0 }}>
@@ -260,7 +260,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
                 style={{
                   fontFamily: 'var(--font-heading-devanagari)',
                   fontSize: '1.15rem',
-                  color: 'var(--color-secondary)',
+                  color: 'var(--color-text-gold)',
                   fontWeight: 600,
                   marginBottom: 'var(--spacing-4)',
                   lineHeight: 1.4
@@ -290,7 +290,7 @@ export const VisionMissionSection: React.FC<VisionMissionSectionProps> = ({ onNa
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                color: 'var(--color-secondary)',
+                color: 'var(--color-primary)',
                 fontWeight: 600,
                 fontSize: '0.92rem',
                 background: 'none',

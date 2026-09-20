@@ -111,7 +111,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ donation, onClose })
             )}
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: 'var(--color-text-muted)' }}>{language === 'hi' ? 'सहयोग योजना / उद्देश्य:' : 'Purpose / Initiative:'}</span>
-              <strong style={{ color: 'var(--color-secondary-dark)' }}>{donation.initiativeTitle}</strong>
+              <strong style={{ color: 'var(--color-primary-dark)' }}>{donation.initiativeTitle}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ color: 'var(--color-text-muted)' }}>{language === 'hi' ? 'भुगतान माध्यम:' : 'Payment Mode:'}</span>

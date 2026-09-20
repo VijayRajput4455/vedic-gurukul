@@ -134,8 +134,8 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
                 width: '48px',
                 height: '48px',
                 borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--color-secondary-light)',
-                color: 'var(--color-secondary)',
+                backgroundColor: 'var(--color-primary-light)',
+                color: 'var(--color-primary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -143,10 +143,10 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
               }}>
                 <Users size={26} />
               </div>
-              <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-secondary-dark)', marginBottom: '0.4rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-primary-dark)', marginBottom: '0.4rem' }}>
                 {language === 'hi' ? 'सेवा (लोकोपकार एवं त्याग)' : 'Seva (Selfless Action)'}
               </h3>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-secondary)', fontWeight: 600, fontStyle: 'italic', marginBottom: '0.75rem' }}>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-gold)', fontWeight: 600, fontStyle: 'italic', marginBottom: '0.75rem' }}>
                 "परोपकाराय सतां विभूतयः" (Noble lives exist for the welfare of all)
               </p>
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.65, margin: 0 }}>
@@ -318,8 +318,8 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
                 width: '52px',
                 height: '52px',
                 borderRadius: '50%',
-                backgroundColor: 'var(--color-secondary-light)',
-                color: 'var(--color-secondary)',
+                backgroundColor: 'var(--color-primary-light)',
+                color: 'var(--color-primary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -329,7 +329,7 @@ export const PhilosophyPage: React.FC<PhilosophyPageProps> = () => {
               }}>
                 ३
               </div>
-              <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-secondary-dark)', marginBottom: '0.4rem' }}>
+              <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-primary-dark)', marginBottom: '0.4rem' }}>
                 {language === 'hi' ? 'निदिध्यासन (जीवन में साक्षात् आचरण)' : 'Nididhyasana (Living the Truth)'}
               </h3>
               <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 }}>

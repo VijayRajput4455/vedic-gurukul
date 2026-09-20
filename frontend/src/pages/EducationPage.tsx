@@ -214,7 +214,7 @@ export const EducationPage: React.FC<EducationPageProps> = ({ onNavigate }) => {
           {/* Scholarship & Free Education Callout Box */}
           <div className="vedic-card" style={{
             backgroundColor: 'var(--color-bg-secondary)',
-            border: '2px solid rgba(59, 91, 67, 0.4)',
+            border: '1.5px solid var(--color-border-ornate)',
             borderRadius: 'var(--radius-xl)',
             padding: 'var(--spacing-8)',
             display: 'flex',
@@ -224,13 +224,13 @@ export const EducationPage: React.FC<EducationPageProps> = ({ onNavigate }) => {
             gap: '1.5rem'
           }}>
             <div style={{ maxWidth: '640px' }}>
-              <div className="vedic-badge badge-forest" style={{ marginBottom: '0.5rem' }}>
+              <div className="vedic-badge badge-saffron" style={{ marginBottom: '0.5rem' }}>
                 {language === 'hi' ? 'वैदिक गुरुकुल ट्रस्ट योजना' : 'Vedic Gurukul Trust Initiative'}
               </div>
               <h3 style={{
                 fontFamily: 'var(--font-heading-devanagari)',
                 fontSize: '1.4rem',
-                color: 'var(--color-secondary-dark)',
+                color: 'var(--color-primary-dark)',
                 marginBottom: '0.5rem'
               }}>
                 {language === 'hi' ? 'बाल विद्या सहायता योजना: १००% निःशुल्क शिक्षा' : 'Bal Vidya Sahayata: 100% Free Education for Deserving Students'}
@@ -244,7 +244,7 @@ export const EducationPage: React.FC<EducationPageProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('trust')}
-              className="btn btn-forest btn-lg"
+              className="btn btn-primary btn-lg"
             >
               <span>{language === 'hi' ? 'ट्रस्ट सहायता विवरण जानें' : 'Learn About Scholarship'}</span>
               <ChevronRight size={16} />

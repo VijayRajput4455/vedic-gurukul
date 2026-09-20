@@ -115,7 +115,7 @@ export const AdminPage: React.FC<AdminPageProps> = () => {
 
             <button
               onClick={() => setActiveTab('donations')}
-              className={`btn btn-sm ${activeTab === 'donations' ? 'btn-forest' : 'btn-secondary'}`}
+              className={`btn btn-sm ${activeTab === 'donations' ? 'btn-primary' : 'btn-secondary'}`}
             >
               <HeartHandshake size={14} />
               <span>{language === 'hi' ? 'दान एवं 80G रसीदें' : 'Donations & 80G'} ({donations.length})</span>
@@ -250,7 +250,7 @@ export const AdminPage: React.FC<AdminPageProps> = () => {
           {/* TAB 3: DONATIONS & 80G */}
           {activeTab === 'donations' && (
             <div className="animate-fade-in">
-              <h3 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-secondary-dark)', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-primary-dark)', marginBottom: '1rem' }}>
                 {language === 'hi' ? 'सहयोग एवं दान लॉग (80G रसीदें)' : 'Donations & Contribution Ledger'}
               </h3>
 
@@ -259,7 +259,7 @@ export const AdminPage: React.FC<AdminPageProps> = () => {
                   <div key={don.id} className="vedic-card" style={{ padding: '1rem 1.25rem', borderLeft: '4px solid var(--color-primary)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                       <div>
-                        <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--color-secondary-dark)' }}>{don.receiptNumber}</span>
+                        <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--color-primary)' }}>{don.receiptNumber}</span>
                         <h4 style={{ fontSize: '1.05rem', margin: '0.1rem 0' }}>{don.donorName} {don.panNumber ? `(PAN: ${don.panNumber})` : ''}</h4>
                         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', margin: 0 }}>
                           Cause: {don.initiativeTitle} | Mode: {don.paymentMode} | {new Date(don.createdAt).toLocaleDateString()}

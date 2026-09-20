@@ -88,14 +88,14 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
         textAlign: 'center'
       }}>
         <div className="container">
-          <div className="vedic-badge badge-forest" style={{ marginBottom: '0.75rem' }}>
+          <div className="vedic-badge badge-saffron" style={{ marginBottom: '0.75rem' }}>
             <HeartHandshake size={13} />
             <span>{language === 'hi' ? 'वैदिक गुरुकुल ट्रस्ट • सेवा एवं परोपकार' : 'Vedic Gurukul Trust • Philanthropy & Seva'}</span>
           </div>
           <h1 style={{
             fontFamily: 'var(--font-heading-devanagari)',
             fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-            color: 'var(--color-secondary-dark)',
+            color: 'var(--color-primary-dark)',
             marginBottom: '0.75rem'
           }}>
             {language === 'hi' ? 'बाल विद्या संवर्धन एवं वैदिक धरोहर संरक्षण' : 'Empowering Child Education & Preserving Vedic Heritage'}
@@ -118,14 +118,14 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
         <div className="container">
           <div className="section-header">
             <div className="section-tag">
-              <span className="vedic-badge badge-forest">
+              <span className="vedic-badge badge-saffron">
                 {language === 'hi' ? 'ट्रस्ट सेवा प्रकल्प' : 'Core Trust Initiatives'}
               </span>
             </div>
-            <h2 className="section-title" style={{ fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-secondary-dark)' }}>
+            <h2 className="section-title" style={{ fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-primary-dark)' }}>
               {language === 'hi' ? 'समाज एवं राष्ट्र कल्याण की प्रमुख योजनाएं' : 'Pillars of Social & Heritage Service'}
             </h2>
-            <div className="ornamental-divider" style={{ color: 'var(--color-secondary)' }}>
+            <div className="ornamental-divider" style={{ color: 'var(--color-primary)' }}>
               <Sparkles size={16} />
             </div>
           </div>
@@ -140,7 +140,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
               }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.5rem' }}>
-                    <span className="vedic-badge badge-forest" style={{ fontSize: '11px' }}>
+                    <span className="vedic-badge badge-gold" style={{ fontSize: '11px' }}>
                       {init.sanskritTitle}
                     </span>
                   </div>
@@ -171,7 +171,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
                     <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: 'var(--text-xs)', color: 'var(--color-text-main)' }}>
                       {(language === 'hi' ? init.keyPointsHi : init.keyPointsEn).map((pt: string, i: number) => (
                         <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                          <CheckCircle size={14} color="var(--color-secondary)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                          <CheckCircle size={14} color="var(--color-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
                           <span>{pt}</span>
                         </li>
                       ))}
@@ -180,7 +180,7 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
 
                   {/* Transparency footer inside card */}
                   <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <ShieldCheck size={14} color="var(--color-secondary)" />
+                    <ShieldCheck size={14} color="var(--color-primary)" />
                     <span>{language === 'hi' ? init.transparencyNoteHi : init.transparencyNoteEn}</span>
                   </div>
                 </div>
@@ -388,8 +388,8 @@ export const TrustPage: React.FC<TrustPageProps> = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn btn-forest btn-lg"
-                  style={{ width: '100%', maxWidth: '420px', margin: '0 auto', boxShadow: '0 4px 18px var(--color-secondary-glow)' }}
+                  className="btn btn-primary btn-lg"
+                  style={{ width: '100%', maxWidth: '420px', margin: '0 auto', boxShadow: '0 4px 18px var(--color-primary-glow)' }}
                 >
                   <Lock size={16} />
                   <span>

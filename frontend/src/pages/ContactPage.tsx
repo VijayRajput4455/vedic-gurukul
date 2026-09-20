@@ -101,7 +101,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
       zoneHi: 'पर्यावरण प्रांगण (Zone C)',
       zoneEn: 'Eco Sanctorum (Zone C)',
       icon: Sparkles,
-      badgeColor: 'badge-forest'
+      badgeColor: 'badge-gold'
     },
     {
       id: 'trust-office',
@@ -859,8 +859,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   width: '46px',
                   height: '46px',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--color-secondary-light)',
-                  color: 'var(--color-secondary)',
+                  backgroundColor: 'var(--color-primary-light)',
+                  color: 'var(--color-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -868,7 +868,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 }}>
                   <Car size={24} />
                 </div>
-                <h4 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-secondary-dark)', marginBottom: '0.4rem' }}>
+                <h4 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading-devanagari)', color: 'var(--color-primary-dark)', marginBottom: '0.4rem' }}>
                   {language === 'hi' ? 'सड़क मार्ग एवं बस सेवा' : 'By Road & Expressways'}
                 </h4>
                 <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-gold)', fontWeight: 600, marginBottom: '0.65rem' }}>
@@ -903,7 +903,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
             padding: '1.5rem 2rem'
           }}>
             <div>
-              <span className="vedic-badge badge-forest" style={{ marginBottom: '0.4rem' }}>
+              <span className="vedic-badge badge-saffron" style={{ marginBottom: '0.4rem' }}>
                 {language === 'hi' ? 'मार्गदर्शन एवं सहायता डेस्क' : 'Reception & Helpdesk'}
               </span>
               <h3 style={{ fontFamily: 'var(--font-heading-devanagari)', fontSize: '1.25rem', color: 'var(--color-primary-dark)', margin: 0 }}>
