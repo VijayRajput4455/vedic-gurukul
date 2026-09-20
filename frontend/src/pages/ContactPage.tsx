@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import { PageId } from '../types';
+import { CampusDossierModal } from '../components/common/CampusDossierModal';
 import {
   Mail,
   Phone,
@@ -26,7 +27,9 @@ import {
   Sparkles,
   Building,
   Landmark,
-  ChevronRight
+  ChevronRight,
+  Download,
+  FileText
 } from 'lucide-react';
 
 interface ContactPageProps {
@@ -48,6 +51,9 @@ interface CampusLandmark {
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   const { language, t } = useLanguage();
   const { addContactMessage } = useData();
+
+  // Dossier Modal State
+  const [showDossierModal, setShowDossierModal] = useState(false);
 
   // Form State
   const [name, setName] = useState('');
@@ -188,12 +194,34 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
             fontSize: 'var(--text-base)',
             color: 'var(--color-text-secondary)',
             maxWidth: '1080px',
-            margin: '0 auto'
+            margin: '0 auto 1.5rem auto'
           }}>
             {language === 'hi'
               ? 'प्रवेश, ट्रस्ट सहयोग, शोध जिज्ञासा अथवा परिसर दर्शन हेतु सादर स्वागत है।'
               : 'Inquiries regarding admissions, trust initiatives, research collaborations, and campus visits.'}
           </p>
+
+          {/* PDF Download Dossier CTA */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setShowDossierModal(true)}
+              className="btn btn-gold"
+              style={{
+                gap: '0.5rem',
+                padding: '0.75rem 1.6rem',
+                boxShadow: 'var(--shadow-gold)',
+                display: 'inline-flex',
+                alignItems: 'center'
+              }}
+            >
+              <Download size={17} />
+              <span>
+                {language === 'hi'
+                  ? 'परिसर संदर्शिका एवं संपर्क विवरण (PDF डाउनलोड)'
+                  : 'Download Campus Guide & Contact Dossier (PDF)'}
+              </span>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -322,6 +350,27 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   </div>
 
                 </div>
+
+                {/* Quick PDF Dossier Download Trigger */}
+                <button
+                  onClick={() => setShowDossierModal(true)}
+                  className="btn btn-secondary btn-sm"
+                  style={{
+                    width: '100%',
+                    marginBottom: '1rem',
+                    gap: '0.45rem',
+                    border: '1px dashed var(--color-gold-border)',
+                    backgroundColor: 'var(--color-bg-secondary)',
+                    color: 'var(--color-primary-dark)'
+                  }}
+                >
+                  <FileText size={15} color="var(--color-primary)" />
+                  <span>
+                    {language === 'hi'
+                      ? 'संपूर्ण विवरण PDF में देखें व डाउनलोड करें'
+                      : 'View & Download Complete Details (Vedic PDF)'}
+                  </span>
+                </button>
               </div>
 
               {/* Visiting Guidelines Callout */}
@@ -932,6 +981,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setShowDossierModal(true)}
+                className="btn btn-gold"
+                style={{ gap: '0.45rem', boxShadow: 'var(--shadow-gold)' }}
+              >
+                <Download size={15} />
+                <span>{language === 'hi' ? 'PDF संदर्शिका डाउनलोड करें' : 'Download PDF Dossier'}</span>
+              </button>
               <a
                 href={googleMapsDirectionsUrl}
                 target="_blank"
@@ -952,6 +1009,12 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      {/* Vedic Campus & Contact Dossier Modal */}
+      <CampusDossierModal
+        isOpen={showDossierModal}
+        onClose={() => setShowDossierModal(false)}
+      />
 
     </div>
   );
